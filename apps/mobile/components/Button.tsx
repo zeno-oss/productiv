@@ -8,7 +8,7 @@ type ButtonProps = {
   children?: React.ReactNode;
 };
 
-const Button = (props: ButtonProps & PressableProps) => {
+export const Button = (props: ButtonProps & PressableProps) => {
   const { title, onPress, children, ...rest } = props;
   return (
     <Pressable
@@ -20,8 +20,6 @@ const Button = (props: ButtonProps & PressableProps) => {
     </Pressable>
   );
 };
-
-export default Button;
 
 const styles = StyleSheet.create({
   button: {

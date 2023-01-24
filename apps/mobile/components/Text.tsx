@@ -4,7 +4,7 @@ type TextProps = {
   children: React.ReactNode;
 };
 
-const Text = (props: TextProps & RNTextProps) => {
+export const Text = (props: TextProps & RNTextProps) => {
   const { children, ...rest } = props;
   return (
     <RNText className="text-gray-50" {...rest}>
@@ -12,5 +12,3 @@ const Text = (props: TextProps & RNTextProps) => {
     </RNText>
   );
 };
-
-export default Text;

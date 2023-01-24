@@ -1,7 +1,6 @@
+import { Home, Welcome } from "$screens";
+import { NavigatorParamList } from "$types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigatorParamList } from "types";
-import Home from "../screens/Home";
-import Welcome from "../screens/Welcome";
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
 

@@ -1,11 +1,9 @@
 import { View } from "react-native";
 
+import { Button, Screen, Text } from "$components";
 import { useNavigation } from "@react-navigation/native";
-import Button from "../components/Button";
-import Screen from "../components/Screen";
-import Text from "../components/Text";
 
-const Welcome = () => {
+export const Welcome = () => {
   const navigation = useNavigation();
 
   const goBackHandler = () => navigation.goBack();
@@ -25,5 +23,3 @@ const Welcome = () => {
     </Screen>
   );
 };
-
-export default Welcome;

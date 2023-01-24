@@ -1,15 +1,12 @@
 import { View } from "react-native";
 
+import { Button, Loader, Screen, Text } from "$components";
 import { countAtom } from "$store";
 import { api } from "$trpc";
 import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
-import Button from "../components/Button";
-import Loader from "../components/Loader";
-import Screen from "../components/Screen";
-import Text from "../components/Text";
 
-const Home = () => {
+export const Home = () => {
   const hello = api.example.hello.useQuery({ text: "client" });
   const [count, setCount] = useAtom(countAtom);
 
@@ -43,5 +40,3 @@ const Home = () => {
     </Screen>
   );
 };
-
-export default Home;
