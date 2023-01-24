@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply h-screen bg-gradient-to-b from-purple-600 to-purple-900 text-gray-50;
+  }
+}
