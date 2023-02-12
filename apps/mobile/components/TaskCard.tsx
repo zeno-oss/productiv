@@ -1,10 +1,11 @@
-import { Calendar, Clock, Edit, MarkAsDone, sharedStyles } from "$themes";
+import { Calendar, Clock, Edit, MarkAsDone } from "$themes";
 import { Task } from "$types";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { TASK_COLORS } from "variables/colors";
 import { formatDate, formatTime } from "../utils/dateTime";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
+import { Text } from "./Text";
 
 type TaskCardProps = {
   task: Task;
@@ -48,7 +49,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       </View>
       <View className="flex-row items-end justify-between">
         <View>
-          <Text style={sharedStyles.h1}>{title}</Text>
+          <Text className="my-1 text-xl" variant="bold">
+            {title}
+          </Text>
           <View className="mt-4">
             <View className="flex-row items-center">
               <Calendar />

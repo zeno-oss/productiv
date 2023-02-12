@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { Text } from "$components";
 import { RootNativeStackScreenProps } from "../types";
@@ -7,39 +7,20 @@ export function NotFoundScreen({
   navigation,
 }: RootNativeStackScreenProps<"NotFound">) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
+    <View className="flex-1 items-center justify-center p-5">
+      <Text className="text-lg" variant="bold">
+        This screen doesn't exist.
+      </Text>
       <TouchableOpacity
         onPress={() =>
           navigation.replace("Home", {
             screen: "TaskManager",
           })
         }
-        style={styles.link}
+        className="mt-4 py-4"
       >
-        <Text style={styles.linkText}>Go to home screen!</Text>
+        <Text className="text-sm text-blue-500">Go to home screen!</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: "#2e78b7",
-  },
-});

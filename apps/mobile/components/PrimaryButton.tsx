@@ -1,7 +1,6 @@
 import { FontWeight } from "$types";
 import classnames from "classnames";
 import { styled } from "nativewind";
-import React from "react";
 import { Pressable, PressableProps, View } from "react-native";
 import { Text } from "./Text";
 

@@ -13,7 +13,7 @@ import {
   TextInput,
 } from "$components";
 
-import { Colors, sharedStyles, TaskColors } from "$themes";
+import { Colors, TaskColors } from "$themes";
 import { tasksAtom } from "../stores";
 import { formatDateTime } from "../utils/dateTime";
 
@@ -157,7 +157,12 @@ export const AddTaskScreen = ({
           onPress={() => setVisible(true)}
           style={{ borderBottomColor: Colors.lightGray, borderBottomWidth: 1 }}
         >
-          <Text style={sharedStyles.textInput}>{formatDateTime(date)}</Text>
+          <Text
+            className="border-b-lightGray my-1 border-b pb-5 text-xl"
+            variant="bold"
+          >
+            {formatDateTime(date)}
+          </Text>
         </Pressable>
         <DateTimePickerModal
           isVisible={isVisible}

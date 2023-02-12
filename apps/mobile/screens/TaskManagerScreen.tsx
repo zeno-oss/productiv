@@ -1,5 +1,5 @@
 import { PrimaryButton, TaskCard, Text } from "$components";
-import { AddTask, sharedStyles } from "$themes";
+import { AddTask } from "$themes";
 import { HomeDrawerScreenProps } from "$types";
 import { useAtom } from "jotai";
 import { useState } from "react";
@@ -69,7 +69,7 @@ export const TaskManagerScreen = ({
 
   // if (!fetchedTasks.data || fetchedTasks.isRefetching)
   //   return (
-  //     <View style={sharedStyles.loadingContainer}>
+  //     <View className = "flex-1 items-center justify-center">
   //       <Text>Loading...</Text>
   //     </View>
   //   );
@@ -87,9 +87,13 @@ export const TaskManagerScreen = ({
 
   return (
     <View className="my-3">
-      <Text style={sharedStyles.h3}>Hello Mubin!</Text>
+      <Text className="my-0.5 text-sm" variant="semibold">
+        Hello Mubin!
+      </Text>
       <View className="flex-row items-center justify-between">
-        <Text style={sharedStyles.h1}>Here's The Update.</Text>
+        <Text className="my-1 text-xl" variant="bold">
+          Here's The Update.
+        </Text>
         <PrimaryButton
           title="Refresh"
           classes="bg-white"
@@ -101,7 +105,7 @@ export const TaskManagerScreen = ({
 
       {tasks.length === 0 ? (
         <View className="mt-4 h-[490px]">
-          <View style={sharedStyles.loadingContainer}>
+          <View className="flex-1 items-center justify-center">
             <Text>No tasks...Add one?</Text>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import { sharedStyles } from "$themes";
+import { Fonts } from "$themes";
 import {
   TextInput as NativeTextInput,
   TextInputProps,
@@ -18,7 +18,8 @@ export const TextInput: React.FC<IProps & TextInputProps> = ({
   return (
     <NativeTextInput
       {...props}
-      style={[sharedStyles.textInput, style]}
+      className="border-b-lightGray my-1 border-b pb-5 text-xl"
+      style={{ fontFamily: Fonts.BOLD }}
       placeholder={placeholder || "Type something..."}
     />
   );

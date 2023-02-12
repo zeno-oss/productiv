@@ -1,31 +1,17 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import { Text } from "$components";
 import EditScreenInfo from "../components/EditScreenInfo";
+import { HomeDrawerScreenProps } from "../types";
 
-export function TabTwoScreen() {
+export function TabTwoScreen({ navigation }: HomeDrawerScreenProps<"TabOne">) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} />
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-lg" variant="bold">
+        Tab Two
+      </Text>
+      <View className="my-8 h-0.5 w-4/5" />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
