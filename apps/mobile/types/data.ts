@@ -1,11 +1,11 @@
 export interface Task {
+  title: string;
+  description: string | null;
   startTime: Date;
   endTime: Date;
-  title: string;
-  description: string;
   status: TaskStatus;
   shade: TaskColor;
-  labels: string[];
+  labels: string;
   userId: string;
   id: string;
 }
