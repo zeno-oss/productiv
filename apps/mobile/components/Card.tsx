@@ -1,6 +1,4 @@
-import { StyleSheet, View, ViewStyle } from "react-native";
-
-import { hp } from "$themes";
+import { View, ViewStyle } from "react-native";
 
 interface IProps {
   children: React.ReactNode;
@@ -14,14 +12,11 @@ export const Card: React.FC<IProps> = ({
   style,
 }) => {
   return (
-    <View style={[styles.card, style, { backgroundColor }]}>{children}</View>
+    <View
+      style={[style, { backgroundColor }]}
+      className="rounded-[25px] py-4 px-6"
+    >
+      {children}
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    paddingVertical: hp(16),
-    paddingHorizontal: hp(24),
-    borderRadius: hp(25),
-  },
-});
