@@ -1,20 +1,15 @@
 import Constants from "expo-constants";
 import { useState } from "react";
 
+import useCachedResources from "$hooks/useCachedResources";
 import { api } from "$trpc";
-import { NavigatorParamList } from "$types";
-import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { StatusBar } from "expo-status-bar";
+import { KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import superjson from "superjson";
-import StackNavigator from "./navigation/StackNavigator";
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends NavigatorParamList {}
-  }
-}
+import Navigation from "./navigation";
 
 const { manifest } = Constants;
 const localhost = `http://${manifest!.debuggerHost?.split(":").shift()}:3000`;
@@ -32,13 +27,24 @@ const App = () => {
     }),
   );
 
+  const isCachedResourceLoaded = useCachedResources();
+
+  if (!isCachedResourceLoaded) {
+    return null;
+  }
+
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style="dark" />
-        <NavigationContainer>
-          <StackNavigator />
-        </NavigationContainer>
+        <SafeAreaProvider>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            className="flex-1 p-4"
+          >
+            <Navigation />
+            <StatusBar style="dark" />
+          </KeyboardAvoidingView>
+        </SafeAreaProvider>
       </QueryClientProvider>
     </api.Provider>
   );
