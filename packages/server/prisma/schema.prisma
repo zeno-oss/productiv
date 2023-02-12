@@ -18,8 +18,8 @@ model Task {
     startTime DateTime
     endTime   DateTime
     title     String
-    description String
-    status    String
+    description String?
+    status    Status
     shade     Color
     labels    String[]
     user      User     @relation(fields: [userId], references: [id])
@@ -47,4 +47,10 @@ enum Color {
     CORAL
     DODGER_BLUE
     PLUM_PURPLE
+}
+
+enum Status {
+    TODO
+    IN_PROGRESS
+    DONE
 }
