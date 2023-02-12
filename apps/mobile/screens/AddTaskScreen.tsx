@@ -1,4 +1,4 @@
-import { HomeDrawerScreenProps } from "$types";
+import { RootNativeStackScreenProps } from "$types";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -20,7 +20,7 @@ import { formatDateTime } from "../utils/dateTime";
 export const AddTaskScreen = ({
   navigation,
   route,
-}: HomeDrawerScreenProps<"TaskManager">) => {
+}: RootNativeStackScreenProps<"AddTask">) => {
   const [tasks, setTasks] = useAtom(tasksAtom);
 
   const [taskTitle, setTaskTitle] = useState("");
