@@ -1,4 +1,4 @@
-import { Text } from "$components";
+import { Text } from "./Text";
 
 type LabelProps = {
   title: string;
