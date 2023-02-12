@@ -43,7 +43,7 @@ export const TaskCard: React.FC<IProps> = ({
           {labels &&
             labels.map((label) => (
               <Pill
-                text={label}
+                title={label}
                 borderColor={TaskColors[0].borderColor}
                 key={label}
               />

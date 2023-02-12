@@ -1,32 +1,22 @@
-import { FontSize, hp } from "$themes";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "./Text";
 
-interface IProps {
-  text: string;
+type PillProps = {
+  title: string;
   borderColor: string;
-}
+};
 
-export const Pill: React.FC<IProps> = ({ text, borderColor }) => {
+export const Pill: React.FC<PillProps> = (props) => {
+  const { title, borderColor } = props;
   return (
     <View>
-      <View style={[styles.pillContainer, { borderColor }]}>
-        <Text style={styles.text}>{text}</Text>
+      <View
+        style={{ borderColor }}
+        className="mr-3 self-start rounded-[30px] border px-3 py-0.5"
+      >
+        <Text className="text-xs">{title}</Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  pillContainer: {
-    borderWidth: 1,
-    alignSelf: "flex-start",
-    paddingVertical: 2,
-    paddingHorizontal: 12,
-    borderRadius: hp(30),
-    marginRight: 10,
-  },
-  text: {
-    fontSize: FontSize.tiny,
-  },
-});
