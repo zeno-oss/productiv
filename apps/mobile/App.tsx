@@ -8,6 +8,7 @@ import { httpBatchLink } from "@trpc/client";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import superjson from "superjson";
 import Navigation from "./navigation";
 
@@ -43,6 +44,7 @@ const App = () => {
           >
             <Navigation />
             <StatusBar style="dark" />
+            <Toast />
           </KeyboardAvoidingView>
         </SafeAreaProvider>
       </QueryClientProvider>
