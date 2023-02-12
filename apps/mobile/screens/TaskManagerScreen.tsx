@@ -1,89 +1,49 @@
 import { PrimaryButton, TaskCard, Text } from "$components";
 import { AddTask } from "$themes";
-import { HomeDrawerScreenProps } from "$types";
-import { useAtom } from "jotai";
-import { useState } from "react";
+import { api } from "$trpc";
+import { HomeDrawerScreenProps, Task } from "$types";
 import { ScrollView, View } from "react-native";
-import { tasksAtom } from "../stores";
+import Toast from "react-native-toast-message";
 
 export const TaskManagerScreen = ({
   navigation,
 }: HomeDrawerScreenProps<"TaskManager">) => {
-  const [tasks, setTasks] = useAtom(tasksAtom);
-  const [isTaskUpdated, setIsTaskUpdated] = useState(false);
+  const client = api.useContext();
 
-  // const fetchedTasks = api.getTasks.useQuery();
-  // const client = api.useContext();
-  // const { mutate } = trpc.deleteTask.useMutation({
-  //   onSuccess: ({ tasks }) => {
-  //     setTasks(
-  //       tasks.map((task) => {
-  //         return { ...task, dateTime: new Date(task.dateTime) };
-  //       }),
-  //     );
-  //     Toast.show({
-  //       type: "success",
-  //       text1: "Yoohoo!🥳",
-  //       text2: "Task completed!",
-  //       position: "bottom",
-  //     });
-  //   },
-  // });
+  const tasks = api.task.getTasks.useQuery();
+  const deleteTask = api.task.deleteTask.useMutation({
+    onSuccess: () => {
+      client.task.getTasks.invalidate();
+      Toast.show({
+        type: "success",
+        text1: "Yoohoo!🥳",
+        text2: "Task completed!",
+        position: "bottom",
+      });
+    },
+  });
 
-  // useEffect(() => {
-  //   if (fetchedTasks.data){
-  //     setTasks(
-  //       fetchedTasks.data.tasks.map((task) => {
-  //         return { ...task, dateTime: new Date(task.dateTime) };
-  //       }),
-  //     );
-  //   }
-  // }, [fetchedTasks])
+  if (!tasks.data)
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text>Loading...</Text>
+      </View>
+    );
 
-  // useEffect(() => {
-  //   if (fetchedTasks.isStale)
-  // })
+  const refreshTaskHandler = () => {
+    tasks.refetch();
+  };
 
-  // const refreshTaskHandler = async () => {
-  //   await fetchedTasks.refetch();
-  //   if (fetchedTasks.data) {
-  //     setTasks(
-  //       fetchedTasks.data.tasks.map((task) => {
-  //         return { ...task, dateTime: new Date(task.dateTime) };
-  //       }),
-  //     );
-  //   }
-  //   // client.invalidateQ();
-  // };
+  const deleteTaskHandler = (taskId: string) => {
+    deleteTask.mutate(taskId);
+  };
 
-  // useEffect(() => {
-  //   if (!fetchedTasks.isLoading && fetchedTasks.data && !isTaskUpdated) {
-  //     setTasks(
-  //       fetchedTasks.data.tasks.map((task) => {
-  //         return { ...task, dateTime: new Date(task.dateTime) };
-  //       }),
-  //     );
-  //     setIsTaskUpdated(true);
-  //   }
-  // }, [isTaskUpdated, setTasks, fetchedTasks]);
-
-  // if (!fetchedTasks.data || fetchedTasks.isRefetching)
-  //   return (
-  //     <View className = "flex-1 items-center justify-center">
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-
-  // const deleteTaskHandler = (taskId: string) => {
-  //   mutate(taskId);
-  // };
-
-  // const editTaskHandler = (taskId: string) => {
-  //   navigation.navigate("AddTask", {
-  //     mode: "edit",
-  //     taskId,
-  //   });
-  // };
+  const editTaskHandler = (task: Task) => {
+    navigation.navigate("AddTask", {
+      mode: "edit",
+      task: JSON.stringify(task),
+    });
+  };
 
   return (
     <View className="my-3">
@@ -99,11 +59,11 @@ export const TaskManagerScreen = ({
           classes="bg-white"
           textClasses="text-black text-sm"
           textVariant="regular"
-          // onPress={refreshTaskHandler}
+          onPress={refreshTaskHandler}
         />
       </View>
 
-      {tasks.length === 0 ? (
+      {tasks.data.length === 0 ? (
         <View className="mt-4 h-[490px]">
           <View className="flex-1 items-center justify-center">
             <Text>No tasks...Add one?</Text>
@@ -111,14 +71,12 @@ export const TaskManagerScreen = ({
         </View>
       ) : (
         <ScrollView className="mt-4 h-[490px]">
-          {tasks.map((task) => (
+          {tasks.data.map((task) => (
             <TaskCard
               task={task}
               key={task.title}
-              onDeleteTask={() => {}}
-              onEditTask={() => {}}
-              // onDeleteTask={deleteTaskHandler}
-              // onEditTask={editTaskHandler}
+              onDeleteTask={deleteTaskHandler}
+              onEditTask={editTaskHandler}
             />
           ))}
         </ScrollView>

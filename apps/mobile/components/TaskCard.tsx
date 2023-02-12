@@ -10,7 +10,7 @@ import { Text } from "./Text";
 type TaskCardProps = {
   task: Task;
   onDeleteTask: (taskId: string) => void;
-  onEditTask: (taskId: string) => void;
+  onEditTask: (task: Task) => void;
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -35,15 +35,17 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       <View className="mb-3 flex-row items-center justify-between">
         <View className="flex-row">
           {labels &&
-            labels.map((label) => (
-              <Pill
-                title={label}
-                borderColor={TASK_COLORS[shade].borderColor}
-                key={label}
-              />
-            ))}
+            labels
+              .split(",")
+              .map((label) => (
+                <Pill
+                  title={label}
+                  borderColor={TASK_COLORS[shade].borderColor}
+                  key={label}
+                />
+              ))}
         </View>
-        <Pressable onPress={() => onEditTask(id)}>
+        <Pressable onPress={() => onEditTask(task)}>
           <Edit />
         </Pressable>
       </View>

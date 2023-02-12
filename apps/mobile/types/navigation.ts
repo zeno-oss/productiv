@@ -9,7 +9,7 @@ export type RootNativeStackParamList = {
   Home: NavigatorScreenParams<HomeDrawerParamList>;
   Modal: undefined;
   NotFound: undefined;
-  AddTask: { mode: "edit" | "add"; taskId?: string };
+  AddTask: { mode: "edit" | "add"; task?: string };
 };
 
 export type RootNativeStackScreenProps<
