@@ -143,7 +143,7 @@ export const AddTaskScreen = ({
   return (
     <View style={styles.screen}>
       <View>
-        <Label text={"Title"} />
+        <Label title={"Title"} />
         <TextInput
           maxLength={50}
           autoFocus={true}
@@ -152,7 +152,7 @@ export const AddTaskScreen = ({
           autoCorrect={false}
         />
 
-        <Label text="Deadline" />
+        <Label title="Deadline" />
         <Pressable
           onPress={() => setVisible(true)}
           style={{ borderBottomColor: Colors.lightGray, borderBottomWidth: 1 }}
@@ -170,13 +170,13 @@ export const AddTaskScreen = ({
           onCancel={() => setVisible(false)}
           date={date}
         />
-        <Label text="Labels" />
+        <Label title="Labels" />
         <TextInput
           placeholder="Everyday, University"
           onChangeText={taskLabelsInputHander}
           value={taskLabels}
         />
-        <Label text="Color Task" />
+        <Label title="Color Task" />
         <ScrollView horizontal style={styles.colorShadeContainer}>
           {TaskColors.map((color) => (
             <ColorCircle

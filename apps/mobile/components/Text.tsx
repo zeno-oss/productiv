@@ -1,24 +1,30 @@
-import { Colors, Fonts } from "$themes";
-import React from "react";
+import colors from "$colors";
+import { Fonts } from "$themes";
 import {
   Text as NativeText,
+  TextProps as NativeTextProps,
   StyleSheet,
-  TextProps,
   TextStyle,
 } from "react-native";
 
-interface IProps {
+type TextProps = {
   children: React.ReactNode;
   style?: TextStyle | TextStyle[];
-}
+  variant?: "regular" | "bold" | "semibold" | "italic" | "medium";
+};
 
-export const Text: React.FC<IProps & TextProps> = ({
-  children,
-  style,
-  ...props
-}) => {
+export const Text: React.FC<TextProps & NativeTextProps> = (props) => {
+  const { children, style, variant = "regular", ...rest } = props;
+
   return (
-    <NativeText {...props} style={[styles.text, style]}>
+    <NativeText
+      {...rest}
+      style={[
+        styles.text,
+        { fontFamily: Fonts[variant.toUpperCase() as keyof typeof Fonts] },
+        style,
+      ]}
+    >
       {children}
     </NativeText>
   );
@@ -26,7 +32,6 @@ export const Text: React.FC<IProps & TextProps> = ({
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: Fonts.REGULAR,
-    color: Colors.black,
+    color: colors.black,
   },
 });

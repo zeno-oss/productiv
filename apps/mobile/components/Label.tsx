@@ -1,17 +1,14 @@
-import { hp, sharedStyles } from "$themes";
-import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { Text } from "$components";
 
-interface IProps {
-  text: string;
-}
-
-export const Label: React.FC<IProps> = ({ text }) => {
-  return <Text style={[sharedStyles.faded, styles.label]}>{text}</Text>;
+type LabelProps = {
+  title: string;
 };
 
-const styles = StyleSheet.create({
-  label: {
-    marginVertical: hp(10),
-  },
-});
+export const Label: React.FC<LabelProps> = (props) => {
+  const { title } = props;
+  return (
+    <Text className="text-gray my-3 text-sm" variant="semibold">
+      {title}
+    </Text>
+  );
+};

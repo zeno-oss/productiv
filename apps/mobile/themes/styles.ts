@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "./colors";
 import { hp } from "./dimensions";
-import { Fonts } from "./typography";
-import { FontSize } from "./typography";
+import { FontSize, Fonts } from "./typography";
 
 const sharedStyles = StyleSheet.create({
   h1: {
@@ -13,12 +12,6 @@ const sharedStyles = StyleSheet.create({
   h3: {
     fontSize: FontSize.h3,
     fontFamily: Fonts.SEMIBOLD,
-    marginVertical: 2,
-  },
-  faded: {
-    color: Colors.gray,
-    fontFamily: Fonts.SEMIBOLD,
-    fontSize: FontSize.regular,
     marginVertical: 2,
   },
   textInput: {

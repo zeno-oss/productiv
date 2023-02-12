@@ -1,4 +1,4 @@
-import { fp } from './dimensions';
+import { fp } from "./dimensions";
 
 export const FontSize = {
   h1: fp(20),
@@ -15,13 +15,13 @@ export const FontSize = {
   title: fp(18),
   cta: fp(18),
   icon: fp(24),
-  iconLarge: fp(26)
+  iconLarge: fp(26),
 };
 
 export const Fonts = {
-  REGULAR: 'raleway',
-  SEMIBOLD: 'raleway-semibold',
-  BOLD: 'raleway-bold',
-  MEDIUM: 'raleway-medium',
-  ITALIC: 'raleway-italic'
+  REGULAR: "raleway",
+  SEMIBOLD: "raleway-semibold",
+  BOLD: "raleway-bold",
+  MEDIUM: "raleway-medium",
+  ITALIC: "raleway-italic",
 };
