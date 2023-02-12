@@ -1,10 +1,10 @@
 import { PrimaryButton, TaskCard, Text } from "$components";
-import { tasksAtom } from "$stores";
 import { AddTask, Colors, FontSize, Fonts, hp, sharedStyles } from "$themes";
 import { HomeDrawerScreenProps } from "$types";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { tasksAtom } from "../stores";
 
 export const TaskManagerScreen = ({
   navigation,

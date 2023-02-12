@@ -13,8 +13,8 @@ import {
   TextInput,
 } from "$components";
 
-import { tasksAtom } from "$stores";
 import { Colors, hp, sharedStyles, TaskColors } from "$themes";
+import { tasksAtom } from "../stores";
 import { formatDateTime } from "../utils/dateTime";
 
 export const AddTaskScreen = ({

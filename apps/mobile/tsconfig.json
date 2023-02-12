@@ -17,8 +17,7 @@
       "$hooks/*": ["hooks/*"],
       "$navigation/*": ["navigation/*"],
       "$screens": ["screens"],
-      "$themes": ["themes/index.ts"],
-      "$stores": ["stores/index.ts"]
+      "$themes": ["themes/index.ts"]
     }
   }
 }
