@@ -1,9 +1,9 @@
 import { PrimaryButton, TaskCard, Text } from "$components";
-import { AddTask, Colors, FontSize, Fonts, hp, sharedStyles } from "$themes";
+import { AddTask, sharedStyles } from "$themes";
 import { HomeDrawerScreenProps } from "$types";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { tasksAtom } from "../stores";
 
 export const TaskManagerScreen = ({
@@ -86,30 +86,27 @@ export const TaskManagerScreen = ({
   // };
 
   return (
-    <View style={styles.screen}>
+    <View className="my-3">
       <Text style={sharedStyles.h3}>Hello Mubin!</Text>
-      <View style={styles.header}>
+      <View className="flex-row items-center justify-between">
         <Text style={sharedStyles.h1}>Here's The Update.</Text>
         <PrimaryButton
           title="Refresh"
-          style={{ backgroundColor: "white" }}
-          textStyle={{
-            color: "black",
-            fontFamily: Fonts.REGULAR,
-            fontSize: FontSize.small,
-          }}
+          classes="bg-white"
+          textClasses="text-black text-sm"
+          textVariant="regular"
           // onPress={refreshTaskHandler}
         />
       </View>
 
       {tasks.length === 0 ? (
-        <View style={styles.tasksContainer}>
+        <View className="mt-4 h-[490px]">
           <View style={sharedStyles.loadingContainer}>
             <Text>No tasks...Add one?</Text>
           </View>
         </View>
       ) : (
-        <ScrollView style={styles.tasksContainer}>
+        <ScrollView className="mt-4 h-[490px]">
           {tasks.map((task) => (
             <TaskCard
               task={task}
@@ -125,64 +122,29 @@ export const TaskManagerScreen = ({
 
       <PrimaryButton
         title="Add Task"
-        style={styles.addTaskButton}
+        classes="self-center mt-3"
         icon={<AddTask />}
         onPress={() => navigation.navigate("AddTask", { mode: "add" })}
       />
-      <View style={styles.navigationContainer}>
-        <PrimaryButton title="Today" textStyle={styles.navigationButtonText} />
+      <View className="mt-3 flex-row items-center justify-between">
+        <PrimaryButton
+          title="Today"
+          textClasses="text-base"
+          textVariant="regular"
+        />
         <PrimaryButton
           title="Upcoming"
-          textStyle={[
-            styles.navigationButtonText,
-            styles.navigationNonActiveButtonText,
-          ]}
-          style={styles.navigationNonActiveButton}
+          classes="bg-white"
+          textClasses="text-base text-black"
+          textVariant="regular"
         />
         <PrimaryButton
           title="Done"
-          textStyle={[
-            styles.navigationButtonText,
-            styles.navigationNonActiveButtonText,
-          ]}
-          style={styles.navigationNonActiveButton}
+          classes="bg-white"
+          textClasses="text-base text-black"
+          textVariant="regular"
         />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    marginVertical: hp(12),
-  },
-  tasksContainer: {
-    marginTop: hp(16),
-    height: hp(490),
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  addTaskButton: {
-    alignSelf: "center",
-    marginTop: hp(12),
-  },
-  navigationContainer: {
-    marginTop: hp(12),
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  navigationNonActiveButton: {
-    backgroundColor: "#fff",
-  },
-  navigationNonActiveButtonText: {
-    color: Colors.black,
-  },
-  navigationButtonText: {
-    fontFamily: Fonts.REGULAR,
-    fontSize: FontSize.medium,
-  },
-});

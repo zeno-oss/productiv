@@ -1,70 +1,56 @@
-import { Colors, FontSize, Fonts, hp } from "$themes";
+import { FontWeight } from "$types";
+import classnames from "classnames";
+import { styled } from "nativewind";
 import React from "react";
-import {
-  Pressable,
-  PressableProps,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Pressable, PressableProps, View } from "react-native";
+import { Text } from "./Text";
 
 interface IProps {
   title: string;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: TextStyle | TextStyle[];
+  classes?: string;
+  textClasses?: string;
   icon?: React.ReactNode;
+  textVariant?: FontWeight;
   onPress?: () => void;
 }
 
-export const PrimaryButton: React.FC<IProps & PressableProps> = ({
-  title,
-  style,
-  textStyle,
-  icon,
-  onPress,
-  ...props
-}) => {
+const StyledPressable = styled(Pressable);
+
+export const PrimaryButton: React.FC<IProps & PressableProps> = (props) => {
+  const {
+    title,
+    classes,
+    textClasses,
+    icon,
+    onPress,
+    textVariant = "bold",
+    ...rest
+  } = props;
+
+  const pressableClassNames = classnames(
+    "self-start py-3 px-6 bg-black flex-row items-center justify-center rounded-[30px] active:opacity-50",
+    {
+      [classes || ""]: !!classes,
+    },
+  );
+
+  const textClassNames = classnames("text-center text-base text-white", {
+    "ml-3": !!icon,
+    [textClasses || ""]: !!textClasses,
+  });
+
   return (
     <View>
-      <Pressable
-        style={({ pressed }) => [
-          styles.buttonOuterContainer,
-          style,
-          pressed && styles.pressedButtonContainer,
-        ]}
+      <StyledPressable
         onPress={onPress}
-        {...props}
+        className={pressableClassNames}
+        {...rest}
       >
         {icon && icon}
-        <Text style={[styles.text, textStyle, !!icon && { marginLeft: 12 }]}>
+        <Text className={textClassNames} variant={textVariant}>
           {title}
         </Text>
-      </Pressable>
+      </StyledPressable>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonOuterContainer: {
-    alignSelf: "flex-start",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: hp(30),
-    backgroundColor: Colors.black,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  pressedButtonContainer: {
-    opacity: 0.5,
-  },
-  text: {
-    fontSize: FontSize.h2,
-    fontFamily: Fonts.BOLD,
-    color: Colors.white,
-    textAlign: "center",
-  },
-});

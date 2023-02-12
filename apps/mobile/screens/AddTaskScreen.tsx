@@ -1,7 +1,7 @@
 import { RootNativeStackScreenProps } from "$types";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
@@ -13,7 +13,7 @@ import {
   TextInput,
 } from "$components";
 
-import { Colors, hp, sharedStyles, TaskColors } from "$themes";
+import { Colors, sharedStyles, TaskColors } from "$themes";
 import { tasksAtom } from "../stores";
 import { formatDateTime } from "../utils/dateTime";
 
@@ -141,7 +141,7 @@ export const AddTaskScreen = ({
   // };
 
   return (
-    <View style={styles.screen}>
+    <View className="my-6 flex-1 justify-between">
       <View>
         <Label title={"Title"} />
         <TextInput
@@ -177,7 +177,10 @@ export const AddTaskScreen = ({
           value={taskLabels}
         />
         <Label title="Color Task" />
-        <ScrollView horizontal style={styles.colorShadeContainer}>
+        <ScrollView
+          horizontal
+          className="border-b-lightGray my-1 border-b pb-5"
+        >
           {TaskColors.map((color) => (
             <ColorCircle
               key={color.backgroundColor}
@@ -192,7 +195,9 @@ export const AddTaskScreen = ({
       <View>
         <PrimaryButton
           title={taskMode === "add" ? "Add Task" : "Update Task"}
-          style={[styles.addTaskButton, isAddDisabled && { opacity: 0.7 }]}
+          classes={`w-full self-center mb-6 ${
+            isAddDisabled ? "opacity-50" : ""
+          }`}
           disabled={isAddDisabled}
           // onPress={taskMode === "add" ? addTaskHandler : editTaskHandler}
         />
@@ -200,23 +205,3 @@ export const AddTaskScreen = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    marginVertical: hp(24),
-    justifyContent: "space-between",
-    flex: 1,
-  },
-
-  addTaskButton: {
-    width: "100%",
-    alignSelf: "center",
-    marginBottom: hp(24),
-  },
-  colorShadeContainer: {
-    borderBottomColor: Colors.lightGray,
-    borderBottomWidth: 1,
-    paddingBottom: hp(20),
-    marginVertical: 4,
-  },
-});
