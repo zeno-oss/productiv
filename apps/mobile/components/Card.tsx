@@ -1,20 +1,19 @@
+import colors from "$colors";
 import { View, ViewStyle } from "react-native";
 
-interface IProps {
+type CardProps = {
   children: React.ReactNode;
-  backgroundColor: string;
+  backgroundColor: keyof typeof colors;
   style?: ViewStyle;
-}
+  classes?: string;
+};
 
-export const Card: React.FC<IProps> = ({
-  children,
-  backgroundColor,
-  style,
-}) => {
+export const Card: React.FC<CardProps> = (props) => {
+  const { children, backgroundColor, style, classes } = props;
   return (
     <View
-      style={[style, { backgroundColor }]}
-      className="rounded-[25px] py-4 px-6"
+      style={[style, { backgroundColor: colors[backgroundColor] }]}
+      className={`rounded-[25px] py-4 px-6 ${classes || ""}`}
     >
       {children}
     </View>

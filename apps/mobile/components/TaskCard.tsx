@@ -1,26 +1,18 @@
-import {
-  Calendar,
-  Clock,
-  Edit,
-  MarkAsDone,
-  TaskColors,
-  hp,
-  sharedStyles,
-} from "$themes";
+import { Calendar, Clock, Edit, MarkAsDone, sharedStyles } from "$themes";
 import { Task } from "$types";
-import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { TASK_COLORS } from "variables/colors";
 import { formatDate, formatTime } from "../utils/dateTime";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
 
-interface IProps {
+type TaskCardProps = {
   task: Task;
   onDeleteTask: (taskId: string) => void;
   onEditTask: (taskId: string) => void;
-}
+};
 
-export const TaskCard: React.FC<IProps> = ({
+export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onEditTask,
   onDeleteTask,
@@ -36,15 +28,16 @@ export const TaskCard: React.FC<IProps> = ({
     status,
     userId,
   } = task;
+
   return (
-    <Card backgroundColor={TaskColors[0].backgroundColor} style={styles.card}>
-      <View style={styles.taskCardHeader}>
-        <View style={styles.pillsContainer}>
+    <Card backgroundColor={TASK_COLORS[shade].backgroundColor} classes="my-3">
+      <View className="mb-3 flex-row items-center justify-between">
+        <View className="flex-row">
           {labels &&
             labels.map((label) => (
               <Pill
                 title={label}
-                borderColor={TaskColors[0].borderColor}
+                borderColor={TASK_COLORS[shade].borderColor}
                 key={label}
               />
             ))}
@@ -53,17 +46,17 @@ export const TaskCard: React.FC<IProps> = ({
           <Edit />
         </Pressable>
       </View>
-      <View style={styles.taskCardFooter}>
+      <View className="flex-row items-end justify-between">
         <View>
           <Text style={sharedStyles.h1}>{title}</Text>
-          <View style={styles.dateTimesContainer}>
-            <View style={styles.dateTimeContainer}>
+          <View className="mt-4">
+            <View className="flex-row items-center">
               <Calendar />
-              <Text style={styles.dateTime}>{formatDate(startTime)}</Text>
+              <Text className="ml-3">{formatDate(startTime)}</Text>
             </View>
-            <View style={styles.dateTimeContainer}>
+            <View className="flex-row items-center">
               <Clock />
-              <Text style={styles.dateTime}>{formatTime(endTime)}</Text>
+              <Text className="ml-3">{formatTime(endTime)}</Text>
             </View>
           </View>
         </View>
@@ -74,33 +67,3 @@ export const TaskCard: React.FC<IProps> = ({
     </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    marginVertical: 10,
-  },
-  pillsContainer: {
-    flexDirection: "row",
-  },
-  dateTimesContainer: {
-    marginTop: hp(18),
-  },
-  dateTimeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  dateTime: {
-    marginLeft: 10,
-  },
-  taskCardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: hp(10),
-    justifyContent: "space-between",
-  },
-  taskCardFooter: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
-});

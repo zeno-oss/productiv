@@ -1,8 +1,6 @@
 import { sharedStyles } from "$themes";
-import React from "react";
 import {
   TextInput as NativeTextInput,
-  StyleSheet,
   TextInputProps,
   TextStyle,
 } from "react-native";
@@ -25,5 +23,3 @@ export const TextInput: React.FC<IProps & TextInputProps> = ({
     />
   );
 };
-
-const styles = StyleSheet.create({});
