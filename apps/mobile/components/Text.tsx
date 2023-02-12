@@ -1,14 +1,32 @@
-import { Text as RNText, TextProps as RNTextProps } from "react-native";
+import { Colors, Fonts } from "$themes";
+import React from "react";
+import {
+  Text as NativeText,
+  StyleSheet,
+  TextProps,
+  TextStyle,
+} from "react-native";
 
-type TextProps = {
+interface IProps {
   children: React.ReactNode;
-};
+  style?: TextStyle | TextStyle[];
+}
 
-export const Text = (props: TextProps & RNTextProps) => {
-  const { children, ...rest } = props;
+export const Text: React.FC<IProps & TextProps> = ({
+  children,
+  style,
+  ...props
+}) => {
   return (
-    <RNText className="text-gray-50" {...rest}>
+    <NativeText {...props} style={[styles.text, style]}>
       {children}
-    </RNText>
+    </NativeText>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: Fonts.REGULAR,
+    color: Colors.black,
+  },
+});
