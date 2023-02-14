@@ -49,7 +49,7 @@ function DrawerNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={({ navigation }: HomeDrawerScreenProps<"TabTwo">) => ({
-          title: "Tab One",
+          title: "Tab Two",
           drawerIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         })}
       />

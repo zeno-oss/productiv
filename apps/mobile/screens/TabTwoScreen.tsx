@@ -4,7 +4,7 @@ import { Text } from "$components";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { HomeDrawerScreenProps } from "../types";
 
-export function TabTwoScreen({ navigation }: HomeDrawerScreenProps<"TabOne">) {
+export function TabTwoScreen({ navigation }: HomeDrawerScreenProps<"TabTwo">) {
   return (
     <View className="flex-1 items-center justify-center">
       <Text className="text-lg" variant="bold">
