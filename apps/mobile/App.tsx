@@ -1,8 +1,8 @@
 import Constants from "expo-constants";
 import { useState } from "react";
 
+import { api } from "$api";
 import useCachedResources from "$hooks/useCachedResources";
-import { api } from "$trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { StatusBar } from "expo-status-bar";

@@ -10,7 +10,7 @@
       "$colors": ["../../colors.js"],
       "$utils": ["../../packages/utils/index.ts"],
       "$types": ["types/index.ts"],
-      "$trpc": ["utils/trpc.ts"],
+      "$api": ["utils/api.ts"],
       "$assets/*": ["assets/*"],
       "$constants/*": ["constants/*"],
       "$components": ["components/index.ts"],

@@ -15,7 +15,7 @@ module.exports = function (api) {
             $variables: "variables",
             $colors: "../../colors",
             $types: "./types/index.ts",
-            $trpc: "./utils/trpc.ts",
+            $api: "./utils/api.ts",
             $assets: "./assets",
             $components: "./components",
             $hooks: "./hooks",

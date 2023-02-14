@@ -12,8 +12,8 @@ import {
   TextInput,
 } from "$components";
 
+import { api } from "$api";
 import { Colors } from "$themes";
-import { api } from "$trpc";
 import { useFocusEffect } from "@react-navigation/native";
 import { TASK_COLORS } from "variables/colors";
 import { formatDateTime } from "../utils/dateTime";
