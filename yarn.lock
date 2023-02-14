@@ -3029,7 +3029,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.1, base64-js@^1.5.1:
+base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.0, base64-js@^1.3.1, base64-js@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -4255,6 +4255,18 @@ expo-asset@~8.7.0:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
+expo-auth-session@~3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/expo-auth-session/-/expo-auth-session-3.8.0.tgz#ad929f1bcc2e1dc9d0b265f9555d3f967bda6bcc"
+  integrity sha512-pQ8GryTTZL/JKHvifUGD4GGlZWo7RrcoQlvQ0O5m5edYfoa7fMHCg20MBX4Da4P3eVgJlqWZWCHfBC2fZxcRfA==
+  dependencies:
+    expo-constants "~14.0.0"
+    expo-crypto "~12.0.0"
+    expo-linking "~3.3.0"
+    expo-web-browser "~12.0.0"
+    invariant "^2.2.4"
+    qs "6.9.1"
+
 expo-constants@~14.0.0, expo-constants@~14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-14.0.2.tgz#2cb1dec8f41a64c2fc5b4eecaf77d7661cad01cc"
@@ -4262,6 +4274,44 @@ expo-constants@~14.0.0, expo-constants@~14.0.2:
   dependencies:
     "@expo/config" "~7.0.2"
     uuid "^3.3.2"
+
+expo-crypto@~12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-12.0.0.tgz#015e47fec27b07098fcef3676c6bf8b20767860a"
+  integrity sha512-2KC52eLYsXndDZOVFyr+K3Zs9wDgpqZ7F7fwAiUg+yNbE21CJrHKDFvo/Br0FAaDf/w9pUks5/qi1azB5sDzvg==
+
+expo-dev-client@~2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/expo-dev-client/-/expo-dev-client-2.0.1.tgz#f5878807c96a60d90fc219b6535654cb6ddb9214"
+  integrity sha512-+OXXZKKo/CplqklpaZasHAX7qaRrzC83biqXTFa1z5NiFW41uqtAqTFx6gmPi4kx3YgwtD+ep6R3SRrKjdCukg==
+  dependencies:
+    expo-dev-launcher "2.0.2"
+    expo-dev-menu "2.0.2"
+    expo-dev-menu-interface "1.0.0"
+    expo-manifests "~0.4.0"
+    expo-updates-interface "~0.8.0"
+
+expo-dev-launcher@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/expo-dev-launcher/-/expo-dev-launcher-2.0.2.tgz#bbcde0dd35e81ed6a415dc5b246da68e9b365255"
+  integrity sha512-MQT7VSOHJQrEs3YAv5BQLYs3Uk7P1dNqBw6kKrj3jKBq0z92k2LLg1aCk7nP8OGJVDvrb2jTXBka8VXVqF0ECg==
+  dependencies:
+    expo-dev-menu "2.0.2"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+
+expo-dev-menu-interface@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/expo-dev-menu-interface/-/expo-dev-menu-interface-1.0.0.tgz#00204cb7e1c43cc8a4eee9cb74f6e5760b512d75"
+  integrity sha512-4lsVofTwV9oBM+zo7XhtmvbfiXD4I7I3Rqns6U0i6IOnH7OGBDpKvGZ5YikWPFGn6NOu8loqqd8S7inFIaxC0A==
+
+expo-dev-menu@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/expo-dev-menu/-/expo-dev-menu-2.0.2.tgz#9a2d7a00097d4eafe54cf8e9a5c727174e101e4c"
+  integrity sha512-SxR5riXgm+VVKsDKC/bOLuOJ0CKutW07G+OqJ9eYfxwGfxa8omLJHwagbCsd8FwUPGkzvzgfRJRGLo5J6REMow==
+  dependencies:
+    expo-dev-menu-interface "1.0.0"
+    semver "^7.3.5"
 
 expo-error-recovery@~4.0.1:
   version "4.0.1"
@@ -4281,6 +4331,11 @@ expo-font@~11.0.1:
   integrity sha512-LGAIluWZfru0J0n87dzb6pwAB6TVMTEiLcsd/ktozzbn4DlN7SeQy40+ruU6bvAKCOGrnRneYbKSIOGkrd7oNg==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-json-utils@~0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.4.0.tgz#47ae83a1cc973101d62371f94790e9ad39491751"
+  integrity sha512-lK6gjea72XTYafpKNNJaMrBK5dYAX8LFLXrp/M1MKJU4Zy7EHd2rKrLwop3GZts8VdwLHeVcMko79SAbhe3i5Q==
 
 expo-keep-awake@~11.0.1:
   version "11.0.1"
@@ -4303,6 +4358,13 @@ expo-linking@~3.3.0:
     qs "^6.9.1"
     url-parse "^1.5.9"
 
+expo-manifests@~0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/expo-manifests/-/expo-manifests-0.4.0.tgz#6fd44b6427e113f2eb9409ca46df95cbbea068df"
+  integrity sha512-IdZjIYDxx4nH0Gb3X4T4/2YknmR/jSLxymAS0m7SfJ9V7Vlu/y0p3lNwUys9/JzihxX9PDIuOi/Y4/uqL6TlXg==
+  dependencies:
+    expo-json-utils "~0.4.0"
+
 expo-modules-autolinking@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-1.0.2.tgz#f072f342ab797e43b16ddcdef251fcd4db851e1a"
@@ -4322,6 +4384,13 @@ expo-modules-core@1.1.1:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
+expo-random@~13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-13.0.0.tgz#fc9c1496ac9f7555563d86de0db25966739c028f"
+  integrity sha512-aGb0vtUmFFuW0TF1rdOgsz89zEVD/RXUPUnnZy5+i3jJeQ2PerJ4uo72/EuWqHpCBNto8/qT+aCzFinmQDeTAA==
+  dependencies:
+    base64-js "^1.3.0"
+
 expo-splash-screen@~0.17.5:
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.17.5.tgz#a18dc59c1cc28ebbedbf0a7529a419d18ab0b311"
@@ -4334,6 +4403,11 @@ expo-status-bar@~1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.4.2.tgz#14f2b9a6dc7d550578421f07e0046f5fafc2b403"
   integrity sha512-ZWjO6D4ARGYfAd3SWDD3STNudHDhyBZDZjhhseqoEmsf7bS9ykny8KKOhlzJW24qIQNPhkgdvHhaw9fQwMJy3Q==
+
+expo-updates-interface@~0.8.0:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.8.1.tgz#baeeeb01a77439682432be83ba78bc2e00547c4e"
+  integrity sha512-1TPFCTQFHMZbltFGnxig3PbN/b6nO4T0RyL8XqdmYvQY0ElOCprZXQQ8vNDqeLYHgausG1lD4OyJwFzh2SNBSA==
 
 expo-web-browser@~12.0.0:
   version "12.0.0"
@@ -6989,6 +7063,11 @@ qs@6.11.0, qs@^6.9.1:
   integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
   dependencies:
     side-channel "^1.0.4"
+
+qs@6.9.1:
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.1.tgz#20082c65cb78223635ab1a9eaca8875a29bf8ec9"
+  integrity sha512-Cxm7/SS/y/Z3MHWSxXb8lIFqgqBowP5JMlTUFyJN88y0SGQhVmZnqFK/PeuMX9LzUyWsqqhNxIyg0jlzq946yA==
 
 query-string@^5.0.1:
   version "5.1.1"
