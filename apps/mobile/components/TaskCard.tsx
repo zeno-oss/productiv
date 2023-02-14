@@ -1,8 +1,8 @@
 import { Calendar, Clock, Edit, MarkAsDone } from "$themes";
 import { Task } from "$types";
+import { formatDate, formatTime } from "$utils";
 import { TASKS_PALETTE } from "$variables";
 import { Pressable, View } from "react-native";
-import { formatDate, formatTime } from "../utils/dateTime";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
 import { Text } from "./Text";

@@ -13,9 +13,9 @@ import {
 } from "$components";
 
 import { api } from "$api";
+import { formatDateTime } from "$utils";
 import { PALETTE, TASKS_PALETTE } from "$variables";
 import { useFocusEffect } from "@react-navigation/native";
-import { formatDateTime } from "../utils/dateTime";
 
 export const AddTaskScreen = ({
   navigation,
