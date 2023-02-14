@@ -40,7 +40,7 @@ const App = () => {
         <SafeAreaProvider>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            className="flex-1 p-4"
+            className="flex-1"
           >
             <Navigation />
             <StatusBar style="dark" />

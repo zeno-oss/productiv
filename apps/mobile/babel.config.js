@@ -6,6 +6,17 @@ module.exports = function (api) {
       "nativewind/babel",
       "react-native-reanimated/plugin",
       [
+        "module:react-native-dotenv",
+        {
+          moduleName: "$env",
+          path: ".env",
+          blocklist: null,
+          allowlist: null,
+          safe: false,
+          allowUndefined: true,
+        },
+      ],
+      [
         "module-resolver",
         {
           alias: {
@@ -14,6 +25,7 @@ module.exports = function (api) {
             $utils: "utils",
             $variables: "variables",
             $types: "types",
+            $constants: "./constants",
             $api: "./utils/api.ts",
             $assets: "./assets",
             $components: "./components",

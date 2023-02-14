@@ -10,6 +10,7 @@
       "$utils": ["../../packages/utils/index.ts"],
       "$types": ["../../packages/types/index.ts"],
       "$api": ["utils/api.ts"],
+      "$constants": ["constants/index.ts"],
       "$assets/*": ["assets/*"],
       "$components": ["components/index.ts"],
       "$hooks/*": ["hooks/*"],
