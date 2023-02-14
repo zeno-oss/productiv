@@ -13,9 +13,8 @@ import {
 } from "$components";
 
 import { api } from "$api";
-import { Colors } from "$themes";
+import { PALETTE, TASKS_PALETTE } from "$variables";
 import { useFocusEffect } from "@react-navigation/native";
-import { TASK_COLORS } from "variables/colors";
 import { formatDateTime } from "../utils/dateTime";
 
 export const AddTaskScreen = ({
@@ -134,7 +133,7 @@ export const AddTaskScreen = ({
         <Label title="Deadline" />
         <Pressable
           onPress={() => setVisible(true)}
-          style={{ borderBottomColor: Colors.lightGray, borderBottomWidth: 1 }}
+          style={{ borderBottomColor: PALETTE.lightGray, borderBottomWidth: 1 }}
         >
           <Text className="my-1 pb-5 text-xl" variant="bold">
             {formatDateTime(date)}
@@ -162,7 +161,7 @@ export const AddTaskScreen = ({
           horizontal
           className="border-b-lightGray my-1 border-b pb-5"
         >
-          {Object.entries(TASK_COLORS).map(([color, { backgroundColor }]) => (
+          {Object.entries(TASKS_PALETTE).map(([color, { backgroundColor }]) => (
             <ColorCircle
               key={color}
               backgroundColor={backgroundColor}

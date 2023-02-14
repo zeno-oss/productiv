@@ -1,7 +1,7 @@
 import { Calendar, Clock, Edit, MarkAsDone } from "$themes";
 import { Task } from "$types";
+import { TASKS_PALETTE } from "$variables";
 import { Pressable, View } from "react-native";
-import { TASK_COLORS } from "variables/colors";
 import { formatDate, formatTime } from "../utils/dateTime";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
@@ -31,7 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   } = task;
 
   return (
-    <Card backgroundColor={TASK_COLORS[shade].backgroundColor} classes="my-3">
+    <Card backgroundColor={TASKS_PALETTE[shade].backgroundColor} classes="my-3">
       <View className="mb-3 flex-row items-center justify-between">
         <View className="flex-row">
           {labels &&
@@ -40,7 +40,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               .map((label) => (
                 <Pill
                   title={label}
-                  borderColor={TASK_COLORS[shade].borderColor}
+                  borderColor={TASKS_PALETTE[shade].borderColor}
                   key={label}
                 />
               ))}

@@ -1,6 +1,5 @@
-import colors from "$colors";
-import { Fonts } from "$themes";
 import { FontWeight } from "$types";
+import { FONT_FAMILY, PALETTE } from "$variables";
 import { styled } from "nativewind";
 import {
   Text as NativeText,
@@ -21,8 +20,11 @@ const TextComponent: React.FC<TextProps & NativeTextProps> = (props) => {
     <NativeText
       {...rest}
       style={[
-        { color: colors.black },
-        { fontFamily: Fonts[variant.toUpperCase() as keyof typeof Fonts] },
+        { color: PALETTE.black },
+        {
+          fontFamily:
+            FONT_FAMILY[variant.toUpperCase() as keyof typeof FONT_FAMILY],
+        },
         style,
       ]}
     >

@@ -1,4 +1,4 @@
-import { Fonts } from "$themes";
+import { FONT_FAMILY } from "$variables";
 import {
   TextInput as NativeTextInput,
   TextInputProps,
@@ -19,7 +19,7 @@ export const TextInput: React.FC<IProps & TextInputProps> = ({
     <NativeTextInput
       {...props}
       className="border-b-lightGray my-1 border-b pb-5 text-xl"
-      style={{ fontFamily: Fonts.BOLD }}
+      style={{ fontFamily: FONT_FAMILY.BOLD }}
       placeholder={placeholder || "Type something..."}
     />
   );

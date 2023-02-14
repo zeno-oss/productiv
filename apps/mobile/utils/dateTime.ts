@@ -1,10 +1,10 @@
-import { MONTHS } from "$constants/arrays";
+import { MONTHS_NAME } from "$variables";
 
 export const formatDateTime = (date: Date) => {
   let hour = date.getHours();
   const day = date.getDate();
   const year = date.getFullYear();
-  const month = MONTHS[date.getMonth()]; // get month in MMM format
+  const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
   const period = hour < 12 ? "am" : "pm"; // Set AM/PM
   hour = hour % 12 || 12; // Adjust hours
   const minute =
@@ -15,10 +15,9 @@ export const formatDateTime = (date: Date) => {
 };
 
 export const formatDate = (date: Date) => {
-  let hour = date.getHours();
   const day = date.getDate();
   const year = date.getFullYear();
-  const month = MONTHS[date.getMonth()]; // get month in MMM format
+  const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
 
   return `${day} ${month} ${year}`;
 };

@@ -1,9 +1,9 @@
-import colors from "$colors";
+import { PALETTE } from "$variables";
 import { styled } from "nativewind";
 import { Pressable } from "react-native";
 
 type ColorCircleProps = {
-  backgroundColor: keyof typeof colors;
+  backgroundColor: keyof typeof PALETTE;
   selected: boolean;
   onPress: () => void;
 };
@@ -17,7 +17,7 @@ export const ColorCircle: React.FC<ColorCircleProps> = ({
 }) => {
   return (
     <StyledPressable
-      style={{ backgroundColor: colors[backgroundColor] }}
+      style={{ backgroundColor: PALETTE[backgroundColor] }}
       className={`mx-2 h-7 w-7 rounded-full active:opacity-60 ${
         selected ? "border-2 border-black" : ""
       }`}

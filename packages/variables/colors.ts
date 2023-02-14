@@ -1,4 +1,6 @@
-export const TASK_COLORS = {
+import PALETTE from "../../colors";
+
+const TASKS_PALETTE = {
   BANANA: {
     backgroundColor: "banana",
     borderColor: "darkBanana",
@@ -32,3 +34,5 @@ export const TASK_COLORS = {
     borderColor: "darkPlumPurple",
   },
 } as const;
+
+export { PALETTE, TASKS_PALETTE };
