@@ -8,7 +8,7 @@
       "$store": ["../../packages/store/index.ts"],
       "$variables": ["../../packages/variables/index.ts"],
       "$utils": ["../../packages/utils/index.ts"],
-      "$types": ["types/index.ts"],
+      "$types": ["../../packages/types/index.ts"],
       "$api": ["utils/api.ts"],
       "$assets/*": ["assets/*"],
       "$components": ["components/index.ts"],

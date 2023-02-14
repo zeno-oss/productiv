@@ -1,3 +1,7 @@
-export * from "./data";
-export * from "./navigation";
-export * from "./styles";
+import { RootNativeStackParamList } from "$types";
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootNativeStackParamList {}
+  }
+}

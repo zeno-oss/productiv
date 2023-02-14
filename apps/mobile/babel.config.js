@@ -13,7 +13,7 @@ module.exports = function (api) {
             $store: "store",
             $utils: "utils",
             $variables: "variables",
-            $types: "./types/index.ts",
+            $types: "types",
             $api: "./utils/api.ts",
             $assets: "./assets",
             $components: "./components",

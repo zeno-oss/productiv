@@ -27,9 +27,3 @@ export type HomeDrawerScreenProps<T extends keyof HomeDrawerParamList> =
     DrawerScreenProps<HomeDrawerParamList, T>,
     RootNativeStackScreenProps<keyof RootNativeStackParamList>
   >;
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootNativeStackParamList {}
-  }
-}

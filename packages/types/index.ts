@@ -1,4 +1,3 @@
-export type NavigatorParamList = {
-  Home: undefined;
-  Welcome: undefined;
-};
+export * from "./data";
+export * from "./navigation";
+export * from "./typography";

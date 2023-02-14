@@ -46,6 +46,7 @@
     "server": "*",
     "store": "*",
     "superjson": "^1.12.2",
+    "types": "*",
     "variables": "*"
   },
   "devDependencies": {
