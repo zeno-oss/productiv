@@ -13,15 +13,18 @@ import {
 } from "$components";
 
 import { api } from "$api";
+import { userAtom } from "$store";
 import { formatDateTime } from "$utils";
 import { PALETTE, TASKS_PALETTE } from "$variables";
 import { Task } from "@prisma/client";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAtomValue } from "jotai";
 
 export const AddTaskScreen = ({
   navigation,
   route,
 }: RootNativeStackScreenProps<"AddTask">) => {
+  const user = useAtomValue(userAtom);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskLabels, setTaskLabels] = useState("");
   const [date, setDate] = useState(new Date());
@@ -91,7 +94,7 @@ export const AddTaskScreen = ({
       labels,
       status: "TODO",
       description: null,
-      userId: "1",
+      userId: user?.id ?? "",
     };
 
     return newTask;
