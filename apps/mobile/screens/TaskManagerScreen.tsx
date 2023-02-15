@@ -1,7 +1,9 @@
 import { api } from "$api";
 import { PrimaryButton, TaskCard, Text } from "$components";
+import { userAtom } from "$store";
 import { AddTask } from "$themes";
-import { HomeDrawerScreenProps, Task } from "$types";
+import { HomeDrawerScreenProps, Task, User } from "$types";
+import { useAtomValue } from "jotai";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -9,6 +11,7 @@ export const TaskManagerScreen = ({
   navigation,
 }: HomeDrawerScreenProps<"TaskManager">) => {
   const client = api.useContext();
+  const user: User | null = useAtomValue(userAtom);
 
   const tasks = api.task.getTasks.useQuery();
   const deleteTask = api.task.deleteTask.useMutation({
@@ -23,7 +26,7 @@ export const TaskManagerScreen = ({
     },
   });
 
-  if (!tasks.data)
+  if (!tasks.data || !user)
     return (
       <View className="flex-1 items-center justify-center">
         <Text>Loading...</Text>
@@ -48,7 +51,7 @@ export const TaskManagerScreen = ({
   return (
     <View className="my-3">
       <Text className="my-0.5 text-sm" variant="semibold">
-        Hello Mubin!
+        Hello {user.name}!
       </Text>
       <View className="flex-row items-center justify-between">
         <Text className="my-1 text-xl" variant="bold">

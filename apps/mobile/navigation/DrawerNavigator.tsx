@@ -16,7 +16,7 @@ function DrawerNavigator() {
       initialRouteName="TaskManager"
       screenOptions={({ navigation }) => ({
         headerShadowVisible: false,
-        sceneContainerStyle: { backgroundColor: "#fff" },
+        sceneContainerStyle: { backgroundColor: "#fff", padding: 14 },
         headerTitleAlign: "center",
         headerLeft: () => (
           <Pressable

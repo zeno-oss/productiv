@@ -2,6 +2,8 @@ export * from "./Card";
 export * from "./ColorCircle";
 export * from "./EditScreenInfo";
 export * from "./Label";
+export * from "./OnboardingFlatlist";
+export * from "./OnboardingFooter";
 export * from "./Pill";
 export * from "./PrimaryButton";
 export * from "./ProfilePic";

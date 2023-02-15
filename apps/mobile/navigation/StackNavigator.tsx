@@ -1,4 +1,9 @@
-import { AddTaskScreen, ModalScreen, NotFoundScreen } from "$screens";
+import {
+  AddTaskScreen,
+  ModalScreen,
+  NotFoundScreen,
+  OnboardingScreen,
+} from "$screens";
 import { RootNativeStackParamList } from "$types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DrawerNavigator from "./DrawerNavigator";
@@ -14,6 +19,11 @@ function StackNavigator() {
         headerBackTitle: "",
       }}
     >
+      <Stack.Screen
+        name="Onboarding"
+        component={OnboardingScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Home"
         component={DrawerNavigator}
