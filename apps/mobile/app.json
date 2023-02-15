@@ -1,41 +1,31 @@
 {
   "expo": {
-    "name": "productiv",
-    "slug": "productiv",
-    "version": "0.1.0",
+    "name": "zeno",
+    "slug": "zeno",
+    "version": "2.5.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "automatic",
-    "scheme": "productiv",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.zeno.productiv"
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.zeno.productiv",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ae71fe4a-0f1f-4f72-b061-a641f6ea5e21"
-      }
+      "favicon": "./assets/favicon.png"
     }
   }
 }

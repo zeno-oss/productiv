@@ -1,49 +1,23 @@
-import {
-  AddTaskScreen,
-  ModalScreen,
-  NotFoundScreen,
-  OnboardingScreen,
-} from "$screens";
-import { RootNativeStackParamList } from "$types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import DrawerNavigator from "./DrawerNavigator";
+import { NavigatorParamList } from "types";
+import Home from "../screens/Home";
+import Welcome from "../screens/Welcome";
 
-const Stack = createNativeStackNavigator<RootNativeStackParamList>();
+const Stack = createNativeStackNavigator<NavigatorParamList>();
 
-function StackNavigator() {
+const StackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        contentStyle: { backgroundColor: "#fff" },
-        headerTitleAlign: "center",
-        headerBackTitle: "",
+        headerTransparent: true,
+        headerBackTitleVisible: false,
+        headerTintColor: "white",
       }}
     >
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={DrawerNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="AddTask"
-        component={AddTaskScreen}
-        options={{ animation: "slide_from_bottom" }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Welcome" component={Welcome} />
     </Stack.Navigator>
   );
-}
+};
 
 export default StackNavigator;

@@ -8,7 +8,7 @@ import Button from "./Button";
 const Home = () => {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
-  const hello = api.task.hello.useQuery({ text: "client" });
+  const hello = api.example.hello.useQuery({ text: "client" });
   const [count, setCount] = useAtom(countAtom);
 
   async function greet() {
