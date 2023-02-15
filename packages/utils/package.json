@@ -4,5 +4,7 @@
   "version": "2.5.0",
   "main": "index.ts",
   "types": "index.ts",
-  "dependencies": {}
+  "dependencies": {
+    "variables": "*"
+  }
 }
