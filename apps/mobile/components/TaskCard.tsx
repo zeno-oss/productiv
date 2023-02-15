@@ -1,7 +1,7 @@
 import { Calendar, Clock, Edit, MarkAsDone } from "$themes";
-import { Task } from "$types";
 import { formatDate, formatTime } from "$utils";
 import { TASKS_PALETTE } from "$variables";
+import { Task } from "@prisma/client";
 import { Pressable, View } from "react-native";
 import { Card } from "./Card";
 import { Pill } from "./Pill";

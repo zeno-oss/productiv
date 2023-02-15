@@ -2,7 +2,8 @@ import { api } from "$api";
 import { PrimaryButton, TaskCard, Text } from "$components";
 import { userAtom } from "$store";
 import { AddTask } from "$themes";
-import { HomeDrawerScreenProps, Task, User } from "$types";
+import { HomeDrawerScreenProps } from "$types";
+import { Task } from "@prisma/client";
 import { useAtomValue } from "jotai";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
@@ -11,7 +12,7 @@ export const TaskManagerScreen = ({
   navigation,
 }: HomeDrawerScreenProps<"TaskManager">) => {
   const client = api.useContext();
-  const user: User | null = useAtomValue(userAtom);
+  const user = useAtomValue(userAtom);
 
   const tasks = api.task.getTasks.useQuery();
   const deleteTask = api.task.deleteTask.useMutation({

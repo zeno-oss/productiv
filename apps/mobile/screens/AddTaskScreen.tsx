@@ -1,4 +1,4 @@
-import { RootNativeStackScreenProps, Task, TaskColor } from "$types";
+import { RootNativeStackScreenProps, TaskColor } from "$types";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -15,6 +15,7 @@ import {
 import { api } from "$api";
 import { formatDateTime } from "$utils";
 import { PALETTE, TASKS_PALETTE } from "$variables";
+import { Task } from "@prisma/client";
 import { useFocusEffect } from "@react-navigation/native";
 
 export const AddTaskScreen = ({

@@ -1,4 +1,4 @@
-import { User } from "types";
+import { User } from "@prisma/client";
 import { persistedAtom } from "./helper";
 
 export const countAtom = persistedAtom("count", 0);
