@@ -6,54 +6,12 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    relationMode = "prisma"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
-    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Task {
+model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    startTime DateTime
-    endTime   DateTime
-    title     String
-    description String?
-    status    Status
-    shade     Color
-    labels    String
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-
-    @@index([userId])
-}
-
-model User {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    email     String   @unique
-    name      String
-    locale    String
-    profileImage String
-    tasks     Task[]
-}
-
-
-enum Color {
-    BANANA
-    TURQUOISE
-    PICTON_BLUE
-    VODKA
-    RADICAL_RED
-    CORAL
-    DODGER_BLUE
-    PLUM_PURPLE
-}
-
-enum Status {
-    TODO
-    IN_PROGRESS
-    DONE
 }

@@ -6,17 +6,7 @@
     "paths": {
       "$server": ["../../packages/server/index.ts"],
       "$store": ["../../packages/store/index.ts"],
-      "$variables": ["../../packages/variables/index.ts"],
-      "$utils": ["../../packages/utils/index.ts"],
-      "$types": ["../../packages/types/index.ts"],
-      "$api": ["utils/api.ts"],
-      "$constants": ["constants/index.ts"],
-      "$assets/*": ["assets/*"],
-      "$components": ["components/index.ts"],
-      "$hooks/*": ["hooks/*"],
-      "$navigation/*": ["navigation/*"],
-      "$screens": ["screens"],
-      "$themes": ["themes/index.ts"]
+      "$trpc": ["utils/trpc.ts"]
     }
   }
 }
