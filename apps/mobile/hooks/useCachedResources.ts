@@ -1,9 +1,13 @@
+import { userAtom } from "$store";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+  // hydrate the user atom
+  useAtomValue(userAtom);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
