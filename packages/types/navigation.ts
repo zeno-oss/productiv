@@ -7,6 +7,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type RootNativeStackParamList = {
   Home: NavigatorScreenParams<HomeDrawerParamList>;
+  Onboarding: undefined;
   Modal: undefined;
   NotFound: undefined;
   AddTask: { mode: "edit" | "add"; task?: string };
