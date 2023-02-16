@@ -10,17 +10,7 @@ export function isMobile() {
  * Formats date to DD MMM YYYY, hh:mm am/pm
  */
 export const formatDateTime = (date: Date) => {
-  let hour = date.getHours();
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
-  const period = hour < 12 ? "am" : "pm"; // Set AM/PM
-  hour = hour % 12 || 12; // Adjust hours
-  const minute =
-    date.getMinutes().toString().length === 1
-      ? `0${date.getMinutes()}`
-      : date.getMinutes();
-  return `${day} ${month} ${year}, ${hour}:${minute} ${period}`;
+  return `${formatDate(date)}, ${formatTime(date)}`;
 };
 
 /**
@@ -28,10 +18,15 @@ export const formatDateTime = (date: Date) => {
  */
 export const formatDate = (date: Date) => {
   const day = date.getDate();
-  const year = date.getFullYear();
+  // Add leading zero to day
+  const dayString = day.toString().length === 1 ? `0${day}` : day;
+
+  // Get last two digits of year
+  const year = date.getFullYear().toString().slice(-2);
+
   const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
 
-  return `${day} ${month} ${year}`;
+  return `${dayString} ${month} ${year}`;
 };
 
 /**
@@ -39,11 +34,19 @@ export const formatDate = (date: Date) => {
  */
 export const formatTime = (date: Date) => {
   let hour = date.getHours();
+
   const period = hour < 12 ? "am" : "pm"; // Set AM/PM
-  hour = hour % 12 || 12; // Adjust hours
+
+  // Convert 24 hour to 12 hour
+  hour = hour % 12 || 12;
+  // Add leading zero to hours
+  const hourString = hour.toString().length === 1 ? `0${hour}` : hour;
+
+  // Add leading zero to minutes
   const minute =
     date.getMinutes().toString().length === 1
       ? `0${date.getMinutes()}`
       : date.getMinutes();
-  return `${hour}:${minute} ${period}`;
+
+  return `${hourString}:${minute} ${period}`;
 };
