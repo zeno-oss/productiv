@@ -78,6 +78,7 @@ export const AddTaskScreen = ({
           const task = JSON.parse(stringifiedTask) as Task;
           if (task) {
             setTitle(task.title);
+            setDescription(task.description ?? "");
             setLabels(task.labels);
             setStartTime(new Date(task.startTime));
             setEndTime(new Date(task.endTime));
@@ -104,7 +105,7 @@ export const AddTaskScreen = ({
       shade,
       labels: trimmedLabels,
       status: "TODO",
-      description,
+      description: description || null,
       userId: user?.id ?? "",
     };
 
