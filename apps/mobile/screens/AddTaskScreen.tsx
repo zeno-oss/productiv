@@ -26,12 +26,20 @@ export const AddTaskScreen = ({
 }: RootNativeStackScreenProps<"AddTask">) => {
   const user = useAtomValue(userAtom);
   const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [taskLabels, setTaskLabels] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [taskStartTime, setTaskStartTime] = useState(new Date());
+
+  const [taskEndTime, setTaskEndTime] = useState(
+    new Date(new Date().getTime() + 60 * 60 * 1000),
+  );
+  const [isEndTimeSetByUser, setIsEndTimeSetByUser] = useState(false);
+
   const [taskColor, setTaskColor] = useState<TaskColor>("BANANA");
 
   const [isAddDisabled, setIsAddDisabled] = useState(true);
-  const [isVisible, setVisible] = useState(false);
+  const [isTaskStartVisible, setIsTaskStartVisible] = useState(false);
+  const [isTaskEndVisible, setIsTaskEndVisible] = useState(false);
 
   const [taskMode, setTaskMode] = useState<"add" | "edit">("add");
   const [taskId, setTaskId] = useState<string>(Math.random().toString());
@@ -69,7 +77,8 @@ export const AddTaskScreen = ({
             setTaskId(task.id);
             setTaskTitle(task.title);
             setTaskLabels(task.labels);
-            setDate(new Date(task.startTime));
+            setTaskStartTime(new Date(task.startTime));
+            setTaskEndTime(new Date(task.endTime));
             setTaskColor(task.shade);
           }
         }
@@ -78,7 +87,7 @@ export const AddTaskScreen = ({
   );
 
   useEffect(() => {
-    if (taskTitle !== "" && date) {
+    if (taskTitle !== "") {
       setIsAddDisabled(false);
     }
   }, [taskTitle, setIsAddDisabled]);
@@ -87,9 +96,8 @@ export const AddTaskScreen = ({
     const labels = taskLabels.replace(/ /g, "");
     const newTask = {
       title: taskTitle,
-      startTime: date,
-      // add 1 hour to end time
-      endTime: new Date(date.getTime() + 60 * 60 * 1000),
+      startTime: taskStartTime,
+      endTime: taskEndTime,
       shade: taskColor,
       labels,
       status: "TODO",
@@ -123,7 +131,7 @@ export const AddTaskScreen = ({
   };
 
   return (
-    <View className="my-6 flex-1 justify-between">
+    <View className="my-6 flex-1 justify-between p-4">
       <View>
         <Label title="Title" />
         <TextInput
@@ -133,26 +141,59 @@ export const AddTaskScreen = ({
           value={taskTitle}
           autoCorrect={false}
         />
+        <Label title="Description" />
+        <TextInput
+          maxLength={500}
+          onChangeText={(text) => setTaskDescription(text)}
+          value={taskDescription}
+          multiline={true}
+          autoCorrect={false}
+          placeholder="Describe your task here"
+        />
 
-        <Label title="Deadline" />
+        <Label title="Starts At" />
         <Pressable
-          onPress={() => setVisible(true)}
+          onPress={() => setIsTaskStartVisible(true)}
           style={{ borderBottomColor: PALETTE.lightGray, borderBottomWidth: 1 }}
         >
           <Text className="my-1 pb-5 text-xl" variant="bold">
-            {formatDateTime(date)}
+            {formatDateTime(taskStartTime)}
           </Text>
         </Pressable>
         <DateTimePickerModal
-          isVisible={isVisible}
+          isVisible={isTaskStartVisible}
           mode="datetime"
-          onHide={() => setVisible(false)}
+          onHide={() => setIsTaskStartVisible(false)}
           onConfirm={(date) => {
-            setVisible(false);
-            setDate(date);
+            setIsTaskStartVisible(false);
+            setTaskStartTime(date);
+            if (!isEndTimeSetByUser) {
+              setTaskEndTime(new Date(date.getTime() + 60 * 60 * 1000));
+            }
           }}
-          onCancel={() => setVisible(false)}
-          date={date}
+          onCancel={() => setIsTaskStartVisible(false)}
+          date={taskStartTime}
+        />
+        <Label title="Ends At" />
+        <Pressable
+          onPress={() => setIsTaskEndVisible(true)}
+          style={{ borderBottomColor: PALETTE.lightGray, borderBottomWidth: 1 }}
+        >
+          <Text className="my-1 pb-5 text-xl" variant="bold">
+            {formatDateTime(taskEndTime)}
+          </Text>
+        </Pressable>
+        <DateTimePickerModal
+          isVisible={isTaskEndVisible}
+          mode="datetime"
+          onHide={() => setIsTaskEndVisible(false)}
+          onConfirm={(date) => {
+            setIsTaskEndVisible(false);
+            setIsEndTimeSetByUser(true);
+            setTaskEndTime(date);
+          }}
+          onCancel={() => setIsTaskEndVisible(false)}
+          date={taskEndTime}
         />
         <Label title="Labels" />
         <TextInput
@@ -160,7 +201,7 @@ export const AddTaskScreen = ({
           onChangeText={(text) => setTaskLabels(text)}
           value={taskLabels}
         />
-        <Label title="Color Task" />
+        <Label title="Shade" />
         <ScrollView
           horizontal
           className="border-b-lightGray my-1 border-b pb-5"
