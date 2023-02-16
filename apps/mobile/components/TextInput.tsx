@@ -19,7 +19,7 @@ export const TextInput: React.FC<IProps & TextInputProps> = ({
   ...props
 }) => {
   const classNames = classnames(
-    "border-b-lightSilver my-1 border-b pb-5 text-lg",
+    "border-b-lightSilver my-1 border-b pb-5 text-lg h-14",
     {
       [classes ?? ""]: !!classes,
     },
