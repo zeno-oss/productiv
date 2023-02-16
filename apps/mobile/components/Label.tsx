@@ -7,7 +7,7 @@ type LabelProps = {
 export const Label: React.FC<LabelProps> = (props) => {
   const { title } = props;
   return (
-    <Text className="text-gray my-3 text-sm" variant="semibold">
+    <Text className="text-silver my-3 text-sm" variant="semibold">
       {title}
     </Text>
   );

@@ -4,8 +4,8 @@
 module.exports = {
   black: "#141414",
   white: "#fff",
-  gray: "#9F9F9F",
-  lightGray: "#E3E3E3",
+  silver: "#9F9F9F",
+  lightSilver: "#E3E3E3",
   banana: "#FCE114",
   darkBanana: "#E1CB13",
   turquoise: "#4BEED1",

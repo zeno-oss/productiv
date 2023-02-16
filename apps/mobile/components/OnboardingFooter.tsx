@@ -18,7 +18,7 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = (props) => {
         <View className="mt-6 flex-row items-center justify-center">
           {new Array(numberOfSlides).fill(1).map((_, index) => (
             <View
-              className={`bg-gray mx-1 h-1 w-1 rounded-md ${
+              className={`bg-silver mx-1 h-1 w-1 rounded-md ${
                 activeSlideIndex === index ? "w-5 bg-teal-500" : ""
               }`}
               key={index}
