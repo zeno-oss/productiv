@@ -36,30 +36,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
   return (
     <Card backgroundColor={TASKS_PALETTE[shade].backgroundColor} classes="my-3">
-      <View className="mb-3 flex-row items-center justify-between">
-        <View className="flex-row">
-          {labels &&
-            labels
-              .split(",")
-              .map((label) => (
-                <Pill
-                  title={label}
-                  borderColor={TASKS_PALETTE[shade].borderColor}
-                  key={label}
-                />
-              ))}
-        </View>
+      <View className="mb-2 flex-row items-center justify-between">
+        <Text className="text-xl" variant="bold">
+          {title}
+        </Text>
         <Pressable onPress={() => onEditTask(task)}>
           <Edit />
         </Pressable>
       </View>
       <View>
-        <Text className="my-1 text-xl" variant="bold">
-          {title}
-        </Text>
-        <Text className="mb-1 text-xs" variant="regular" numberOfLines={1}>
-          {description}
-        </Text>
+        {description && (
+          <Text className="mb-1 text-xs" variant="regular" numberOfLines={1}>
+            {description}
+          </Text>
+        )}
         <View className="flex-row items-end justify-between">
           <View className="mt-4">
             <View className="flex-row items-center">
@@ -69,6 +59,18 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             <View className="flex-row items-center">
               <Clock />
               <Text className="ml-3">{taskTime}</Text>
+            </View>
+            <View className="mt-2 flex-row">
+              {labels &&
+                labels
+                  .split(",")
+                  .map((label) => (
+                    <Pill
+                      title={label}
+                      borderColor={TASKS_PALETTE[shade].borderColor}
+                      key={label}
+                    />
+                  ))}
             </View>
           </View>
           <View>
