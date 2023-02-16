@@ -79,7 +79,7 @@ export const TaskManagerScreen = ({
           {tasks.data.map((task) => (
             <TaskCard
               task={task}
-              key={task.title}
+              key={task.id}
               onDeleteTask={deleteTaskHandler}
               onEditTask={editTaskHandler}
             />
