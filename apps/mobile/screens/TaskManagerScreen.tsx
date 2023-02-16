@@ -46,6 +46,7 @@ export const TaskManagerScreen = ({
     navigation.navigate("AddTask", {
       mode: "edit",
       task: JSON.stringify(task),
+      taskId: task.id,
     });
   };
 

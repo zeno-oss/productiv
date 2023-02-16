@@ -10,7 +10,7 @@ export type RootNativeStackParamList = {
   Onboarding: undefined;
   Modal: undefined;
   NotFound: undefined;
-  AddTask: { mode: "edit" | "add"; task?: string };
+  AddTask: { mode: "edit" | "add"; task?: string; taskId?: string };
 };
 
 export type RootNativeStackScreenProps<
