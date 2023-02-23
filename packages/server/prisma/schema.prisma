@@ -6,10 +6,11 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
+    provider = "postgresql"
     relationMode = "prisma"
     url      = env("DATABASE_URL")
-    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    // shadowDatabaseUrl = env("DATABASE_URL")
+    // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Task {

@@ -1,10 +1,8 @@
-/**
- * Specify your custom tailwind colors here.
- */
 module.exports = {
   black: "#141414",
   white: "#fff",
   gray: "#9F9F9F",
+  "gray-50": "#E3E3E3",
   lightGray: "#E3E3E3",
   banana: "#FCE114",
   darkBanana: "#E1CB13",

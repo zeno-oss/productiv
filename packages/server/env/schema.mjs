@@ -17,6 +17,7 @@ export const serverSchema = z.object({
  */
 export const serverEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
+  // @ts-ignore
   NODE_ENV: process.env.NODE_ENV,
 };
 

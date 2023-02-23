@@ -4,12 +4,12 @@ A Cross Platform Monorepo featuring Next.js + tRPC + Tauri + Vite + Expo (React 
 
 [![Stars](https://img.shields.io/github/stars/zeno-oss/zeno?style=social)](https://github.com/zeno-oss/zeno)
 
-## Provides you with a end-to-end typesafe:
-- Desktop Application (Windows, Mac and Linux)
-- Mobile Application (iOS, Android)
-- Web Application (Next.js)
-- Backend Server (tRPC)
+## Provides you with a end-to-end typesafety
 
+- [x] Desktop Application (Windows, Mac and Linux)
+- [x] Mobile Application (iOS, Android)
+- [x] Web Application (Next.js)
+- [x] Backend Server (tRPC)
 
 ## Screenshots
 
@@ -21,25 +21,25 @@ Requires Yarn (if you don't have yarn, install it by `npm install -g yarn`)
 
 Install Dependencies
 
-```
+```ps1
 yarn
 ```
 
-To Run The Website/Backend (Next.js + tRPC) at http://localhost:3000:
+To Run The Website/Backend (Next.js + tRPC) at <http://localhost:3000>:
 
-```
+```ps1
 yarn web dev
 ```
 
 To Run The Desktop App (Tauri + Vite):
 
-```
+```ps1
 yarn desktop dev
 ```
 
 To Run The Mobile Expo App:
 
-```
+```ps1
 yarn mobile dev
 ```
 

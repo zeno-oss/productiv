@@ -3,7 +3,6 @@ node_modules
 .todo
 backup
 
-
 # Turbo
 turbo-*.log
 
@@ -142,3 +141,4 @@ yarn-error.log*
 
 # Tauri
 target/
+productiv.code-workspace
