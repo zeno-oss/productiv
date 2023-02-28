@@ -8,9 +8,9 @@ import { View } from "react-native";
 export const DoneTaskScreen = ({}: TaskBottomTabsScreenProps<"Done">) => {
   const user = useAtomValue(userAtom);
 
-  const allTasks = api.task.getAllTasks.useQuery();
+  const completedTasks = api.task.getCompletedTasks.useQuery();
 
-  if (!allTasks.data || !user)
+  if (!completedTasks.data || !user)
     return (
       <View className="flex-1 items-center justify-center">
         <Text>Loading...</Text>
@@ -18,7 +18,7 @@ export const DoneTaskScreen = ({}: TaskBottomTabsScreenProps<"Done">) => {
     );
 
   function refreshTaskHandler() {
-    allTasks.refetch();
+    completedTasks.refetch();
   }
 
   return (
@@ -26,9 +26,9 @@ export const DoneTaskScreen = ({}: TaskBottomTabsScreenProps<"Done">) => {
       <TaskHeader
         name={user.name}
         onRefresh={refreshTaskHandler}
-        taskCount={allTasks.data.length}
+        taskCount={completedTasks.data.length}
       />
-      <TaskList tasks={allTasks.data} />
+      <TaskList tasks={completedTasks.data} />
     </View>
   );
 };

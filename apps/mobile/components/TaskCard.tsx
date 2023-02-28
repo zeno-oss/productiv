@@ -1,4 +1,4 @@
-import { Calendar, Clock, Edit, MarkAsDone } from "$themes";
+import { Calendar, Clock, Delete, Edit, MarkAsDone } from "$themes";
 import { formatDate, formatTime } from "$utils";
 import { TASKS_PALETTE } from "$variables";
 import { Task } from "@prisma/client";
@@ -11,6 +11,7 @@ import { Text } from "./Text";
 type TaskCardProps = {
   task: Task;
   onDeleteTask: (taskId: string) => void;
+  onCompleteTask: (taskId: string) => void;
   onEditTask: (task: Task) => void;
 };
 
@@ -18,6 +19,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onEditTask,
   onDeleteTask,
+  onCompleteTask,
 }) => {
   const { shade, labels, endTime, title, startTime, id, description } = task;
 
@@ -40,9 +42,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         <Text className="text-xl" variant="bold">
           {title}
         </Text>
-        <Pressable onPress={() => onEditTask(task)}>
-          <Edit />
-        </Pressable>
+        <View className="flex-row gap-x-2">
+          <Pressable onPress={() => onDeleteTask(task.id)}>
+            <Delete />
+          </Pressable>
+          <Pressable onPress={() => onEditTask(task)}>
+            <Edit />
+          </Pressable>
+        </View>
       </View>
       <View>
         {description && (
@@ -73,11 +80,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   ))}
             </View>
           </View>
-          <View>
-            <Pressable onPress={() => onDeleteTask(id)}>
+          {task.status !== "DONE" && (
+            <Pressable onPress={() => onCompleteTask(id)}>
               <MarkAsDone />
             </Pressable>
-          </View>
+          )}
         </View>
       </View>
     </Card>

@@ -21,6 +21,21 @@ export const TaskList = (props: TaskListProps) => {
     onSuccess: () => {
       client.task.getTodaysTasks.invalidate();
       client.task.getAllTasks.invalidate();
+      client.task.getCompletedTasks.invalidate();
+      Toast.show({
+        type: "error",
+        text1: "Trashed 🗑",
+        text2: "Task deleted!",
+        position: "bottom",
+      });
+    },
+  });
+
+  const completeTask = api.task.completeTask.useMutation({
+    onSuccess: () => {
+      client.task.getTodaysTasks.invalidate();
+      client.task.getAllTasks.invalidate();
+      client.task.getCompletedTasks.invalidate();
       Toast.show({
         type: "success",
         text1: "Yoohoo!🥳",
@@ -42,6 +57,10 @@ export const TaskList = (props: TaskListProps) => {
     deleteTask.mutate(taskId);
   }
 
+  function completeTaskHandler(taskId: string) {
+    completeTask.mutate(taskId);
+  }
+
   return (
     <>
       {tasks.length === 0 ? (
@@ -58,6 +77,7 @@ export const TaskList = (props: TaskListProps) => {
               key={task.id}
               onDeleteTask={deleteTaskHandler}
               onEditTask={editTaskHandler}
+              onCompleteTask={completeTaskHandler}
             />
           ))}
         </ScrollView>
