@@ -1,3 +1,4 @@
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { DrawerScreenProps } from "@react-navigation/drawer";
 import type {
   CompositeScreenProps,
@@ -27,4 +28,16 @@ export type HomeDrawerScreenProps<T extends keyof HomeDrawerParamList> =
   CompositeScreenProps<
     DrawerScreenProps<HomeDrawerParamList, T>,
     RootNativeStackScreenProps<keyof RootNativeStackParamList>
+  >;
+
+export type TaskBottomTabsParamList = {
+  Today: undefined;
+  Upcoming: undefined;
+  Done: undefined;
+};
+
+export type TaskBottomTabsScreenProps<T extends keyof TaskBottomTabsParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<TaskBottomTabsParamList, T>,
+    HomeDrawerScreenProps<"TaskManager">
   >;

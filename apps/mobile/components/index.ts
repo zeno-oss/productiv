@@ -8,5 +8,8 @@ export * from "./Pill";
 export * from "./PrimaryButton";
 export * from "./ProfilePic";
 export * from "./TaskCard";
+export * from "./TaskHeader";
+export * from "./TaskList";
+export * from "./TaskTabBar";
 export * from "./Text";
 export * from "./TextInput";

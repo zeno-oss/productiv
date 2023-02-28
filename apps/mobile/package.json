@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/datetimepicker": "6.5.2",
+    "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/drawer": "^6.5.8",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
@@ -22,7 +23,7 @@
     "expo-dev-client": "~2.0.1",
     "expo-font": "~11.0.1",
     "expo-linear-gradient": "~12.0.1",
-    "expo-linking": "~3.3.0",
+    "expo-linking": "~3.3.1",
     "expo-random": "~13.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",

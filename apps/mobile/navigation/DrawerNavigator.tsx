@@ -2,11 +2,12 @@ import { HomeDrawerParamList, HomeDrawerScreenProps } from "$types";
 import { Pressable } from "react-native";
 
 import { ProfilePic } from "$components";
-import { TabOneScreen, TabTwoScreen, TaskManagerScreen } from "$screens";
+import { TabOneScreen, TabTwoScreen } from "$screens";
 import { Hamburger } from "$themes";
 import { FontAwesome } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
+import TaskBottomTabsNavigator from "./BottomTabNavigator";
 
 const Drawer = createDrawerNavigator<HomeDrawerParamList>();
 
@@ -31,7 +32,7 @@ function DrawerNavigator() {
     >
       <Drawer.Screen
         name="TaskManager"
-        component={TaskManagerScreen}
+        component={TaskBottomTabsNavigator}
         options={{
           title: "Task Manager",
           drawerIcon: ({ color }) => <TabBarIcon name="check" color={color} />,

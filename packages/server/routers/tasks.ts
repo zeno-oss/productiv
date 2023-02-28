@@ -13,8 +13,20 @@ export const taskRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getTasks: publicProcedure.query(async () => {
+  getAllTasks: publicProcedure.query(async () => {
     return await prisma.task.findMany({
+      orderBy: {
+        startTime: "asc",
+      },
+    });
+  }),
+  getTodaysTasks: publicProcedure.query(async () => {
+    return await prisma.task.findMany({
+      where: {
+        startTime: {
+          lte: new Date(new Date().setHours(23, 59, 59, 999)),
+        },
+      },
       orderBy: {
         startTime: "asc",
       },
