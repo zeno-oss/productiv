@@ -18,6 +18,11 @@ export const taskRouter = createTRPCRouter({
       orderBy: {
         startTime: "asc",
       },
+      where: {
+        status: {
+          not: "DONE",
+        },
+      },
     });
   }),
   getTodaysTasks: publicProcedure.query(async () => {
@@ -26,6 +31,19 @@ export const taskRouter = createTRPCRouter({
         startTime: {
           lte: new Date(new Date().setHours(23, 59, 59, 999)),
         },
+        status: {
+          not: "DONE",
+        },
+      },
+      orderBy: {
+        startTime: "asc",
+      },
+    });
+  }),
+  getCompletedTasks: publicProcedure.query(async () => {
+    return await prisma.task.findMany({
+      where: {
+        status: "DONE",
       },
       orderBy: {
         startTime: "asc",
@@ -58,6 +76,18 @@ export const taskRouter = createTRPCRouter({
           ...input,
           status: status as Status,
           shade: shade as Color,
+        },
+      });
+    }),
+  completeTask: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      return await prisma.task.update({
+        where: {
+          id: input,
+        },
+        data: {
+          status: "DONE",
         },
       });
     }),
