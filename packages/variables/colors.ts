@@ -1,5 +1,5 @@
-import PALETTE from "../../colors";
-
+import PALETTE from "../../colors.json";
+console.log({ PALETTE: PALETTE });
 const TASKS_PALETTE = {
   BANANA: {
     backgroundColor: "banana",
