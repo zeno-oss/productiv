@@ -11,6 +11,10 @@
     "build": "tauri build"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.1",
+    "@mantine/hooks": "^6.0.1",
+    "@mantine/modals": "^6.0.1",
     "@tauri-apps/api": "^1.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.7.0",

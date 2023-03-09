@@ -1,9 +1,20 @@
 import { Task } from "@prisma/client";
 import { HiOutlineCalendar, HiOutlineClock, HiPencil } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
+import { api } from "../utils/trpc";
 type Shade = keyof typeof PALETTE;
 type TaskCardProps = { task: Task };
 const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
+  const { mutateAsync: markTaskAsCompleted } =
+    api.task.completeTask.useMutation();
+  const {
+    data: tasks,
+    refetch: refetchTasks,
+    isLoading,
+    isFetching,
+  } = api.task.getAllTasks.useQuery();
+  const { mutateAsync: editTask } = api.task.editTask.useMutation();
+
   if (!task)
     return (
       <div className="w-fit rounded-xl border border-black py-4 px-6">
@@ -17,7 +28,7 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
       style={{
         backgroundColor: PALETTE[TASKS_PALETTE[task.shade].backgroundColor],
       }}
-      className="w-[300px] cursor-pointer rounded-xl border border-black py-4 px-6 transition-all hover:-translate-y-1 hover:shadow-sm"
+      className={`w-[300px] cursor-pointer rounded-xl border border-black py-4 px-6 transition-all hover:-translate-y-1 hover:shadow-sm `}
       onClick={() => {
         alert(
           `clicked on ${task.title} with id: ${task.id}, actual functionality coming soon`,
@@ -71,8 +82,24 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
             </div>
           </div>
           <div className="flex flex-1 items-end justify-end ">
-            <div onClick={() => {}} className=" ">
-              <div className="h-5 w-5 rounded-full border-2 border-black"></div>
+            <div
+              onClick={async (e) => {
+                e.stopPropagation();
+                if (task.status === "DONE") {
+                  alert("Marking task as incomplete");
+                  editTask({ ...task, status: "TODO" });
+                  return;
+                }
+                await markTaskAsCompleted(task.id);
+                refetchTasks();
+              }}
+              className=" "
+            >
+              <div
+                className={`h-5 w-5 rounded-full border-2 border-black ${
+                  task.status === "DONE" ? "border-4 bg-white" : ""
+                }`}
+              ></div>
             </div>
           </div>
         </div>
