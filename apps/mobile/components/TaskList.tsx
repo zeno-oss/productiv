@@ -19,9 +19,7 @@ export const TaskList = (props: TaskListProps) => {
 
   const deleteTask = api.task.deleteTask.useMutation({
     onSuccess: () => {
-      client.task.getTodaysTasks.invalidate();
-      client.task.getAllTasks.invalidate();
-      client.task.getCompletedTasks.invalidate();
+      client.task.getTasks.invalidate();
       Toast.show({
         type: "error",
         text1: "Trashed 🗑",
@@ -33,9 +31,7 @@ export const TaskList = (props: TaskListProps) => {
 
   const completeTask = api.task.completeTask.useMutation({
     onSuccess: () => {
-      client.task.getTodaysTasks.invalidate();
-      client.task.getAllTasks.invalidate();
-      client.task.getCompletedTasks.invalidate();
+      client.task.getTasks.invalidate();
       Toast.show({
         type: "success",
         text1: "Yoohoo!🥳",

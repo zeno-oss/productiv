@@ -8,7 +8,7 @@ import { View } from "react-native";
 export const DoneTaskScreen = ({}: TaskBottomTabsScreenProps<"Done">) => {
   const user = useAtomValue(userAtom);
 
-  const completedTasks = api.task.getCompletedTasks.useQuery();
+  const completedTasks = api.task.getTasks.useQuery("DONE");
 
   if (!completedTasks.data || !user)
     return (

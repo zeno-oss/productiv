@@ -9,7 +9,7 @@ export const UpcomingTaskScreen =
   ({}: TaskBottomTabsScreenProps<"Upcoming">) => {
     const user = useAtomValue(userAtom);
 
-    const allTasks = api.task.getAllTasks.useQuery();
+    const allTasks = api.task.getTasks.useQuery("UPCOMING");
 
     if (!allTasks.data || !user)
       return (

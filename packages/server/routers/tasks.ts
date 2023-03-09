@@ -13,43 +13,53 @@ export const taskRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getAllTasks: publicProcedure.query(async () => {
-    return await prisma.task.findMany({
-      orderBy: {
-        startTime: "asc",
-      },
-      where: {
-        status: {
-          not: "DONE",
+  getTasks: publicProcedure
+    .input(z.enum(["UPCOMING", "TODAY", "DONE"]))
+    .query(async ({ input }) => {
+      type TFindManyTasks = Parameters<typeof prisma.task.findMany>[0];
+      let options: TFindManyTasks = {
+        orderBy: {
+          startTime: "asc",
         },
-      },
-    });
-  }),
-  getTodaysTasks: publicProcedure.query(async () => {
-    return await prisma.task.findMany({
-      where: {
-        startTime: {
-          lte: new Date(new Date().setHours(23, 59, 59, 999)),
-        },
-        status: {
-          not: "DONE",
-        },
-      },
-      orderBy: {
-        startTime: "asc",
-      },
-    });
-  }),
-  getCompletedTasks: publicProcedure.query(async () => {
-    return await prisma.task.findMany({
-      where: {
-        status: "DONE",
-      },
-      orderBy: {
-        startTime: "asc",
-      },
-    });
-  }),
+      };
+      switch (input) {
+        case "UPCOMING":
+          options = {
+            ...options,
+            where: {
+              startTime: {
+                gt: new Date(new Date().setHours(23, 59, 59, 999)),
+              },
+              status: {
+                not: "DONE",
+              },
+            },
+          };
+          break;
+        case "TODAY":
+          options = {
+            ...options,
+            where: {
+              startTime: {
+                lte: new Date(new Date().setHours(23, 59, 59, 999)),
+              },
+              status: {
+                not: "DONE",
+              },
+            },
+          };
+          break;
+        case "DONE":
+          options = {
+            ...options,
+            where: {
+              status: "DONE",
+            },
+          };
+          break;
+      }
+      return await prisma.task.findMany(options);
+    }),
   addTask: publicProcedure
     .input(ZTask)
     .mutation(async ({ input: { status, shade, ...input } }) => {
