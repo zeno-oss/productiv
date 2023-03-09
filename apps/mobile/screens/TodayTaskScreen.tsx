@@ -8,7 +8,7 @@ import { View } from "react-native";
 export const TodayTaskScreen = ({}: TaskBottomTabsScreenProps<"Today">) => {
   const user = useAtomValue(userAtom);
 
-  const todaysTask = api.task.getTodaysTasks.useQuery();
+  const todaysTask = api.task.getTasks.useQuery("TODAY");
 
   if (!todaysTask.data || !user)
     return (
