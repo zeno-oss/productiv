@@ -1,18 +1,17 @@
 import { Task } from "@prisma/client";
-import { HiOutlineCalendar, HiOutlineClock, HiPencil } from "react-icons/hi";
+import {
+  HiOutlineCalendar,
+  HiOutlineClock,
+  HiPencil,
+  HiTrash,
+} from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
-type Shade = keyof typeof PALETTE;
-type TaskCardProps = { task: Task };
-const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
+type TaskCardProps = { task: Task; refetchTasks: () => void };
+const TaskCard = ({ task, refetchTasks }: TaskCardProps): JSX.Element => {
   const { mutateAsync: markTaskAsCompleted } =
     api.task.completeTask.useMutation();
-  const {
-    data: tasks,
-    refetch: refetchTasks,
-    isLoading,
-    isFetching,
-  } = api.task.getAllTasks.useQuery();
+  const { mutateAsync: deleteTask } = api.task.deleteTask.useMutation();
   const { mutateAsync: editTask } = api.task.editTask.useMutation();
 
   if (!task)
@@ -28,16 +27,52 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
       style={{
         backgroundColor: PALETTE[TASKS_PALETTE[task.shade].backgroundColor],
       }}
-      className={`w-[300px] cursor-pointer rounded-xl border border-black py-4 px-6 transition-all hover:-translate-y-1 hover:shadow-sm `}
+      className={`w-[300px] cursor-pointer flex-row items-center justify-between rounded-xl border border-black py-4 px-6 pb-2 transition-all hover:-translate-y-1 hover:shadow-sm`}
       onClick={() => {
         alert(
           `clicked on ${task.title} with id: ${task.id}, actual functionality coming soon`,
         );
       }}
     >
-      <div className="mb-2 flex-row items-center justify-between">
-        <div className="flex flex-1 justify-between gap-4">
-          <div className="flex flex-1 gap-1 overflow-auto">
+      <div className="flex items-center justify-between gap-4">
+        <div className=" text-xl font-bold">{task.title}</div>
+        <div className="flex gap-1">
+          <button
+            className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg text-2xl text-black"
+            onClick={async (e) => {
+              e.stopPropagation();
+              await deleteTask(task.id);
+              refetchTasks();
+            }}
+          >
+            <HiTrash className="text-2xl" />
+          </button>
+          <button className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white ">
+            <HiPencil className="text-lg" />
+          </button>
+        </div>
+      </div>
+      <div className="max-w-[20ch] overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
+        {task.description}
+      </div>
+      <div className="my-2 flex flex-1">
+        <div className="flex flex-1 flex-col justify-between gap-2">
+          <div className="flex flex-col items-start">
+            <div className="flex items-center justify-center gap-2">
+              <HiOutlineCalendar className="text-lg" />
+              <span className="text-sm">{task.endTime.toDateString()}</span>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <HiOutlineClock className="text-lg" />
+              <span className="text-sm">
+                {task.endTime.toLocaleTimeString("en-GB", {
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-1 gap-1 overflow-auto ">
             {task.labels &&
               task.labels
                 .split(",")
@@ -54,53 +89,30 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
                     {label}{" "}
                   </span>
                 ))}
-            {!task.labels && <span className="text-xs italic">No Labels</span>}
             <span className="rounded-full text-sm">
               {task.labels && task.labels.split(",").length > 3 && "..."}
             </span>
           </div>
-          <div className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white ">
-            <HiPencil className="text-lg" />
-          </div>
         </div>
-
-        <div className="my-2 text-xl font-bold">{task.title}</div>
-        <div className="flex justify-between">
-          <div className="flex flex-col items-start">
-            <div className="flex items-center justify-center gap-2">
-              <HiOutlineCalendar className="text-lg" />
-              <span className="text-sm">{task.endTime.toDateString()}</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <HiOutlineClock className="text-lg" />
-              <span className="text-sm">
-                {task.endTime.toLocaleTimeString("en-GB", {
-                  hour: "numeric",
-                  minute: "numeric",
-                })}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-1 items-end justify-end ">
-            <div
-              onClick={async (e) => {
-                e.stopPropagation();
-                if (task.status === "DONE") {
-                  alert("Marking task as incomplete");
-                  editTask({ ...task, status: "TODO" });
-                  return;
-                }
-                await markTaskAsCompleted(task.id);
-                refetchTasks();
-              }}
-              className=" "
-            >
-              <div
-                className={`h-5 w-5 rounded-full border-2 border-black ${
-                  task.status === "DONE" ? "border-4 bg-white" : ""
-                }`}
-              ></div>
-            </div>
+        <div className="flex items-end justify-end ">
+          <div
+            onClick={async (e) => {
+              e.stopPropagation();
+              if (task.status === "DONE") {
+                alert("Marking task as incomplete");
+                editTask({ ...task, status: "TODO" });
+                return;
+              }
+              await markTaskAsCompleted(task.id);
+              refetchTasks();
+            }}
+            className=" "
+          >
+            <button
+              className={`h-5 w-5 rounded-full border-2 border-black transition-all duration-200 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                task.status === "DONE" ? "border-4 bg-white" : ""
+              }`}
+            ></button>
           </div>
         </div>
       </div>

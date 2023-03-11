@@ -8,7 +8,7 @@ const Sidebar = () => {
     <div className="flex h-full w-[30%] min-w-fit max-w-xs flex-col gap-2 border-r border-black p-4">
       {routes.map((route) => {
         return (
-          <Link to={route.path} className="rounded-lg">
+          <Link to={route.path} className="rounded-lg" key={route.navbarText}>
             <NavbarItem
               active={location.pathname === route.path}
               text={route.navbarText}
