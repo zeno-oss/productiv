@@ -14,10 +14,12 @@ function CreateTaskModal({
   opened,
   open,
   close,
+  refetch,
 }: {
   opened: boolean;
   open: () => void;
   close: () => void;
+  refetch: () => void;
 }) {
   const form = useForm<z.infer<typeof ZTask>>();
   const [shade, setShade] = useState<TaskColor>("BANANA");
@@ -60,6 +62,7 @@ function CreateTaskModal({
             userId: "dummy",
           });
           if (resp && resp.createdAt) {
+            refetch();
             notifications.show({
               title: "Task Created Successfully",
               message: "Your task has been created successfully",

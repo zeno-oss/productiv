@@ -27,7 +27,7 @@ const TaskCard = ({ task, refetchTasks }: TaskCardProps): JSX.Element => {
       style={{
         backgroundColor: PALETTE[TASKS_PALETTE[task.shade].backgroundColor],
       }}
-      className={`w-[300px] cursor-pointer flex-row items-center justify-between rounded-xl border border-black py-4 px-6 pb-2 transition-all hover:-translate-y-1 hover:shadow-sm`}
+      className={`h-fit cursor-pointer flex-row items-center justify-between rounded-xl border border-black py-4 px-6 pb-2 transition-all hover:-translate-y-1 hover:shadow-sm`}
       onClick={() => {
         alert(
           `clicked on ${task.title} with id: ${task.id}, actual functionality coming soon`,

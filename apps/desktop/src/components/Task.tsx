@@ -85,17 +85,7 @@ const Task: React.FC = () => {
         <hr />
         {tabIndex !== 2 && (
           <h1 className="px-8 py-4 font-bold">
-            You have{" "}
-            {tasks &&
-              tasks?.filter((task) => {
-                if (tabIndex === 0)
-                  return task.endTime < new Date() && task.status !== "DONE";
-                if (tabIndex === 1)
-                  return task.endTime > new Date() && task.status !== "DONE";
-                if (tabIndex === 2) return task.status === "DONE";
-                return task;
-              }).length}{" "}
-            Task
+            You have {tasks && tasks.length} Task
             {tasks &&
               tasks?.filter((task) => {
                 if (tabIndex === 0)
@@ -110,45 +100,33 @@ const Task: React.FC = () => {
           </h1>
         )}
         <div className=" max-h-[60vh] overflow-y-scroll p-8 pt-4">
-          <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2 xl:grid-cols-4">
             {tasks &&
-              tasks
-                ?.filter((task) => {
-                  if (tabIndex === 0)
-                    return task.endTime < new Date() && task.status !== "DONE";
-                  if (tabIndex === 1)
-                    return task.endTime > new Date() && task.status !== "DONE";
-                  if (tabIndex === 2) return task.status === "DONE";
-                  return task;
-                })
-                .map((task) => (
-                  <TaskCard
-                    task={task}
-                    key={task.id}
-                    refetchTasks={refetchTasks}
-                  />
-                ))}
+              tasks.map((task) => (
+                <TaskCard
+                  task={task}
+                  key={task.id}
+                  refetchTasks={refetchTasks}
+                />
+              ))}
 
-            {tasks &&
-              tasks?.filter((task) => {
-                if (tabIndex === 0)
-                  return task.endTime < new Date() && task.status !== "DONE";
-                if (tabIndex === 1)
-                  return task.endTime > new Date() && task.status !== "DONE";
-                if (tabIndex === 2) return task.status === "DONE";
-                return task;
-              }).length < 1 && (
-                <div className="whitespace-nowrap text-xl font-semibold italic text-gray-500">
-                  Nothing tasks in {tabIndex === 0 && <span>Today & Past</span>}
-                  {tabIndex === 1 && <span>Upcoming</span>}
-                  {tabIndex === 2 && <span>Done</span>} section{" "}
-                  <span className="not-italic">🥳</span>
-                </div>
-              )}
+            {tasks && tasks.length < 1 && (
+              <div className="whitespace-nowrap text-xl font-semibold italic text-gray-500">
+                Nothing tasks in {tabIndex === 0 && <span>Today & Past</span>}
+                {tabIndex === 1 && <span>Upcoming</span>}
+                {tabIndex === 2 && <span>Done</span>} section{" "}
+                <span className="not-italic">🥳</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <CreateTaskModal opened={opened} open={open} close={close} />
+      <CreateTaskModal
+        opened={opened}
+        open={open}
+        close={close}
+        refetch={refetchTasks}
+      />
     </div>
   );
 };
