@@ -22,6 +22,7 @@ export type HomeDrawerParamList = {
   TabOne: undefined;
   TabTwo: undefined;
   TaskManager: undefined;
+  NotesManager: undefined;
 };
 
 export type HomeDrawerScreenProps<T extends keyof HomeDrawerParamList> =

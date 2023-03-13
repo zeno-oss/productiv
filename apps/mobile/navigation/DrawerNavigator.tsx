@@ -2,7 +2,7 @@ import { HomeDrawerParamList, HomeDrawerScreenProps } from "$types";
 import { Pressable } from "react-native";
 
 import { ProfilePic } from "$components";
-import { TabOneScreen, TabTwoScreen } from "$screens";
+import { NotesManager, TabOneScreen, TabTwoScreen } from "$screens";
 import { Hamburger } from "$themes";
 import { FontAwesome } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -36,6 +36,16 @@ function DrawerNavigator() {
         options={{
           title: "Task Manager",
           drawerIcon: ({ color }) => <TabBarIcon name="check" color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="NotesManager"
+        component={NotesManager}
+        options={{
+          title: "Notes Manager",
+          drawerIcon: ({ color }) => (
+            <TabBarIcon name="sticky-note" color={color} />
+          ),
         }}
       />
       <Drawer.Screen
