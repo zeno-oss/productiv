@@ -14,36 +14,31 @@ export const notesRouter = createTRPCRouter({
       };
     }),
   getNotes: publicProcedure.query(async ({ input }) => {
-    type TFindManyTasks = Parameters<typeof prisma.task.findMany>[0];
-    let options: TFindManyTasks = {
-      orderBy: {
-        startTime: "asc",
+    const { userId }: any = input;
+    return await prisma.note.findMany({
+      where: {
+        userId,
       },
-    };
-
-    return await prisma.task.findMany(options);
+    });
   }),
   addNote: publicProcedure
     .input(ZNote)
     .mutation(async ({ input: { shade, ...input } }) => {
-      return await prisma.task.create({
+      return await prisma.note.create({
         data: {
           ...input,
-          status: "TODO" as Status, // --
-          endTime: new Date(), // --
-          startTime: new Date(), // --
           shade: shade as Color,
         },
       });
     }),
-  editTask: publicProcedure
+  editNote: publicProcedure
     .input(
       ZNote.extend({
         id: z.string(),
       }),
     )
     .mutation(async ({ input: { shade, ...input } }) => {
-      return await prisma.task.update({
+      return await prisma.note.update({
         where: {
           id: input.id,
         },
@@ -53,20 +48,9 @@ export const notesRouter = createTRPCRouter({
         },
       });
     }),
-  completeTask: publicProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      return await prisma.task.update({
-        where: {
-          id: input,
-        },
-        data: {
-          status: "DONE",
-        },
-      });
-    }),
-  deleteTask: publicProcedure.input(z.string()).mutation(async ({ input }) => {
-    return await prisma.task.delete({
+
+  deleteNote: publicProcedure.input(z.string()).mutation(async ({ input }) => {
+    return await prisma.note.delete({
       where: {
         id: input,
       },
