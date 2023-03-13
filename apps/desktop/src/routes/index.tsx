@@ -1,3 +1,4 @@
+import NotesPage from "../pages/NotesPage";
 import TaskPage from "../pages/TaskPage";
 
 const routes = [
@@ -14,8 +15,8 @@ const routes = [
   },
   {
     path: "/notes",
-    element: <TaskPage />,
-    nameOfComponent: "TaskPage", // This is optional: it's used for debugging
+    element: <NotesPage />,
+    nameOfComponent: "NotesPage", // This is optional: it's used for debugging
     navbarText: "My Notes",
   },
 ];

@@ -4,14 +4,16 @@ import { useState } from "react";
 import { HiOutlinePlus, HiOutlineRefresh } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
-import CreateTaskModal from "./CreateTaskModal";
-import TaskCard from "./TaskCard";
+import CreateNoteModal from "./CreateNoteModal";
+import NoteCard from "./NoteCard";
 import ViewChildrenInModal from "./ViewChildrenInModal";
-
-const Task: React.FC = () => {
+const Notes: React.FC = () => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [openedView, { open: openView, close: closeView }] =
     useDisclosure(false);
-  let dummyTask: Task = {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const [viewModalData, setViewModalData] = useState<Task>({
     id: "0",
     title: "",
     description: "",
@@ -23,25 +25,13 @@ const Task: React.FC = () => {
     userId: "0",
     labels: "",
     status: "IN_PROGRESS",
-  };
-  const [viewModalData, setViewModalData] = useState<Task>(dummyTask);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editData, setEditData] = useState<Task>(dummyTask);
-
-  const [opened, { open, close }] = useDisclosure(false);
-  const [tabIndex, setTabIndex] = useState(0);
-  let typeOfTasks: "TODAY" | "UPCOMING" | "DONE" =
-    tabIndex === 0 ? "TODAY" : tabIndex === 1 ? "UPCOMING" : "DONE";
+  });
   const {
     data: tasks,
     refetch: refetchTasks,
     isLoading,
     isFetching,
-  } = api.task.getTasks.useQuery(typeOfTasks);
-  const { mutateAsync: markTaskAsCompleted } =
-    api.task.completeTask.useMutation();
-  const { mutateAsync: deleteTask } = api.task.deleteTask.useMutation();
-  const { mutateAsync: editTask } = api.task.editTask.useMutation();
+  } = api.notes.getNotes.useQuery();
   return (
     <div className="flex max-h-screen w-full flex-col">
       <div className="flex h-24 items-center justify-center gap-4 border-b border-black p-4">
@@ -56,7 +46,7 @@ const Task: React.FC = () => {
           className="flex max-w-[10rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-black py-2 px-4 text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
         >
           <HiOutlinePlus />
-          Add Task
+          Create a Note
         </button>
         <button
           type="button"
@@ -75,58 +65,29 @@ const Task: React.FC = () => {
             }
             // className={` ${isLoading || isFetching ? "animate-spin" : ""}`}
           />
-          Refresh Tasks
+          Refresh Notes
         </button>
       </div>
       <div className="flex-1 items-center justify-center">
-        <div className="flex h-20 items-center justify-center gap-8 ">
-          <button
-            type="button"
-            onClick={() => setTabIndex(0)}
-            className={`flex cursor-pointer items-center justify-center rounded-full border-2 px-5 py-1 text-sm font-medium transition-all duration-300 ease-in-out focus:outline-black ${
-              tabIndex === 0 ? "bg-black text-white" : ""
-            }`}
-          >
-            Today & Past
-          </button>
-          <button
-            type="button"
-            onClick={() => setTabIndex(1)}
-            className={`flex cursor-pointer items-center justify-center rounded-full border-2 px-5 py-1 text-sm font-medium transition-all duration-300 ease-in-out focus:outline-black ${
-              tabIndex === 1 ? "bg-black text-white" : ""
-            }`}
-          >
-            Upcoming
-          </button>
-          <button
-            type="button"
-            onClick={() => setTabIndex(2)}
-            className={`flex cursor-pointer items-center justify-center rounded-full border-2 px-5 py-1 text-sm font-medium transition-all duration-300 ease-in-out focus:outline-black ${
-              tabIndex === 2 ? "bg-black text-white" : ""
-            }`}
-          >
-            Done
-          </button>
-        </div>
         <hr />
         {tabIndex !== 2 && (
           <h1 className="px-8 py-4 font-bold">
-            You have {tasks && tasks.length} Task
+            You have {tasks && tasks.length} Note
             {tasks && tasks.length > 1 && "s"}.
           </h1>
         )}
         <div className=" max-h-[60vh] overflow-y-scroll p-8 pt-4">
-          <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2">
             {tasks &&
               tasks.map((task) => (
-                <TaskCard
+                <NoteCard
                   task={task}
                   key={task.id}
                   refetchTasks={refetchTasks}
-                  setData={setViewModalData}
+                  opened={openedView}
                   open={openView}
-                  setIsEditing={setIsEditing}
-                  setEditData={setEditData}
+                  close={closeView}
+                  setData={setViewModalData}
                 />
               ))}
 
@@ -141,13 +102,11 @@ const Task: React.FC = () => {
           </div>
         </div>
       </div>
-      <CreateTaskModal
+      <CreateNoteModal
         opened={opened}
         open={open}
         close={close}
         refetch={refetchTasks}
-        isEditing={isEditing}
-        editData={editData}
       />
       <ViewChildrenInModal
         opened={openedView}
@@ -162,43 +121,15 @@ const Task: React.FC = () => {
       >
         <div className="flex min-h-[50vh] flex-col gap-4">
           <h1
-            className="flex gap-4 border-b-2 pb-2 text-3xl font-bold"
+            className="border-b-2 pb-2 text-3xl font-bold"
             style={{
               borderColor:
                 PALETTE[TASKS_PALETTE[viewModalData?.shade].borderColor],
             }}
           >
-            <div className="flex-1">{viewModalData?.title}</div>{" "}
-            <div
-              onClick={async (e) => {
-                e.stopPropagation();
-                if (viewModalData.status === "DONE") {
-                  alert("Marking task as incomplete");
-                  editTask({ ...viewModalData, status: "TODO" });
-                  closeView();
-                  return;
-                }
-                await markTaskAsCompleted(viewModalData.id);
-                refetchTasks();
-                closeView();
-              }}
-              className="flex w-fit cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-4 text-sm opacity-50 hover:opacity-100 "
-            >
-              Mark as Done
-            </div>
+            {viewModalData?.title}
           </h1>
-          <p className="flex-[2]">{viewModalData?.description}</p>
-          <div className="flex  flex-col">
-            <div className="flex gap-2">
-              <b>Start Time:</b>
-              <div>{viewModalData?.startTime.toLocaleString("en-GB")}</div>
-            </div>
-            <div className="flex gap-2">
-              <b>End Time:</b>
-              <div>{viewModalData?.endTime.toLocaleString("en-GB")}</div>
-            </div>
-          </div>
-
+          <p className="flex-1">{viewModalData?.description}</p>
           <div className="flex gap-2">
             {viewModalData?.labels &&
               viewModalData.labels.split(",").map((label) => (
@@ -220,4 +151,4 @@ const Task: React.FC = () => {
   );
 };
 
-export default Task;
+export default Notes;

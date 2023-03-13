@@ -7,8 +7,24 @@ import {
 } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
-type TaskCardProps = { task: Task; refetchTasks: () => void };
-const TaskCard = ({ task, refetchTasks }: TaskCardProps): JSX.Element => {
+type TaskCardProps = {
+  task: Task;
+  refetchTasks: () => void;
+  opened?: boolean;
+  open: () => void;
+  close?: () => void;
+  setData: (data: Task) => void;
+  setIsEditing: (isEditing: boolean) => void;
+  setEditData: (editData: Task) => void;
+};
+const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  refetchTasks,
+  setData,
+  open,
+  setIsEditing,
+  setEditData,
+}): JSX.Element => {
   const { mutateAsync: markTaskAsCompleted } =
     api.task.completeTask.useMutation();
   const { mutateAsync: deleteTask } = api.task.deleteTask.useMutation();
@@ -29,9 +45,11 @@ const TaskCard = ({ task, refetchTasks }: TaskCardProps): JSX.Element => {
       }}
       className={`h-fit cursor-pointer flex-row items-center justify-between rounded-xl border border-black py-4 px-6 pb-2 transition-all hover:-translate-y-1 hover:shadow-sm`}
       onClick={() => {
-        alert(
-          `clicked on ${task.title} with id: ${task.id}, actual functionality coming soon`,
-        );
+        setData(task);
+        open();
+        // alert(
+        //   `clicked on ${task.title} with id: ${task.id}, actual functionality coming soon`,
+        // );
       }}
     >
       <div className="flex items-center justify-between gap-4">
@@ -47,7 +65,15 @@ const TaskCard = ({ task, refetchTasks }: TaskCardProps): JSX.Element => {
           >
             <HiTrash className="text-2xl" />
           </button>
-          <button className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white ">
+          <button
+            className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // open();
+              setIsEditing(true);
+            }}
+          >
             <HiPencil className="text-lg" />
           </button>
         </div>
