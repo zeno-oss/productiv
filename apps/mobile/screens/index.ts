@@ -1,3 +1,4 @@
+export * from "./AddNoteScreen";
 export * from "./AddTaskScreen";
 export * from "./DoneTaskScreen";
 export * from "./ModalScreen";

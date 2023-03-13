@@ -1,4 +1,5 @@
 import {
+  AddNoteScreen,
   AddTaskScreen,
   ModalScreen,
   NotFoundScreen,
@@ -37,6 +38,11 @@ function StackNavigator() {
       <Stack.Screen
         name="AddTask"
         component={AddTaskScreen}
+        options={{ animation: "slide_from_bottom" }}
+      />
+      <Stack.Screen
+        name="AddNote"
+        component={AddNoteScreen}
         options={{ animation: "slide_from_bottom" }}
       />
       <Stack.Screen
