@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Color, Status } from "@prisma/client";
+import { Color } from "@prisma/client";
 import { prisma } from "../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { ZNote } from "../types";
@@ -13,11 +13,11 @@ export const notesRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getNotes: publicProcedure.query(async ({ input }) => {
-    const { userId }: any = input;
+  getNotes: publicProcedure.input(z.string()).query(async ({ input }) => {
+    console.log(input);
     return await prisma.note.findMany({
       where: {
-        userId,
+        userId: input,
       },
     });
   }),
