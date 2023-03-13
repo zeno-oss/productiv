@@ -70,8 +70,8 @@ const TaskCard: React.FC<TaskCardProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              // open();
               setIsEditing(true);
+              setEditData(task);
             }}
           >
             <HiPencil className="text-lg" />

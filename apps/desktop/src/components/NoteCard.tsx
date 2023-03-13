@@ -1,45 +1,48 @@
-import { Task } from "@prisma/client";
+import { notifications } from "@mantine/notifications";
+import { Note } from "@prisma/client";
 import { HiPencil, HiTrash } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
 
 type NoteCardProps = {
-  task: Task;
-  refetchTasks: () => void;
+  note: Note;
+  refetchNotes: () => void;
   opened: boolean;
   open: () => void;
   close: () => void;
-  setData: (data: Task) => void;
+  setData: (data: Note) => void; //set view data
+  setEditData: (editData: Note) => void;
+  setIsEditing: (isEditing: boolean) => void;
 };
 
 const NoteCard: React.FC<NoteCardProps> = ({
-  task,
-  refetchTasks,
+  note,
+  refetchNotes,
   open,
   close,
   setData,
+  setEditData,
+  setIsEditing,
 }) => {
-  const { mutateAsync: markTaskAsCompleted } =
-    api.task.completeTask.useMutation();
-  const { mutateAsync: deleteTask } = api.task.deleteTask.useMutation();
-  const { mutateAsync: editTask } = api.task.editTask.useMutation();
+  const { mutateAsync: deleteNote } = api.notes.deleteNote.useMutation();
+  const { mutateAsync: editNote } = api.notes.editNote.useMutation();
 
-  if (!task)
+  if (!note)
     return (
       <div className="w-fit rounded-xl border border-black py-4 px-6">
-        error loading this task
+        error loading this note
       </div>
     );
 
   return (
     <div
-      key={task.id}
+      key={note.id}
       style={{
-        backgroundColor: PALETTE[TASKS_PALETTE[task.shade].backgroundColor],
+        backgroundColor: PALETTE[TASKS_PALETTE[note.shade].backgroundColor],
       }}
       className={`cursor-pointer flex-row items-center justify-between rounded-xl border border-black py-4 px-6 pb-2 transition-all hover:scale-[101%] hover:shadow-sm`}
       onClick={() => {
-        setData(task);
+        setData(note);
         open();
 
         // alert(
@@ -48,28 +51,36 @@ const NoteCard: React.FC<NoteCardProps> = ({
       }}
     >
       <div className="flex items-center justify-between gap-4">
-        <div className=" text-xl font-bold">{task.title}</div>
+        <div className=" text-xl font-bold">{note.title}</div>
         <div className="flex gap-1">
-          <button className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white ">
+          <button
+            className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsEditing(true);
+              setEditData(note);
+            }}
+          >
             <HiPencil className="text-lg" />
           </button>
         </div>
       </div>
       <div className="max-w-[80%] overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
-        {task.description}
+        {note.note}
       </div>
       <div className="my-2 flex flex-1">
         <div className="flex flex-1 flex-col justify-between gap-2">
           <div className="flex flex-1 gap-1 overflow-auto ">
-            {task.labels &&
-              task.labels
+            {note.labels &&
+              note.labels
                 .split(",")
                 .splice(0, 5)
                 .map((label) => (
                   <span
                     style={{
                       borderColor:
-                        PALETTE[TASKS_PALETTE[task.shade].borderColor],
+                        PALETTE[TASKS_PALETTE[note.shade].borderColor],
                     }}
                     className="rounded-full border-2 px-2 text-xs"
                     key={label}
@@ -78,7 +89,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
                   </span>
                 ))}
             <span className="rounded-full text-sm">
-              {task.labels && task.labels.split(",").length > 5 && "..."}
+              {note.labels && note.labels.split(",").length > 5 && "..."}
             </span>
           </div>
         </div>
@@ -88,8 +99,16 @@ const NoteCard: React.FC<NoteCardProps> = ({
               className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg text-2xl text-black"
               onClick={async (e) => {
                 e.stopPropagation();
-                await deleteTask(task.id);
-                refetchTasks();
+                const resp = await deleteNote(note.id);
+                if (resp) {
+                  notifications.show({
+                    title: "Note deleted",
+                    message: "Note deleted successfully",
+                    color: "red",
+                    autoClose: true,
+                  });
+                }
+                refetchNotes();
               }}
             >
               <HiTrash className="text-2xl" />

@@ -1,7 +1,8 @@
 import { Modal, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { Note } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { HiCheck } from "react-icons/hi";
 import { ZNote } from "server/types";
 import { TaskColor } from "types";
@@ -14,36 +15,90 @@ function CreateNoteModal({
   open,
   close,
   refetch,
+  editData,
+  isEditing,
+  setIsEditing,
 }: {
   opened: boolean;
   open: () => void;
   close: () => void;
   refetch: () => void;
+  editData?: Note;
+  isEditing: boolean;
+  setIsEditing: any;
 }) {
+  useEffect(() => {
+    if (isEditing && editData) {
+      setShade(editData.shade);
+      form.setValues({
+        note: editData.note,
+        labels: editData.labels,
+        shade: editData.shade,
+        title: editData.title,
+        userId: "cle4rx1j40000rpisr8i0tw2j",
+      });
+      open();
+    }
+    return () => {
+      close();
+    };
+  }, [isEditing, editData]);
   const form = useForm<z.infer<typeof ZNote>>();
   const [shade, setShade] = useState<TaskColor>("BANANA");
   const { mutateAsync: createNote } = api.notes.addNote.useMutation();
+  const { mutateAsync: editNote } = api.notes.editNote.useMutation();
   return (
-    <Modal opened={opened} onClose={close} size="xl">
+    <Modal
+      opened={opened}
+      onClose={() => {
+        close();
+        setIsEditing(false);
+      }}
+      size="xl"
+    >
       <h1 className="text-xl font-semibold">Create a note</h1>
       <hr className="my-4" />
       <form
         onSubmit={form.onSubmit(async (values) => {
+          let resp;
+
           try {
-            const resp = await createNote({
-              title: values.title,
-              note: values.note,
-              labels: values.labels || "",
-              shade,
-              userId: "dummy",
-            });
+            if (editData)
+              if (!isEditing) {
+                resp = await createNote({
+                  title: values.title,
+                  note: values.note,
+                  labels: values.labels || "",
+                  shade,
+                  userId: "cle4rx1j40000rpisr8i0tw2j",
+                });
+              } else {
+                resp = await editNote({
+                  id: editData.id,
+                  title: values.title,
+                  note: values.note,
+                  labels: values.labels || "",
+                  shade,
+                  userId: "cle4rx1j40000rpisr8i0tw2j",
+                });
+              }
             if (resp && resp.createdAt) {
               refetch();
-              notifications.show({
-                title: "Task Created Successfully",
-                message: "Your task has been created successfully",
-                autoClose: true,
-              });
+              let notifcationData = isEditing
+                ? {
+                    title: "Task Edited Successfully",
+                    message: "Your task has been modified successfully",
+                    autoClose: true,
+                    color: "green",
+                  }
+                : {
+                    title: "Task Created Successfully",
+                    message: "Your task has been created successfully",
+                    autoClose: true,
+                  };
+              notifications.show(notifcationData);
+              form.reset();
+
               close();
             }
             console.log({ values, shade });

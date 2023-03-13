@@ -2,6 +2,7 @@ import { Modal, TextInput } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import { Task } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { HiCheck } from "react-icons/hi";
 import { ZTask } from "server/types";
@@ -16,20 +17,43 @@ const CreateTaskModal: React.FC<{
   close: () => void;
   refetch: () => void;
   isEditing?: boolean;
-  editData?: z.infer<typeof ZTask>;
-}> = ({ opened, open, close, refetch, isEditing, editData }) => {
+  setIsEditing: any;
+  editData?: Task;
+}> = ({ opened, open, close, refetch, isEditing, editData, setIsEditing }) => {
   useEffect(() => {
-    if (isEditing) open();
+    if (isEditing && editData) {
+      setShade(editData.shade);
+      form.setValues({
+        description: editData.description,
+        endTime: editData.endTime,
+        labels: editData.labels,
+        shade: editData.shade,
+        startTime: editData.startTime,
+        status: editData.status,
+        title: editData.title,
+        userId: "cle4rx1j40000rpisr8i0tw2j",
+      });
+      open();
+    }
     return () => {
       close();
     };
-  }, [isEditing]);
+  }, [isEditing, editData]);
 
   const form = useForm<z.infer<typeof ZTask>>();
+
   const [shade, setShade] = useState<TaskColor>("BANANA");
   const { mutateAsync: createTask } = api.task.addTask.useMutation();
+  const { mutateAsync: editTask } = api.task.editTask.useMutation();
   return (
-    <Modal opened={opened} onClose={close} size="xl">
+    <Modal
+      opened={opened}
+      onClose={() => {
+        setIsEditing(false);
+        close();
+      }}
+      size="xl"
+    >
       {isEditing ? (
         <h1 className="text-xl font-semibold">Edit task</h1>
       ) : (
@@ -39,37 +63,31 @@ const CreateTaskModal: React.FC<{
       <hr />
       <form
         onSubmit={form.onSubmit(async (values) => {
-          try {
-            let a = values.startTime.getTime();
-            let b = values.endTime.getTime();
-            if (a > b) {
-              notifications.show({
-                title: "Error",
-                message: "Start time cannot be greater than end time",
-                autoClose: true,
-                color: "yellow",
+          let resp;
+          if (editData)
+            if (!isEditing)
+              resp = await createTask({
+                title: values.title,
+                description: values.description,
+                labels: values.labels || "",
+                startTime: values.startTime,
+                endTime: values.endTime,
+                shade,
+                status: "TODO",
+                userId: "cle4rx1j40000rpisr8i0tw2j",
               });
-              return;
-            }
-          } catch (e) {
-            notifications.show({
-              title: "Error",
-              message: "Start time and end time cannot be empty",
-              autoClose: true,
-              color: "red",
-            });
-            return;
-          }
-          const resp = await createTask({
-            title: values.title,
-            description: values.description,
-            labels: values.labels || "",
-            startTime: values.startTime,
-            endTime: values.endTime,
-            shade,
-            status: "TODO",
-            userId: "dummy",
-          });
+            else
+              resp = await editTask({
+                title: values.title,
+                description: values.description,
+                labels: values.labels || "",
+                startTime: values.startTime,
+                endTime: values.endTime,
+                shade,
+                status: "TODO",
+                userId: "cle4rx1j40000rpisr8i0tw2j",
+                id: editData.id,
+              });
           if (resp && resp.createdAt) {
             refetch();
             notifications.show({

@@ -1,4 +1,5 @@
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { Task } from "@prisma/client";
 import { useState } from "react";
 import { HiOutlinePlus, HiOutlineRefresh } from "react-icons/hi";
@@ -12,7 +13,7 @@ const Task: React.FC = () => {
   const [openedView, { open: openView, close: closeView }] =
     useDisclosure(false);
   let dummyTask: Task = {
-    id: "0",
+    id: "cle4rx1j40000rpisr8i0tw2j",
     title: "",
     description: "",
     shade: "BANANA",
@@ -61,7 +62,17 @@ const Task: React.FC = () => {
         <button
           type="button"
           className="flex max-w-[10rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-black py-2 px-4 text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-          onClick={() => refetchTasks()}
+          onClick={async () => {
+            let resp = await refetchTasks();
+            if (resp) {
+              notifications.show({
+                title: "Tasks Refreshed",
+                message: "Tasks have been refreshed successfully",
+                color: "teal",
+                autoClose: true,
+              });
+            }
+          }}
           disabled={isLoading || isFetching}
         >
           <HiOutlineRefresh
@@ -148,6 +159,7 @@ const Task: React.FC = () => {
         refetch={refetchTasks}
         isEditing={isEditing}
         editData={editData}
+        setIsEditing={setIsEditing}
       />
       <ViewChildrenInModal
         opened={openedView}

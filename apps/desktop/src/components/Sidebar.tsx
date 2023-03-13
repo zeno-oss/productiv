@@ -10,6 +10,7 @@ const Sidebar = () => {
         return (
           <Link to={route.path} className="rounded-lg" key={route.navbarText}>
             <NavbarItem
+              icon={route.icon}
               active={location.pathname === route.path}
               text={route.navbarText}
             />

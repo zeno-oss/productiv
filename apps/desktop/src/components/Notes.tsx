@@ -1,5 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
-import { Task } from "@prisma/client";
+import { notifications } from "@mantine/notifications";
+import { Color, Note } from "@prisma/client";
 import { useState } from "react";
 import { HiOutlinePlus, HiOutlineRefresh } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
@@ -12,26 +13,25 @@ const Notes: React.FC = () => {
   const [openedView, { open: openView, close: closeView }] =
     useDisclosure(false);
   const [tabIndex, setTabIndex] = useState(0);
-
-  const [viewModalData, setViewModalData] = useState<Task>({
+  const [isEditing, setIsEditing] = useState(false);
+  const dummyNote = {
     id: "0",
     title: "",
-    description: "",
-    shade: "BANANA",
+    note: "",
+    shade: "BANANA" as Color,
     createdAt: new Date(),
     updatedAt: new Date(),
-    endTime: new Date(),
-    startTime: new Date(),
     userId: "0",
     labels: "",
-    status: "IN_PROGRESS",
-  });
+  };
+  const [editData, setEditData] = useState(dummyNote);
+  const [viewModalData, setViewModalData] = useState<Note>(dummyNote);
   const {
-    data: tasks,
-    refetch: refetchTasks,
+    data: notes,
+    refetch: refetchNotes,
     isLoading,
     isFetching,
-  } = api.notes.getNotes.useQuery();
+  } = api.notes.getNotes.useQuery("cle4rx1j40000rpisr8i0tw2j");
   return (
     <div className="flex max-h-screen w-full flex-col">
       <div className="flex h-24 items-center justify-center gap-4 border-b border-black p-4">
@@ -51,7 +51,17 @@ const Notes: React.FC = () => {
         <button
           type="button"
           className="flex max-w-[10rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-black py-2 px-4 text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-          onClick={() => refetchTasks()}
+          onClick={async () => {
+            let resp = await refetchNotes();
+            if (resp) {
+              notifications.show({
+                title: "Notes Refreshed",
+                message: "Notes have been refreshed successfully",
+                color: "teal",
+                autoClose: true,
+              });
+            }
+          }}
           disabled={isLoading || isFetching}
         >
           <HiOutlineRefresh
@@ -72,18 +82,20 @@ const Notes: React.FC = () => {
         <hr />
         {tabIndex !== 2 && (
           <h1 className="px-8 py-4 font-bold">
-            You have {tasks && tasks.length} Note
-            {tasks && tasks.length > 1 && "s"}.
+            You have {notes && notes.length} Note
+            {notes && notes.length > 1 && "s"}.
           </h1>
         )}
         <div className=" max-h-[60vh] overflow-y-scroll p-8 pt-4">
           <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2">
-            {tasks &&
-              tasks.map((task) => (
+            {notes &&
+              notes.map((note) => (
                 <NoteCard
-                  task={task}
-                  key={task.id}
-                  refetchTasks={refetchTasks}
+                  setEditData={setEditData}
+                  setIsEditing={setIsEditing}
+                  note={note}
+                  key={note.id}
+                  refetchNotes={refetchNotes}
                   opened={openedView}
                   open={openView}
                   close={closeView}
@@ -91,9 +103,9 @@ const Notes: React.FC = () => {
                 />
               ))}
 
-            {tasks && tasks.length < 1 && (
+            {notes && notes.length < 1 && (
               <div className="whitespace-nowrap text-xl font-semibold italic text-gray-500">
-                Nothing tasks in {tabIndex === 0 && <span>Today & Past</span>}
+                Nothing notes in {tabIndex === 0 && <span>Today & Past</span>}
                 {tabIndex === 1 && <span>Upcoming</span>}
                 {tabIndex === 2 && <span>Done</span>} section{" "}
                 <span className="not-italic">🥳</span>
@@ -103,16 +115,19 @@ const Notes: React.FC = () => {
         </div>
       </div>
       <CreateNoteModal
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        editData={editData}
         opened={opened}
         open={open}
         close={close}
-        refetch={refetchTasks}
+        refetch={refetchNotes}
       />
       <ViewChildrenInModal
         opened={openedView}
         open={openView}
         close={closeView}
-        refetch={refetchTasks}
+        refetch={refetchNotes}
         modalColors={{
           backgroundColor:
             PALETTE[TASKS_PALETTE[viewModalData?.shade].backgroundColor],
@@ -129,7 +144,7 @@ const Notes: React.FC = () => {
           >
             {viewModalData?.title}
           </h1>
-          <p className="flex-1">{viewModalData?.description}</p>
+          <p className="flex-1">{viewModalData?.note}</p>
           <div className="flex gap-2">
             {viewModalData?.labels &&
               viewModalData.labels.split(",").map((label) => (

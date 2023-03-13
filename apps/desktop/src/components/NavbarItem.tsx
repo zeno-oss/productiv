@@ -1,4 +1,8 @@
-const NavbarItem = ({ text, active }: { text: string; active: boolean }) => {
+const NavbarItem: React.FC<{
+  text: string;
+  active: boolean;
+  icon: React.ReactNode;
+}> = ({ text, active, icon }) => {
   // console.log({ active, text });
   return (
     <div
@@ -6,7 +10,9 @@ const NavbarItem = ({ text, active }: { text: string; active: boolean }) => {
         active ? "bg-slate-200" : "hover:bg-slate-100"
       } rounded-lg `}
     >
-      <div className="h-6 w-6 rounded-lg bg-slate-400"></div>
+      <div className="flex h-6 w-6 items-center justify-center rounded-lg text-xl text-black">
+        {icon}
+      </div>
       <div className={`flex-1 p-2 text-left ${active ? "font-medium" : ""}`}>
         {text}
       </div>
