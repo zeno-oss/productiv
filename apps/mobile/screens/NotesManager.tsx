@@ -1,5 +1,5 @@
 import { api } from "$api";
-import { NoteList, Text } from "$components";
+import { NoteHeader, NoteList, Text } from "$components";
 import { userAtom } from "$store";
 import { useAtomValue } from "jotai";
 import React from "react";
@@ -19,6 +19,11 @@ export const NotesManager = () => {
 
   return (
     <View className="my-3">
+      <NoteHeader
+        name={user.name}
+        notesCount={notes.data.length}
+        onRefresh={notes.refetch}
+      />
       <NoteList notes={notes.data} />
     </View>
   );
