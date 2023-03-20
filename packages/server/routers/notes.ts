@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { Color } from "@prisma/client";
+import Tesseract from "tesseract.js";
 import { prisma } from "../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { ZNote } from "../types";
@@ -54,6 +55,15 @@ export const notesRouter = createTRPCRouter({
       where: {
         id: input,
       },
+    });
+  }),
+  getOCRText: publicProcedure.query(async () => {
+    return Tesseract.recognize(
+      "https://tesseract.projectnaptha.com/img/eng_bw.png",
+      "eng",
+      { logger: (m) => console.log(m) },
+    ).then(({ data: { text } }) => {
+      return text;
     });
   }),
 });
