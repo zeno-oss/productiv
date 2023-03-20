@@ -139,7 +139,7 @@ export const AddTaskScreen = ({
   return (
     <View className="my-6 flex-1 justify-between p-4">
       <View>
-        <Label title="Title" />
+        <Label title="Title" required />
         <TextInput
           maxLength={50}
           autoFocus={true}
@@ -160,7 +160,7 @@ export const AddTaskScreen = ({
         />
         <View className="flex-row justify-between pb-1">
           <View>
-            <Label title="Starts at" />
+            <Label title="Starts at" required />
             <Pressable onPress={() => setShowDateTimePicker("start")}>
               <View className="flex-row items-center rounded-lg border border-gray-300 p-2">
                 <FontAwesome5
@@ -193,7 +193,7 @@ export const AddTaskScreen = ({
             />
           </View>
           <View>
-            <Label title="Ends at" />
+            <Label title="Ends at" required />
             <Pressable onPress={() => setShowDateTimePicker("end")}>
               <View className="flex-row items-center rounded-lg border border-gray-300 p-2">
                 <FontAwesome5
@@ -231,7 +231,7 @@ export const AddTaskScreen = ({
           autoCapitalize="none"
           classes="text-base"
         />
-        <Label title="Shade" />
+        <Label title="Shade" required />
         <ScrollView
           horizontal
           className="border-b-lightSilver my-1 border-b pb-5"

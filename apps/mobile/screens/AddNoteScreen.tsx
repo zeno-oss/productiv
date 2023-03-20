@@ -115,7 +115,7 @@ export const AddNoteScreen = ({
   return (
     <View className="my-6 flex-1 justify-between p-4">
       <View>
-        <Label title="Title" />
+        <Label title="Title" required />
         <TextInput
           maxLength={50}
           autoFocus={true}
@@ -124,7 +124,7 @@ export const AddNoteScreen = ({
           placeholder="Enter note title"
           autoCorrect={false}
         />
-        <Label title="Notes" />
+        <Label title="Notes" required />
         <TextInput
           maxLength={1000}
           onChangeText={setDescription}
@@ -144,7 +144,7 @@ export const AddNoteScreen = ({
           autoCapitalize="none"
           classes="text-base"
         />
-        <Label title="Shade" />
+        <Label title="Shade" required />
         <ScrollView
           horizontal
           className="border-b-lightSilver my-1 border-b pb-5"
