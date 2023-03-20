@@ -20,7 +20,7 @@ export type RootNativeStackScreenProps<
 > = NativeStackScreenProps<RootNativeStackParamList, T>;
 
 export type HomeDrawerParamList = {
-  TabOne: undefined;
+  OCR: undefined;
   TabTwo: undefined;
   TaskManager: undefined;
   NotesManager: undefined;

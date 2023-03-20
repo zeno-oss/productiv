@@ -20,7 +20,7 @@ const linking: LinkingOptions<RootNativeStackParamList> = {
               TaskManagerScreen: "taskScreen",
             },
           },
-          TabOne: {
+          OCR: {
             screens: {
               TabOneScreen: "one",
             },

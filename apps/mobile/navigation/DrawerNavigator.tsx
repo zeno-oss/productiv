@@ -49,10 +49,10 @@ function DrawerNavigator() {
         }}
       />
       <Drawer.Screen
-        name="TabOne"
+        name="OCR"
         component={TabOneScreen}
-        options={({ navigation }: HomeDrawerScreenProps<"TabOne">) => ({
-          title: "Tab One",
+        options={({ navigation }: HomeDrawerScreenProps<"OCR">) => ({
+          title: "OCR",
           drawerIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         })}
       />
