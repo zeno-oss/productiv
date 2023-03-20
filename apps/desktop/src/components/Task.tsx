@@ -185,7 +185,6 @@ const Task: React.FC = () => {
               onClick={async (e) => {
                 e.stopPropagation();
                 if (viewModalData.status === "DONE") {
-                  alert("Marking task as incomplete");
                   editTask({ ...viewModalData, status: "TODO" });
                   closeView();
                   return;
@@ -196,7 +195,8 @@ const Task: React.FC = () => {
               }}
               className="flex w-fit cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-4 text-sm opacity-50 hover:opacity-100 "
             >
-              Mark as Done
+              {viewModalData.status === "DONE" && <>Mark as Undone</>}
+              {viewModalData.status !== "DONE" && <>Mark as Done</>}
             </div>
           </h1>
           <p className="flex-[2]">{viewModalData?.description}</p>
