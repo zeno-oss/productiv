@@ -53,6 +53,7 @@ const CreateTaskModal: React.FC<{
         close();
       }}
       size="xl"
+      centered
     >
       {isEditing ? (
         <h1 className="text-xl font-semibold">Edit task</h1>

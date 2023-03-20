@@ -54,6 +54,7 @@ function CreateNoteModal({
         close();
         setIsEditing(false);
       }}
+      centered
       size="xl"
     >
       <h1 className="text-xl font-semibold">Create a note</h1>
