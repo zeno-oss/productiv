@@ -34,6 +34,7 @@
     "@trpc/client": "^10.11.1",
     "@trpc/react-query": "^10.11.1",
     "@trpc/server": "^10.11.1",
+    "dayjs": "^1.11.7",
     "jotai": "^2.0.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
