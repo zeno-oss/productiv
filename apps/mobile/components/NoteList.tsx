@@ -1,8 +1,8 @@
 import { api } from "$api";
-import { AddTask } from "$themes";
 import { Note } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
+import { PlusIcon } from "react-native-heroicons/outline";
 import Toast from "react-native-toast-message";
 import { NoteCard } from "./NoteCard";
 import { PrimaryButton } from "./PrimaryButton";
@@ -64,7 +64,7 @@ export const NoteList = (props: NoteListProps) => {
       <PrimaryButton
         title="Add Note"
         classes="self-center my-2"
-        icon={<AddTask />}
+        icon={<PlusIcon color="white" />}
         onPress={() => navigation.navigate("AddNote", { mode: "add" })}
       />
     </>

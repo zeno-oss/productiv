@@ -1,7 +1,7 @@
-import { Delete, Edit } from "$themes";
 import { TASKS_PALETTE } from "$variables";
 import { Note } from "@prisma/client";
 import { Pressable, View } from "react-native";
+import { PencilSquareIcon, TrashIcon } from "react-native-heroicons/solid";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
 import { Text } from "./Text";
@@ -27,10 +27,10 @@ export const NoteCard: React.FC<NoteCardProps> = ({
         </Text>
         <View className="flex-row gap-x-2">
           <Pressable onPress={() => onDeleteNote(note.id)}>
-            <Delete />
+            <TrashIcon color="#141414" height={20} width={20} />
           </Pressable>
           <Pressable onPress={() => onEditNote(note)}>
-            <Edit />
+            <PencilSquareIcon color="#141414" height={20} width={20} />
           </Pressable>
         </View>
       </View>

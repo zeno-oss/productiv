@@ -1,10 +1,15 @@
-import { Calendar, Clock, Delete, Edit, MarkAsDone } from "$themes";
+import { MarkAsDone } from "$themes";
 import { formatDate, formatTime } from "$utils";
 import { TASKS_PALETTE } from "$variables";
 import { Task } from "@prisma/client";
 import { useMemo } from "react";
 import { Pressable, View } from "react-native";
-import { CheckCircleIcon } from "react-native-heroicons/outline";
+import {
+  CalendarIcon,
+  CheckCircleIcon,
+  ClockIcon,
+} from "react-native-heroicons/outline";
+import { PencilSquareIcon, TrashIcon } from "react-native-heroicons/solid";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
 import { Text } from "./Text";
@@ -45,10 +50,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         </Text>
         <View className="flex-row gap-x-2">
           <Pressable onPress={() => onDeleteTask(task.id)}>
-            <Delete />
+            <TrashIcon color="#141414" height={20} width={20} />
           </Pressable>
           <Pressable onPress={() => onEditTask(task)}>
-            <Edit />
+            <PencilSquareIcon color="#141414" height={20} width={20} />
           </Pressable>
         </View>
       </View>
@@ -61,11 +66,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         <View className="flex-row items-end justify-between">
           <View className="mt-4">
             <View className="flex-row items-center">
-              <Calendar />
+              <CalendarIcon color="#141414" height={16} width={16} />
               <Text className="ml-3">{taskDate}</Text>
             </View>
             <View className="flex-row items-center">
-              <Clock />
+              <ClockIcon color="#141414" height={16} width={16} />
               <Text className="ml-3">{taskTime}</Text>
             </View>
             <View className="mt-2 flex-row">
