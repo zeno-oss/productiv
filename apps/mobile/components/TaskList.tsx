@@ -3,7 +3,7 @@ import { AddTask } from "$themes";
 import { Task } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
-import Toast from "react-native-toast-message";
+import Toast, { ToastShowParams } from "react-native-toast-message";
 import { PrimaryButton } from "./PrimaryButton";
 import { TaskCard } from "./TaskCard";
 import { Text } from "./Text";
@@ -29,17 +29,7 @@ export const TaskList = (props: TaskListProps) => {
     },
   });
 
-  const completeTask = api.task.completeTask.useMutation({
-    onSuccess: () => {
-      client.task.getTasks.invalidate();
-      Toast.show({
-        type: "success",
-        text1: "Yoohoo!🥳",
-        text2: "Task completed!",
-        position: "bottom",
-      });
-    },
-  });
+  const editTask = api.task.editTask.useMutation();
 
   function editTaskHandler(task: Task) {
     navigation.navigate("AddTask", {
@@ -53,8 +43,29 @@ export const TaskList = (props: TaskListProps) => {
     deleteTask.mutate(taskId);
   }
 
-  function completeTaskHandler(taskId: string) {
-    completeTask.mutate(taskId);
+  async function changeTaskStatusHandler(task: Task, status: "TODO" | "DONE") {
+    const data = await editTask.mutateAsync({
+      ...task,
+      status,
+    });
+    if (data) {
+      client.task.getTasks.invalidate();
+      let toastParams: ToastShowParams = {
+        type: "success",
+        text1: "Yoohoo!🥳",
+        text2: "Task completed!",
+        position: "bottom",
+      };
+      if (status === "TODO") {
+        toastParams = {
+          type: "error",
+          text1: "Moving 🚚",
+          text2: "Task moved back to todo!",
+          position: "bottom",
+        };
+      }
+      Toast.show(toastParams);
+    }
   }
 
   return (
@@ -73,7 +84,7 @@ export const TaskList = (props: TaskListProps) => {
               key={task.id}
               onDeleteTask={deleteTaskHandler}
               onEditTask={editTaskHandler}
-              onCompleteTask={completeTaskHandler}
+              onChangeTaskStatus={changeTaskStatusHandler}
             />
           ))}
         </ScrollView>

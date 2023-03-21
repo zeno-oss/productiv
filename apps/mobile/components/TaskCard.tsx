@@ -4,6 +4,7 @@ import { TASKS_PALETTE } from "$variables";
 import { Task } from "@prisma/client";
 import { useMemo } from "react";
 import { Pressable, View } from "react-native";
+import { CheckCircleIcon } from "react-native-heroicons/outline";
 import { Card } from "./Card";
 import { Pill } from "./Pill";
 import { Text } from "./Text";
@@ -11,7 +12,7 @@ import { Text } from "./Text";
 type TaskCardProps = {
   task: Task;
   onDeleteTask: (taskId: string) => void;
-  onCompleteTask: (taskId: string) => void;
+  onChangeTaskStatus: (task: Task, status: "TODO" | "DONE") => void;
   onEditTask: (task: Task) => void;
 };
 
@@ -19,7 +20,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onEditTask,
   onDeleteTask,
-  onCompleteTask,
+  onChangeTaskStatus,
 }) => {
   const { shade, labels, endTime, title, startTime, id, description } = task;
 
@@ -80,9 +81,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   ))}
             </View>
           </View>
-          {task.status !== "DONE" && (
-            <Pressable onPress={() => onCompleteTask(id)}>
+          {task.status !== "DONE" ? (
+            <Pressable onPress={() => onChangeTaskStatus(task, "DONE")}>
               <MarkAsDone />
+            </Pressable>
+          ) : (
+            <Pressable onPress={() => onChangeTaskStatus(task, "TODO")}>
+              <CheckCircleIcon color="#141414" />
             </Pressable>
           )}
         </View>
