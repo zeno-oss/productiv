@@ -27,6 +27,7 @@ export const DoneTaskScreen = ({}: TaskBottomTabsScreenProps<"Done">) => {
         name={user.name}
         onRefresh={refreshTaskHandler}
         taskCount={completedTasks.data.length}
+        isDoneScreen
       />
       <TaskList tasks={completedTasks.data} />
     </View>

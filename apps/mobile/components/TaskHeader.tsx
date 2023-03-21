@@ -7,10 +7,11 @@ type TaskHeaderProps = {
   name: string;
   taskCount: number;
   onRefresh: () => void;
+  isDoneScreen?: boolean;
 };
 
 export const TaskHeader = (props: TaskHeaderProps) => {
-  const { name, taskCount, onRefresh } = props;
+  const { name, taskCount, onRefresh, isDoneScreen = false } = props;
   return (
     <>
       <Text className="my-0.5 text-sm" variant="semibold">
@@ -18,7 +19,7 @@ export const TaskHeader = (props: TaskHeaderProps) => {
       </Text>
       <View className="flex-row items-center justify-between">
         <Text className="my-1 text-xl" variant="bold">
-          You have {taskCount} Task(s).
+          {isDoneScreen ? "Completed" : "You have"} {taskCount} Task(s).
         </Text>
         <PrimaryButton
           title="Refresh"
