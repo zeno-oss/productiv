@@ -44,13 +44,13 @@ export const NoteList = (props: NoteListProps) => {
   return (
     <>
       {notes.length === 0 ? (
-        <View className="mt-4 h-[590px]">
+        <View className="mt-4 h-[77%]">
           <View className="flex-1 items-center justify-center">
             <Text>No Notes...Add one?</Text>
           </View>
         </View>
       ) : (
-        <ScrollView className="my-2 h-[582px]">
+        <ScrollView className="my-2 h-[77%]">
           {notes.map((note) => (
             <NoteCard
               note={note}

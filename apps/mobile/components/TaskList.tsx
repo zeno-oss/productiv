@@ -71,13 +71,13 @@ export const TaskList = (props: TaskListProps) => {
   return (
     <>
       {tasks.length === 0 ? (
-        <View className="mt-4 h-[490px]">
+        <View className="mt-4 h-[77%]">
           <View className="flex-1 items-center justify-center">
             <Text>No Task...Add one?</Text>
           </View>
         </View>
       ) : (
-        <ScrollView className="my-2 h-[482px]">
+        <ScrollView className="my-2 h-[77%]">
           {tasks.map((task) => (
             <TaskCard
               task={task}
