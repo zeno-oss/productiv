@@ -14,7 +14,7 @@ export const taskRouter = createTRPCRouter({
       };
     }),
   getTasks: publicProcedure
-    .input(z.enum(["UPCOMING", "TODAY", "DONE"]))
+    .input(z.enum(["UPCOMING", "TODAY", "DONE", "ALL"]))
     .query(async ({ input }) => {
       type TFindManyTasks = Parameters<typeof prisma.task.findMany>[0];
       let options: TFindManyTasks = {
@@ -23,6 +23,11 @@ export const taskRouter = createTRPCRouter({
         },
       };
       switch (input) {
+        case "ALL":
+          options = {
+            ...options,
+          };
+          break;
         case "UPCOMING":
           options = {
             ...options,
