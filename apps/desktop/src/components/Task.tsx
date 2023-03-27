@@ -2,13 +2,19 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { Task } from "@prisma/client";
 import { useState } from "react";
-import { HiOutlinePlus, HiOutlineRefresh } from "react-icons/hi";
+import {
+  HiCheck,
+  HiOutlinePlus,
+  HiOutlineRefresh,
+  HiPencil,
+  HiTrash,
+  HiX,
+} from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
 import CreateTaskModal from "./CreateTaskModal";
 import TaskCard from "./TaskCard";
 import ViewChildrenInModal from "./ViewChildrenInModal";
-
 const Task: React.FC = () => {
   const [openedView, { open: openView, close: closeView }] =
     useDisclosure(false);
@@ -126,7 +132,13 @@ const Task: React.FC = () => {
             {tasks && tasks.length > 1 && "s"}.
           </h1>
         )}
-        <div className=" max-h-[60vh] overflow-y-scroll p-8 pt-4">
+        {tabIndex === 2 && (
+          <h1 className="px-8 py-4 font-bold">
+            Completed {tasks && tasks.length} Task
+            {tasks && tasks.length > 1 && "s"}.
+          </h1>
+        )}
+        <div className=" max-h-[50vh] overflow-y-scroll p-8 pt-4 lg:max-h-[60vh]">
           <div className="grid grid-cols-1 gap-4 transition-transform lg:grid-cols-2 xl:grid-cols-4">
             {tasks &&
               tasks.map((task) => (
@@ -145,7 +157,7 @@ const Task: React.FC = () => {
               <div className="whitespace-nowrap text-xl font-semibold italic text-gray-500">
                 Nothing tasks in {tabIndex === 0 && <span>Today & Past</span>}
                 {tabIndex === 1 && <span>Upcoming</span>}
-                {tabIndex === 2 && <span>Done</span>} section{" "}
+                {tabIndex === 2 && <span>Done</span>} section
                 <span className="not-italic">🥳</span>
               </div>
             )}
@@ -174,29 +186,40 @@ const Task: React.FC = () => {
       >
         <div className="flex min-h-[50vh] flex-col gap-4">
           <h1
-            className="flex gap-4 border-b-2 pb-2 text-3xl font-bold"
+            className="flex gap-2 border-b-2 pb-2 text-3xl font-bold"
             style={{
               borderColor:
                 PALETTE[TASKS_PALETTE[viewModalData?.shade].borderColor],
             }}
           >
-            <div className="flex-1">{viewModalData?.title}</div>{" "}
+            <div className="flex-1">{viewModalData?.title}</div>
             <div
               onClick={async (e) => {
                 e.stopPropagation();
                 if (viewModalData.status === "DONE") {
-                  editTask({ ...viewModalData, status: "TODO" });
+                  await editTask({ ...viewModalData, status: "TODO" });
+                  await refetchTasks();
                   closeView();
                   return;
                 }
                 await markTaskAsCompleted(viewModalData.id);
-                refetchTasks();
+                await refetchTasks();
                 closeView();
               }}
-              className="flex w-fit cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-4 text-sm opacity-50 hover:opacity-100 "
+              className="flex w-fit cursor-pointer items-center justify-center gap-2 rounded-full bg-green-100 px-4 text-sm opacity-50 transition-all hover:opacity-100 "
             >
-              {viewModalData.status === "DONE" && <>Mark as Undone</>}
-              {viewModalData.status !== "DONE" && <>Mark as Done</>}
+              {viewModalData.status === "DONE" && (
+                <>
+                  <HiX />
+                  Mark as Undone
+                </>
+              )}
+              {viewModalData.status !== "DONE" && (
+                <>
+                  <HiCheck />
+                  Mark as Done
+                </>
+              )}
             </div>
           </h1>
           <p className="flex-[2]">{viewModalData?.description}</p>
@@ -211,20 +234,53 @@ const Task: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex gap-2">
-            {viewModalData?.labels &&
-              viewModalData.labels.split(",").map((label) => (
-                <span
-                  style={{
-                    borderColor:
-                      PALETTE[TASKS_PALETTE[viewModalData?.shade].borderColor],
-                  }}
-                  className="cursor-default rounded-full border-2 px-2 text-sm"
-                  key={label}
-                >
-                  {label}
-                </span>
-              ))}
+          <div className="flex justify-between gap-2">
+            <div className="flex items-center justify-center gap-2 ">
+              {viewModalData?.labels &&
+                viewModalData.labels.split(",").map((label) => (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      alert(`clicked on label${label}`);
+                    }}
+                    style={{
+                      borderColor:
+                        PALETTE[
+                          TASKS_PALETTE[viewModalData?.shade].borderColor
+                        ],
+                    }}
+                    className="cursor-pointer rounded-full border-2 px-2 text-sm "
+                    key={label}
+                  >
+                    {label}
+                  </span>
+                ))}
+            </div>
+            <div className="flex gap-2">
+              <div
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setIsEditing(true);
+                  closeView();
+                  setEditData(viewModalData);
+                }}
+                className="flex w-fit cursor-pointer items-center justify-center gap-1 rounded-full bg-blue-100 py-2 px-3 text-xs font-bold opacity-50 transition-all hover:opacity-100 "
+              >
+                <HiPencil /> Edit
+              </div>
+
+              <div
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  await deleteTask(viewModalData.id);
+                  refetchTasks();
+                }}
+                className="flex w-fit cursor-pointer items-center justify-center gap-1 rounded-full bg-red-100 py-2 px-3 text-xs font-bold opacity-50 transition-all hover:opacity-100 "
+              >
+                <HiTrash />
+                Delete
+              </div>
+            </div>
           </div>
         </div>
       </ViewChildrenInModal>
