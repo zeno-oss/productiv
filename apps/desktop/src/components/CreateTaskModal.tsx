@@ -4,7 +4,7 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { Task } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { HiCheck } from "react-icons/hi";
+import { HiCheck, HiX } from "react-icons/hi";
 import { ZTask } from "server/types";
 import { TaskColor } from "types";
 import { TASKS_PALETTE } from "variables";
@@ -53,14 +53,20 @@ const CreateTaskModal: React.FC<{
         close();
       }}
       size="xl"
+      withCloseButton={false}
+      centered
     >
-      {isEditing ? (
-        <h1 className="text-xl font-semibold">Edit task</h1>
-      ) : (
-        <h1 className="text-xl font-semibold">Create your task</h1>
-      )}
-
-      <hr />
+      <div className="flex w-full justify-between">
+        {isEditing ? (
+          <h1 className="text-xl font-semibold">Edit task</h1>
+        ) : (
+          <h1 className="text-xl font-semibold">Create your task</h1>
+        )}
+        <button className="text-xl font-semibold" type="button" onClick={close}>
+          <HiX />
+        </button>
+      </div>
+      <hr className="my-4" />
       <form
         onSubmit={form.onSubmit(async (values) => {
           let resp;
@@ -117,29 +123,6 @@ const CreateTaskModal: React.FC<{
           {...form.getInputProps("description")}
           name="description"
         />
-        <TextInput
-          label="Labels ( comma separated )"
-          placeholder="e.g. Book, Study, Test, University"
-          {...form.getInputProps("labels")}
-          name="labels"
-        />
-
-        <div className="flex flex-col gap-2 font-medium">
-          Select a shade for your task:
-          <div className="flex gap-4">
-            {Object.entries(TASKS_PALETTE).map(
-              ([color, { backgroundColor }]) => (
-                <ColorCircle
-                  key={color}
-                  backgroundColor={backgroundColor}
-                  selected={color === shade}
-                  onPress={() => setShade(color as TaskColor)}
-                />
-              ),
-            )}
-          </div>
-        </div>
-
         <div className="flex justify-between gap-4">
           <DateTimePicker
             withAsterisk
@@ -158,6 +141,31 @@ const CreateTaskModal: React.FC<{
             {...form.getInputProps("endTime")}
           />
         </div>
+        <TextInput
+          label="Labels ( comma separated )"
+          placeholder="e.g. Book, Study, Test, University"
+          {...form.getInputProps("labels")}
+          name="labels"
+        />
+
+        <div className="flex flex-col gap-2 font-medium">
+          <div className="text-sm text-gray-900">
+            Select a shade for your task:
+          </div>
+          <div className="flex gap-4">
+            {Object.entries(TASKS_PALETTE).map(
+              ([color, { backgroundColor }]) => (
+                <ColorCircle
+                  key={color}
+                  backgroundColor={backgroundColor}
+                  selected={color === shade}
+                  onPress={() => setShade(color as TaskColor)}
+                />
+              ),
+            )}
+          </div>
+        </div>
+
         <button className="mt-4 flex w-fit items-center justify-center gap-4 rounded-full border bg-black p-4 py-2 text-white">
           <HiCheck /> Submit
         </button>

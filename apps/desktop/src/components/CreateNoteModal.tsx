@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { Note } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { HiCheck } from "react-icons/hi";
+import { HiCheck, HiX } from "react-icons/hi";
 import { ZNote } from "server/types";
 import { TaskColor } from "types";
 import { TASKS_PALETTE } from "variables";
@@ -54,9 +54,20 @@ function CreateNoteModal({
         close();
         setIsEditing(false);
       }}
+      centered
       size="xl"
+      withCloseButton={false}
     >
-      <h1 className="text-xl font-semibold">Create a note</h1>
+      <div className="flex w-full justify-between">
+        {isEditing ? (
+          <h1 className="text-xl font-semibold">Edit note</h1>
+        ) : (
+          <h1 className="text-xl font-semibold">Create your note</h1>
+        )}
+        <button className="text-xl font-semibold" type="button" onClick={close}>
+          <HiX />
+        </button>
+      </div>
       <hr className="my-4" />
       <form
         onSubmit={form.onSubmit(async (values) => {
