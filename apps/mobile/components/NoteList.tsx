@@ -1,11 +1,13 @@
 import { api } from "$api";
 import { Note } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, View } from "react-native";
+import { useState } from "react";
+import { FlatList, View } from "react-native";
 import { PlusIcon } from "react-native-heroicons/outline";
 import Toast from "react-native-toast-message";
 import { NoteCard } from "./NoteCard";
 import { PrimaryButton } from "./PrimaryButton";
+import { SearchBar } from "./SearchBar";
 import { Text } from "./Text";
 
 type NoteListProps = {
@@ -16,6 +18,7 @@ export const NoteList = (props: NoteListProps) => {
   const { notes } = props;
   const navigation = useNavigation();
   const client = api.useContext();
+  const [searchText, setSearchText] = useState("");
 
   const deleteNote = api.notes.deleteNote.useMutation({
     onSuccess: () => {
@@ -50,16 +53,35 @@ export const NoteList = (props: NoteListProps) => {
           </View>
         </View>
       ) : (
-        <ScrollView className="my-2 h-[77%]">
-          {notes.map((note) => (
-            <NoteCard
-              note={note}
-              key={note.id}
-              onDeleteNote={deleteNoteHandler}
-              onEditNote={editNoteHandler}
-            />
-          ))}
-        </ScrollView>
+        <View className="my-2 h-[77%]">
+          <SearchBar
+            searchPhrase={searchText}
+            setSearchPhrase={setSearchText}
+          />
+          <FlatList
+            data={notes}
+            renderItem={({ item }) => {
+              const termToSearch = searchText.toLowerCase();
+              if (
+                termToSearch === "" ||
+                item.title.toLowerCase().includes(termToSearch) ||
+                item.note.toLowerCase().includes(termToSearch) ||
+                item.labels.toLowerCase().includes(termToSearch)
+              ) {
+                return (
+                  <NoteCard
+                    note={item}
+                    key={item.id}
+                    onDeleteNote={deleteNoteHandler}
+                    onEditNote={editNoteHandler}
+                  />
+                );
+              }
+              return null;
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       )}
       <PrimaryButton
         title="Add Note"

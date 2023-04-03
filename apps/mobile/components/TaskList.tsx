@@ -1,8 +1,6 @@
 import { api } from "$api";
-import { showSearchBarAtom } from "$store";
 import { Task } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
-import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { FlatList, View } from "react-native";
 import { PlusIcon } from "react-native-heroicons/outline";
@@ -21,7 +19,6 @@ export const TaskList = (props: TaskListProps) => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
   const client = api.useContext();
-  const showSearchBar = useAtomValue(showSearchBarAtom);
 
   const deleteTask = api.task.deleteTask.useMutation({
     onSuccess: () => {
@@ -84,12 +81,10 @@ export const TaskList = (props: TaskListProps) => {
         </View>
       ) : (
         <View className="my-2 h-[77%]">
-          {showSearchBar && (
-            <SearchBar
-              searchPhrase={searchText}
-              setSearchPhrase={setSearchText}
-            />
-          )}
+          <SearchBar
+            searchPhrase={searchText}
+            setSearchPhrase={setSearchText}
+          />
           <FlatList
             data={tasks}
             renderItem={({ item }) => {

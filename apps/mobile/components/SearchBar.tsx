@@ -1,5 +1,5 @@
 import { showSearchBarAtom } from "$store";
-import { useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { TextInput, View } from "react-native";
 import { MagnifyingGlassIcon, XMarkIcon } from "react-native-heroicons/outline";
 
@@ -12,7 +12,10 @@ export const SearchBar = ({
   searchPhrase,
   setSearchPhrase,
 }: SearchBarProps) => {
-  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
+
+  if (!showSearchBar) return null;
+
   return (
     <View className="w-full flex-row items-center justify-center">
       <View className="bg-lightSilver w-full flex-row items-center justify-evenly rounded-3xl py-[10px] px-4">
