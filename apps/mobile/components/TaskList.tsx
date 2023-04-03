@@ -2,7 +2,7 @@ import { api } from "$api";
 import { Task } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { PlusIcon } from "react-native-heroicons/outline";
 import Toast, { ToastShowParams } from "react-native-toast-message";
 import { PrimaryButton } from "./PrimaryButton";
@@ -100,17 +100,20 @@ export const TaskList = (props: TaskListProps) => {
             value={searchText}
             classes="border rounded-full border-lightSilver px-4 text-center pb-2"
           />
-          <ScrollView className="">
-            {filteredTasks.map((task) => (
-              <TaskCard
-                task={task}
-                key={task.id}
-                onDeleteTask={deleteTaskHandler}
-                onEditTask={editTaskHandler}
-                onChangeTaskStatus={changeTaskStatusHandler}
-              />
-            ))}
-          </ScrollView>
+          <FlatList
+            data={filteredTasks}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  onDeleteTask={deleteTaskHandler}
+                  onEditTask={editTaskHandler}
+                  onChangeTaskStatus={changeTaskStatusHandler}
+                />
+              );
+            }}
+            keyExtractor={(item) => item.id}
+          />
         </View>
       )}
       <PrimaryButton
