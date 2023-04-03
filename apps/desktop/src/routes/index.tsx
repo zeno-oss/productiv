@@ -1,4 +1,5 @@
 import { HiCheck, HiClipboardList } from "react-icons/hi";
+import DrawingPage from "../pages/DrawingPage";
 import NotesPage from "../pages/NotesPage";
 import TaskPage from "../pages/TaskPage";
 
@@ -20,6 +21,13 @@ const routes = [
     element: <NotesPage />,
     nameOfComponent: "NotesPage", // This is optional: it's used for debugging
     navbarText: "My Notes",
+    icon: <HiClipboardList />,
+  },
+  {
+    path: "/drawing",
+    element: <DrawingPage />,
+    nameOfComponent: "DrawingPage", // This is optional: it's used for debugging
+    navbarText: "My Drawings",
     icon: <HiClipboardList />,
   },
 ];
