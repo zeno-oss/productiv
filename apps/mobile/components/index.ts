@@ -11,6 +11,7 @@ export * from "./OnboardingFooter";
 export * from "./Pill";
 export * from "./PrimaryButton";
 export * from "./ProfilePic";
+export * from "./SearchBar";
 export * from "./TaskCard";
 export * from "./TaskHeader";
 export * from "./TaskList";
