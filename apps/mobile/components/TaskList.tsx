@@ -1,12 +1,14 @@
 import { api } from "$api";
 import { Task } from "@prisma/client";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { PlusIcon } from "react-native-heroicons/outline";
 import Toast, { ToastShowParams } from "react-native-toast-message";
 import { PrimaryButton } from "./PrimaryButton";
 import { TaskCard } from "./TaskCard";
 import { Text } from "./Text";
+import { TextInput } from "./TextInput";
 
 type TaskListProps = {
   tasks: Task[];
@@ -15,6 +17,8 @@ type TaskListProps = {
 export const TaskList = (props: TaskListProps) => {
   const { tasks } = props;
   const navigation = useNavigation();
+  const [searchText, setSearchText] = useState("");
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
   const client = api.useContext();
 
   const deleteTask = api.task.deleteTask.useMutation({
@@ -30,6 +34,18 @@ export const TaskList = (props: TaskListProps) => {
   });
 
   const editTask = api.task.editTask.useMutation();
+
+  function searchTaskHandler(text: string) {
+    setSearchText(text);
+    const filtered = tasks.filter((task) => {
+      return (
+        task.title.toLowerCase().includes(text.toLowerCase()) ||
+        task.description?.toLowerCase().includes(text.toLowerCase()) ||
+        task.labels.toLowerCase().includes(text.toLowerCase())
+      );
+    });
+    setFilteredTasks(filtered);
+  }
 
   function editTaskHandler(task: Task) {
     navigation.navigate("AddTask", {
@@ -77,17 +93,25 @@ export const TaskList = (props: TaskListProps) => {
           </View>
         </View>
       ) : (
-        <ScrollView className="my-2 h-[77%]">
-          {tasks.map((task) => (
-            <TaskCard
-              task={task}
-              key={task.id}
-              onDeleteTask={deleteTaskHandler}
-              onEditTask={editTaskHandler}
-              onChangeTaskStatus={changeTaskStatusHandler}
-            />
-          ))}
-        </ScrollView>
+        <View className="my-2 h-[77%]">
+          <TextInput
+            placeholder="Search Your Tasks 🔍 "
+            onChangeText={searchTaskHandler}
+            value={searchText}
+            classes="border rounded-full border-lightSilver px-4 text-center pb-2"
+          />
+          <ScrollView className="">
+            {filteredTasks.map((task) => (
+              <TaskCard
+                task={task}
+                key={task.id}
+                onDeleteTask={deleteTaskHandler}
+                onEditTask={editTaskHandler}
+                onChangeTaskStatus={changeTaskStatusHandler}
+              />
+            ))}
+          </ScrollView>
+        </View>
       )}
       <PrimaryButton
         title="Add Task"
