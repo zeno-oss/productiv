@@ -18,7 +18,6 @@ export const TaskList = (props: TaskListProps) => {
   const { tasks } = props;
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks);
   const client = api.useContext();
 
   const deleteTask = api.task.deleteTask.useMutation({
@@ -34,18 +33,6 @@ export const TaskList = (props: TaskListProps) => {
   });
 
   const editTask = api.task.editTask.useMutation();
-
-  function searchTaskHandler(text: string) {
-    setSearchText(text);
-    const filtered = tasks.filter((task) => {
-      return (
-        task.title.toLowerCase().includes(text.toLowerCase()) ||
-        task.description?.toLowerCase().includes(text.toLowerCase()) ||
-        task.labels.toLowerCase().includes(text.toLowerCase())
-      );
-    });
-    setFilteredTasks(filtered);
-  }
 
   function editTaskHandler(task: Task) {
     navigation.navigate("AddTask", {
@@ -96,21 +83,30 @@ export const TaskList = (props: TaskListProps) => {
         <View className="my-2 h-[77%]">
           <TextInput
             placeholder="Search Your Tasks 🔍 "
-            onChangeText={searchTaskHandler}
+            onChangeText={setSearchText}
             value={searchText}
             classes="border rounded-full border-lightSilver px-4 text-center pb-2"
           />
           <FlatList
-            data={filteredTasks}
+            data={tasks}
             renderItem={({ item }) => {
-              return (
-                <TaskCard
-                  task={item}
-                  onDeleteTask={deleteTaskHandler}
-                  onEditTask={editTaskHandler}
-                  onChangeTaskStatus={changeTaskStatusHandler}
-                />
-              );
+              const termToSearch = searchText.toLowerCase();
+              if (
+                termToSearch === "" ||
+                item.title.toLowerCase().includes(termToSearch) ||
+                item.description?.toLowerCase().includes(termToSearch) ||
+                item.labels.toLowerCase().includes(termToSearch)
+              ) {
+                return (
+                  <TaskCard
+                    task={item}
+                    onDeleteTask={deleteTaskHandler}
+                    onEditTask={editTaskHandler}
+                    onChangeTaskStatus={changeTaskStatusHandler}
+                  />
+                );
+              }
+              return null;
             }}
             keyExtractor={(item) => item.id}
           />
