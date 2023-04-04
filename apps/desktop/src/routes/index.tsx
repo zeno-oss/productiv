@@ -1,4 +1,9 @@
-import { HiCheck, HiClipboardList } from "react-icons/hi";
+import {
+  HiCheck,
+  HiClipboardList,
+  HiColorSwatch,
+  HiPencil,
+} from "react-icons/hi";
 import DrawingPage from "../pages/DrawingPage";
 import NotesPage from "../pages/NotesPage";
 import TaskPage from "../pages/TaskPage";
@@ -28,7 +33,7 @@ const routes = [
     element: <DrawingPage />,
     nameOfComponent: "DrawingPage", // This is optional: it's used for debugging
     navbarText: "My Drawings",
-    icon: <HiClipboardList />,
+    icon: <HiPencil />,
   },
 ];
 
