@@ -5,11 +5,14 @@ import { useState } from "react";
 import { HiOutlinePlus, HiOutlineRefresh } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
+import CreateDrawingModal from "./CreateDrawingModal";
 import CreateNoteModal from "./CreateNoteModal";
 import NoteCard from "./NoteCard";
 import ViewChildrenInModal from "./ViewChildrenInModal";
 const Notes: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [openedDrawingModal, { open: openDrawing, close: closeDrawing }] =
+    useDisclosure(false);
   const [openedView, { open: openView, close: closeView }] =
     useDisclosure(false);
   const [tabIndex, setTabIndex] = useState(0);
@@ -40,6 +43,14 @@ const Notes: React.FC = () => {
           placeholder="Start Typing to search for a task..."
           className="w-full max-w-2xl rounded-full border border-black p-4 py-2 font-bold placeholder:font-semibold"
         /> */}
+        <button
+          onClick={openDrawing}
+          type="button"
+          className="flex max-w-[10rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-black py-2 px-4 text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+        >
+          <HiOutlinePlus />
+          Create a Drawing
+        </button>
         <button
           onClick={open}
           type="button"
@@ -121,6 +132,15 @@ const Notes: React.FC = () => {
         opened={opened}
         open={open}
         close={close}
+        refetch={refetchNotes}
+      />
+      <CreateDrawingModal
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        editData={editData}
+        opened={openedDrawingModal}
+        open={openDrawing}
+        close={closeDrawing}
         refetch={refetchNotes}
       />
       <ViewChildrenInModal
