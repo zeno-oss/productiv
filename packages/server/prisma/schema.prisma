@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -38,6 +35,7 @@ model Note {
     shade     Color
     labels    String
     userId    String
+    fileURLs  String   @default("")
     user      User     @relation(fields: [userId], references: [id])
 
     @@index([userId])

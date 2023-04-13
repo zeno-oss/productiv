@@ -180,6 +180,14 @@ const Notes: React.FC = () => {
                 </span>
               ))}
           </div>
+          <div className="flex gap-2">
+            {viewModalData?.fileURLs &&
+              JSON.parse(viewModalData?.fileURLs) &&
+              JSON.parse(viewModalData?.fileURLs).length &&
+              JSON.parse(viewModalData?.fileURLs).map((image: string) => (
+                <img src={image} alt="" className="h-32 w-32 rounded-md" />
+              ))}
+          </div>
         </div>
       </ViewChildrenInModal>
     </div>

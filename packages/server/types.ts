@@ -16,4 +16,5 @@ export const ZNote = z.object({
   shade: z.string(),
   labels: z.string(),
   userId: z.string(),
+  fileURLs: z.string().optional(),
 });

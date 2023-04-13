@@ -10,6 +10,9 @@ import { TASKS_PALETTE } from "variables";
 import { z } from "zod";
 import { api } from "../utils/trpc";
 import ColorCircle from "./ColorCircle";
+import { NoteDropzone } from "./NoteDropzone";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../utils/firebaseInit";
 function CreateNoteModal({
   opened,
   open,
@@ -45,6 +48,7 @@ function CreateNoteModal({
   }, [isEditing, editData]);
   const form = useForm<z.infer<typeof ZNote>>();
   const [shade, setShade] = useState<TaskColor>("BANANA");
+  const [files, setFiles] = useState<File[]>();
   const { mutateAsync: createNote } = api.notes.addNote.useMutation();
   const { mutateAsync: editNote } = api.notes.editNote.useMutation();
   return (
@@ -71,6 +75,20 @@ function CreateNoteModal({
       <hr className="my-4" />
       <form
         onSubmit={form.onSubmit(async (values) => {
+          const fileURLs: string[] = [];
+          if (files)
+            for (const file of files) {
+              console.log(file);
+              const storageRef = ref(storage, file.name);
+
+              // 'file' comes from the Blob or File API
+              const snapshot = await uploadBytes(storageRef, file);
+              console.log("Uploaded a blob or file!", snapshot);
+              fileURLs.push(
+                await getDownloadURL(snapshot.ref).then((url) => url),
+              );
+            }
+          console.log({ fileURLs });
           let resp;
 
           try {
@@ -82,6 +100,8 @@ function CreateNoteModal({
                   labels: values.labels || "",
                   shade,
                   userId: "cle4rx1j40000rpisr8i0tw2j",
+                  fileURLs:
+                    fileURLs.length > 0 ? JSON.stringify(fileURLs) : undefined,
                 });
               } else {
                 resp = await editNote({
@@ -151,7 +171,7 @@ function CreateNoteModal({
         />
 
         <div className="flex flex-col gap-2 font-medium">
-          Select a shade for your task:
+          Select a shade for your note:
           <div className="flex gap-4">
             {Object.entries(TASKS_PALETTE).map(
               ([color, { backgroundColor }]) => (
@@ -164,6 +184,9 @@ function CreateNoteModal({
               ),
             )}
           </div>
+        </div>
+        <div className="flex flex-col gap-2 font-medium">
+          <NoteDropzone setFiles={setFiles} />
         </div>
 
         {/* <div className="flex justify-between gap-4">

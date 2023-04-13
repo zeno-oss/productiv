@@ -25,6 +25,8 @@ export const notesRouter = createTRPCRouter({
   addNote: publicProcedure
     .input(ZNote)
     .mutation(async ({ input: { shade, ...input } }) => {
+      console.log({ input });
+
       return await prisma.note.create({
         data: {
           ...input,
