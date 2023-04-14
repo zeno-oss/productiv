@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { Color, Status } from "@prisma/client";
+import { findFreeSlots } from "utils";
 import { prisma } from "../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { ZTask } from "../types";
@@ -13,9 +14,58 @@ export const taskRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getTasks: publicProcedure.query(async () => {
-    return await prisma.task.findMany();
-  }),
+  getTasks: publicProcedure
+    .input(z.enum(["UPCOMING", "TODAY", "DONE", "ALL"]))
+    .query(async ({ input }) => {
+      type TFindManyTasks = Parameters<typeof prisma.task.findMany>[0];
+      let options: TFindManyTasks = {
+        orderBy: {
+          startTime: "asc",
+        },
+      };
+      switch (input) {
+        case "ALL":
+          options = {
+            ...options,
+          };
+          break;
+        case "UPCOMING":
+          options = {
+            ...options,
+            where: {
+              startTime: {
+                gt: new Date(new Date().setHours(23, 59, 59, 999)),
+              },
+              status: {
+                not: "DONE",
+              },
+            },
+          };
+          break;
+        case "TODAY":
+          options = {
+            ...options,
+            where: {
+              startTime: {
+                lte: new Date(new Date().setHours(23, 59, 59, 999)),
+              },
+              status: {
+                not: "DONE",
+              },
+            },
+          };
+          break;
+        case "DONE":
+          options = {
+            ...options,
+            where: {
+              status: "DONE",
+            },
+          };
+          break;
+      }
+      return await prisma.task.findMany(options);
+    }),
   addTask: publicProcedure
     .input(ZTask)
     .mutation(async ({ input: { status, shade, ...input } }) => {
@@ -45,6 +95,18 @@ export const taskRouter = createTRPCRouter({
         },
       });
     }),
+  completeTask: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      return await prisma.task.update({
+        where: {
+          id: input,
+        },
+        data: {
+          status: "DONE",
+        },
+      });
+    }),
   deleteTask: publicProcedure.input(z.string()).mutation(async ({ input }) => {
     return await prisma.task.delete({
       where: {
@@ -52,4 +114,21 @@ export const taskRouter = createTRPCRouter({
       },
     });
   }),
+  getFreeTimeSlots: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }) => {
+      const tasks = await prisma.task.findMany({
+        orderBy: {
+          startTime: "asc",
+        },
+        where: {
+          startTime: {
+            lte: new Date(new Date().setHours(23, 59, 59, 999)),
+            gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          },
+        },
+      });
+
+      return findFreeSlots(tasks);
+    }),
 });

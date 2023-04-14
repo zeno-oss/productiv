@@ -1,16 +1,21 @@
 import {
+  AddNoteScreen,
   AddTaskScreen,
   ModalScreen,
   NotFoundScreen,
   OnboardingScreen,
 } from "$screens";
+import { userAtom } from "$store";
 import { RootNativeStackParamList } from "$types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useAtomValue } from "jotai";
 import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator<RootNativeStackParamList>();
 
 function StackNavigator() {
+  const user = useAtomValue(userAtom);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -18,6 +23,7 @@ function StackNavigator() {
         headerTitleAlign: "center",
         headerBackTitle: "",
       }}
+      initialRouteName={user ? "Home" : "Onboarding"}
     >
       <Stack.Screen
         name="Onboarding"
@@ -32,6 +38,11 @@ function StackNavigator() {
       <Stack.Screen
         name="AddTask"
         component={AddTaskScreen}
+        options={{ animation: "slide_from_bottom" }}
+      />
+      <Stack.Screen
+        name="AddNote"
+        component={AddNoteScreen}
         options={{ animation: "slide_from_bottom" }}
       />
       <Stack.Screen

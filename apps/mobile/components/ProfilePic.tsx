@@ -1,10 +1,9 @@
 import { userAtom } from "$store";
-import { User } from "$types";
 import { useAtomValue } from "jotai";
 import { Image } from "react-native";
 
 export const ProfilePic = () => {
-  const user: User | null = useAtomValue(userAtom);
+  const user = useAtomValue(userAtom);
   return (
     <Image
       source={{

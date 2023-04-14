@@ -7,11 +7,15 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "zeno",
+    "productName": "productiv",
     "version": "2.5.0"
   },
   "tauri": {
     "allowlist": {
+      "dialog": {
+        "open": true,
+        "all": true
+      },
       "all": false,
       "shell": {
         "all": false,
@@ -62,7 +66,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "zeno",
+        "title": "Productiv",
         "width": 800
       }
     ]

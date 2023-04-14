@@ -1,45 +1,57 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    relationMode = "prisma"
-    url      = env("DATABASE_URL")
+    provider          = "mysql"
+    relationMode      = "prisma"
+    url               = env("DATABASE_URL")
     shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Task {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    startTime   DateTime
+    endTime     DateTime
+    title       String
+    description String?
+    status      Status
+    shade       Color
+    labels      String
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+
+    @@index([userId])
+}
+
+model Note {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    startTime DateTime
-    endTime   DateTime
     title     String
-    description String?
-    status    Status
+    note      String
     shade     Color
     labels    String
-    user      User     @relation(fields: [userId], references: [id])
     userId    String
+    fileURLs  String   @default("")
+    user      User     @relation(fields: [userId], references: [id])
 
     @@index([userId])
 }
 
 model User {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    email     String   @unique
-    name      String
-    locale    String
+    id           String   @id @default(cuid())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    email        String   @unique
+    name         String
+    locale       String
     profileImage String
-    tasks     Task[]
+    tasks        Task[]
+    Note         Note[]
 }
-
 
 enum Color {
     BANANA

@@ -1,4 +1,6 @@
-import { MONTHS_NAME } from "variables";
+import { Task } from "@prisma/client";
+import dayjs from "dayjs";
+import { TimeSlot } from "types";
 
 export function isMobile() {
   return (
@@ -7,43 +9,99 @@ export function isMobile() {
 }
 
 /**
- * Formats date to DD MMM YYYY, hh:mm am/pm
+ * Formats date to DD MMM YY, hh:mm am/pm
  */
 export const formatDateTime = (date: Date) => {
-  let hour = date.getHours();
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
-  const period = hour < 12 ? "am" : "pm"; // Set AM/PM
-  hour = hour % 12 || 12; // Adjust hours
-  const minute =
-    date.getMinutes().toString().length === 1
-      ? `0${date.getMinutes()}`
-      : date.getMinutes();
-  return `${day} ${month} ${year}, ${hour}:${minute} ${period}`;
+  return dayjs(date).format("DD MMM YY, hh:mm A");
 };
 
 /**
- * Formats date to DD MMM YYYY
+ * Formats date to DD MMM YY
  */
 export const formatDate = (date: Date) => {
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const month = MONTHS_NAME[date.getMonth()]; // get month in MMM format
-
-  return `${day} ${month} ${year}`;
+  return dayjs(date).format("DD MMM YY");
 };
 
 /**
  * Formats date to hh:mm am/pm
  */
 export const formatTime = (date: Date) => {
-  let hour = date.getHours();
-  const period = hour < 12 ? "am" : "pm"; // Set AM/PM
-  hour = hour % 12 || 12; // Adjust hours
-  const minute =
-    date.getMinutes().toString().length === 1
-      ? `0${date.getMinutes()}`
-      : date.getMinutes();
-  return `${hour}:${minute} ${period}`;
+  return dayjs(date).format("hh:mm A");
 };
+
+export function findFreeSlots(timeSlots: Task[]): TimeSlot[] {
+  // Sort the time slots by start time in ascending order
+  const sortedSlots = timeSlots
+    .slice()
+    .sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+
+  // Initialize an array to hold the free slots
+  const freeSlots: TimeSlot[] = [];
+
+  if (sortedSlots.length === 0) {
+    return [
+      {
+        startTime: new Date(),
+        endTime: new Date(new Date().setHours(23, 59, 59, 999)),
+      },
+    ];
+  }
+
+  // Handle the case where there is only one time slot
+  if (sortedSlots.length === 1) {
+    const startOfDay = new Date(sortedSlots[0]!.startTime);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(sortedSlots[0]!.endTime);
+    endOfDay.setHours(23, 59, 59, 999);
+    if (sortedSlots[0]!.startTime.getTime() !== startOfDay.getTime()) {
+      freeSlots.push({
+        startTime: startOfDay,
+        endTime: sortedSlots[0]!.startTime,
+      });
+    }
+    if (sortedSlots[0]!.endTime.getTime() !== endOfDay.getTime()) {
+      freeSlots.push({ startTime: sortedSlots[0]!.endTime, endTime: endOfDay });
+    }
+    return freeSlots;
+  }
+
+  // Find the free slots between the sorted time slots
+  let previousSlotEndTime = sortedSlots[0]!.endTime;
+  for (let i = 1; i < sortedSlots.length; i++) {
+    const currentSlotStartTime = sortedSlots[i]!.startTime;
+    if (previousSlotEndTime.getTime() !== currentSlotStartTime.getTime()) {
+      freeSlots.push({
+        startTime: previousSlotEndTime,
+        endTime: currentSlotStartTime,
+      });
+    }
+    previousSlotEndTime = sortedSlots[i]!.endTime;
+  }
+
+  // Handle the case where there is a free slot at the start and/or end of the day
+  const startOfDay = new Date(sortedSlots[0]!.startTime);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(sortedSlots[sortedSlots.length - 1]!.endTime);
+  endOfDay.setHours(23, 59, 59, 999);
+  if (sortedSlots[0]!.startTime.getTime() !== startOfDay.getTime()) {
+    freeSlots.unshift({
+      startTime: startOfDay,
+      endTime: sortedSlots[0]!.startTime,
+    });
+  }
+  if (
+    sortedSlots[sortedSlots.length - 1]!.endTime.getTime() !==
+    endOfDay.getTime()
+  ) {
+    freeSlots.push({
+      startTime: sortedSlots[sortedSlots.length - 1]!.endTime,
+      endTime: endOfDay,
+    });
+  }
+
+  return freeSlots.filter(
+    (slot) =>
+      slot.startTime.getHours() !== slot.endTime.getHours() ||
+      slot.startTime.getMinutes() !== slot.endTime.getMinutes(),
+  );
+}

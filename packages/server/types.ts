@@ -10,3 +10,11 @@ export const ZTask = z.object({
   labels: z.string(),
   userId: z.string(),
 });
+export const ZNote = z.object({
+  title: z.string(),
+  note: z.string(),
+  shade: z.string(),
+  labels: z.string(),
+  userId: z.string(),
+  fileURLs: z.string().optional(),
+});

@@ -1,3 +1,4 @@
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { DrawerScreenProps } from "@react-navigation/drawer";
 import type {
   CompositeScreenProps,
@@ -10,7 +11,8 @@ export type RootNativeStackParamList = {
   Onboarding: undefined;
   Modal: undefined;
   NotFound: undefined;
-  AddTask: { mode: "edit" | "add"; task?: string };
+  AddTask: { mode: "edit" | "add"; task?: string; taskId?: string };
+  AddNote: { mode: "edit" | "add"; note?: string; noteId?: string };
 };
 
 export type RootNativeStackScreenProps<
@@ -18,13 +20,26 @@ export type RootNativeStackScreenProps<
 > = NativeStackScreenProps<RootNativeStackParamList, T>;
 
 export type HomeDrawerParamList = {
-  TabOne: undefined;
+  OCR: undefined;
   TabTwo: undefined;
   TaskManager: undefined;
+  NotesManager: undefined;
 };
 
 export type HomeDrawerScreenProps<T extends keyof HomeDrawerParamList> =
   CompositeScreenProps<
     DrawerScreenProps<HomeDrawerParamList, T>,
     RootNativeStackScreenProps<keyof RootNativeStackParamList>
+  >;
+
+export type TaskBottomTabsParamList = {
+  Today: undefined;
+  Upcoming: undefined;
+  Done: undefined;
+};
+
+export type TaskBottomTabsScreenProps<T extends keyof TaskBottomTabsParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<TaskBottomTabsParamList, T>,
+    HomeDrawerScreenProps<"TaskManager">
   >;

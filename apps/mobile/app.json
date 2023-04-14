@@ -15,9 +15,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.zeno.productiv"
@@ -36,6 +34,14 @@
       "eas": {
         "projectId": "ae71fe4a-0f1f-4f72-b061-a641f6ea5e21"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to upload images for notes taking."
+        }
+      ]
+    ]
   }
 }
