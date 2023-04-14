@@ -5,6 +5,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "tesseract.js": "^4.0.2"
+    "tesseract.js": "^4.0.2",
+    "utils": "*"
   }
 }

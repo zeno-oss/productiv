@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { Color, Status } from "@prisma/client";
+import { findFreeSlots } from "utils";
 import { prisma } from "../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { ZTask } from "../types";
@@ -113,4 +114,21 @@ export const taskRouter = createTRPCRouter({
       },
     });
   }),
+  getFreeTimeSlots: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ input }) => {
+      const tasks = await prisma.task.findMany({
+        orderBy: {
+          startTime: "asc",
+        },
+        where: {
+          startTime: {
+            lte: new Date(new Date().setHours(23, 59, 59, 999)),
+            gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          },
+        },
+      });
+
+      return findFreeSlots(tasks);
+    }),
 });

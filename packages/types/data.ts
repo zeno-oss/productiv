@@ -26,3 +26,8 @@ export type OAuthUserData = {
   picture: string;
   verified_email: boolean;
 };
+
+export interface TimeSlot {
+  startTime: Date;
+  endTime: Date;
+}
