@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 const Appointments: React.FC = () => {
-  const url = "https://www.google.com";
+  const url = "https://productiv-app.vercel.app/cle4rx1j40000rpisr8i0tw2j";
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
