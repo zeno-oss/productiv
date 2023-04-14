@@ -356,6 +356,7 @@ const Task: React.FC = () => {
                   e.stopPropagation();
                   await deleteTask(viewModalData.id);
                   refetchTasks();
+                  closeView();
                 }}
                 className="flex w-fit cursor-pointer items-center justify-center gap-1 rounded-full bg-red-100 py-2 px-3 text-xs font-bold opacity-50 transition-all hover:opacity-100 "
               >
