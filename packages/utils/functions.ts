@@ -99,6 +99,9 @@ export function findFreeSlots(timeSlots: Task[]): TimeSlot[] {
     });
   }
 
-  // Return the array of free slots
-  return freeSlots;
+  return freeSlots.filter(
+    (slot) =>
+      slot.startTime.getHours() !== slot.endTime.getHours() ||
+      slot.startTime.getMinutes() !== slot.endTime.getMinutes(),
+  );
 }

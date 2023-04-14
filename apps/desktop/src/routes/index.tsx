@@ -1,9 +1,5 @@
-import {
-  HiCheck,
-  HiClipboardList,
-  HiColorSwatch,
-  HiPencil,
-} from "react-icons/hi";
+import { HiCheck, HiClipboardList, HiClock, HiPencil } from "react-icons/hi";
+import Appointments from "../pages/Appointments";
 import DrawingPage from "../pages/DrawingPage";
 import NotesPage from "../pages/NotesPage";
 import TaskPage from "../pages/TaskPage";
@@ -34,6 +30,13 @@ const routes = [
     nameOfComponent: "DrawingPage", // This is optional: it's used for debugging
     navbarText: "My Drawings",
     icon: <HiPencil />,
+  },
+  {
+    path: "/appointments",
+    element: <Appointments />,
+    nameOfComponent: "Appointments Helper", // This is optional: it's used for debugging
+    navbarText: "Appointments Helper",
+    icon: <HiClock />,
   },
 ];
 

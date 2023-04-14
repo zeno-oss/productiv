@@ -4,6 +4,13 @@ import { prisma } from "../db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
+  getUserFromId: publicProcedure.input(z.string()).query(async ({ input }) => {
+    return await prisma.user.findFirstOrThrow({
+      where: {
+        id: input,
+      },
+    });
+  }),
   getUser: publicProcedure.input(z.string()).query(async ({ input }) => {
     return await prisma.user.findFirstOrThrow({
       where: {
