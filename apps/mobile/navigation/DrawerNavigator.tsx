@@ -57,10 +57,10 @@ function DrawerNavigator() {
         })}
       />
       <Drawer.Screen
-        name="TabTwo"
+        name="Appointment"
         component={TabTwoScreen}
-        options={({ navigation }: HomeDrawerScreenProps<"TabTwo">) => ({
-          title: "Tab Two",
+        options={({ navigation }: HomeDrawerScreenProps<"Appointment">) => ({
+          title: "Appointment",
           drawerIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         })}
       />

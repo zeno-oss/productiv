@@ -25,7 +25,7 @@ const linking: LinkingOptions<RootNativeStackParamList> = {
               TabOneScreen: "one",
             },
           },
-          TabTwo: {
+          Appointment: {
             screens: {
               TabTwoScreen: "two",
             },
