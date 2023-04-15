@@ -21,7 +21,7 @@ export type RootNativeStackScreenProps<
 
 export type HomeDrawerParamList = {
   OCR: undefined;
-  TabTwo: undefined;
+  Appointment: undefined;
   TaskManager: undefined;
   NotesManager: undefined;
 };
