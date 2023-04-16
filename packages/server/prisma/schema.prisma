@@ -31,11 +31,11 @@ model Note {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     title     String
-    note      String @db.VarChar(5000)
+    note      String   @db.VarChar(5000)
     shade     Color
     labels    String
     userId    String
-    fileURLs  String   @default("")
+    fileURLs  String   @default("") @db.Text
     user      User     @relation(fields: [userId], references: [id])
 
     @@index([userId])

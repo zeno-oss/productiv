@@ -1,3 +1,5 @@
+import { Carousel, Embla, useAnimationOffsetEffect } from "@mantine/carousel";
+import { Modal, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { Color, Note } from "@prisma/client";
@@ -10,6 +12,12 @@ import CreateNoteModal from "./CreateNoteModal";
 import NoteCard from "./NoteCard";
 import ViewChildrenInModal from "./ViewChildrenInModal";
 const Notes: React.FC = () => {
+  const TRANSITION_DURATION = 200;
+  const [openedImageModal, setOpened] = useState(false);
+  const [embla, setEmbla] = useState<Embla | null>(null);
+
+  useAnimationOffsetEffect(embla, TRANSITION_DURATION);
+
   const [opened, { open, close }] = useDisclosure(false);
   const [openedDrawingModal, { open: openDrawing, close: closeDrawing }] =
     useDisclosure(false);
@@ -180,16 +188,105 @@ const Notes: React.FC = () => {
                 </span>
               ))}
           </div>
-          <div className="flex gap-2">
+          <div
+            className="flex cursor-pointer items-center justify-start gap-5"
+            onClick={() => setOpened(true)}
+          >
             {viewModalData?.fileURLs &&
               JSON.parse(viewModalData?.fileURLs) &&
               JSON.parse(viewModalData?.fileURLs).length &&
-              JSON.parse(viewModalData?.fileURLs).map((image: string) => (
-                <img src={image} alt="" className="h-32 w-32 rounded-md" />
-              ))}
+              JSON.parse(viewModalData?.fileURLs)
+                .splice(0, 1)
+                .map((image: string) => (
+                  <img src={image} alt="" className="h-24 w-24" />
+                ))}
+            {viewModalData?.fileURLs &&
+              JSON.parse(viewModalData?.fileURLs) &&
+              JSON.parse(viewModalData?.fileURLs).length > 1 && (
+                <code className=" flex aspect-square h-10 w-10 items-center justify-center rounded-full bg-white bg-opacity-40 p-5 text-lg font-bold">
+                  +{JSON.parse(viewModalData?.fileURLs).length - 1}
+                </code>
+              )}
           </div>
+
+          {/* <div className="flex gap-2">
+            {viewModalData?.fileURLs &&
+              JSON.parse(viewModalData?.fileURLs) &&
+              JSON.parse(viewModalData?.fileURLs).length && (
+                <Carousel
+                  withIndicators
+                  height={200}
+                  slideSize="33.333333%"
+                  slideGap="md"
+                  loop
+                  breakpoints={[
+                    { maxWidth: "md", slideSize: "50%" },
+                    { maxWidth: "sm", slideSize: "100%", slideGap: 0 },
+                  ]}
+                >
+                  {viewModalData?.fileURLs &&
+                    JSON.parse(viewModalData?.fileURLs) &&
+                    JSON.parse(viewModalData?.fileURLs).length &&
+                    JSON.parse(viewModalData?.fileURLs).map((image: string) => (
+                      <Carousel.Slide>
+                        <img src={image} alt="" className="mx-auto" />
+                      </Carousel.Slide>
+                    ))}
+                </Carousel>
+              )}
+          </div> */}
         </div>
       </ViewChildrenInModal>
+      <Modal
+        opened={openedImageModal}
+        size="md"
+        centered
+        padding={0}
+        // className="px-4"
+        classNames={{
+          header: "text-2xl font-bold p-4",
+        }}
+        transitionProps={{ duration: TRANSITION_DURATION }}
+        // withCloseButton={false}
+        title="Your Images in this Note"
+        onClose={() => setOpened(false)}
+      >
+        <Carousel
+          loop
+          getEmblaApi={setEmbla}
+          className="flex items-center justify-center"
+          withIndicators
+          styles={{
+            indicator: {
+              width: rem(12),
+              backgroundColor: "#fffa !important",
+              height: rem(4),
+              transition: "width 250ms ease",
+              "&[data-active]": {
+                width: rem(40),
+                backgroundColor: "red",
+              },
+            },
+            indicators: {
+              backgroundColor: "#000a",
+              padding: "1rem 0",
+            },
+          }}
+        >
+          {viewModalData?.fileURLs &&
+            JSON.parse(viewModalData?.fileURLs) &&
+            JSON.parse(viewModalData?.fileURLs).length &&
+            JSON.parse(viewModalData?.fileURLs).map((image: string) => (
+              <Carousel.Slide className="flex items-center justify-center">
+                <img
+                  src={image}
+                  alt=""
+                  className="mx-auto my-auto h-fit w-fit"
+                />
+              </Carousel.Slide>
+            ))}
+        </Carousel>
+      </Modal>
     </div>
   );
 };
