@@ -1,6 +1,6 @@
 import { notifications } from "@mantine/notifications";
 import { Note } from "@prisma/client";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiPencil, HiPhotograph, HiTrash } from "react-icons/hi";
 import { PALETTE, TASKS_PALETTE } from "variables";
 import { api } from "../utils/trpc";
 
@@ -51,7 +51,16 @@ const NoteCard: React.FC<NoteCardProps> = ({
       }}
     >
       <div className="flex items-center justify-between gap-4">
-        <div className=" text-xl font-bold">{note.title}</div>
+        <div className=" flex items-center justify-center gap-2 text-xl font-bold">
+          {note?.fileURLs &&
+            JSON.parse(note?.fileURLs) &&
+            JSON.parse(note?.fileURLs).length && (
+              <i className="flex items-center justify-center gap-2 font-normal">
+                <HiPhotograph />
+              </i>
+            )}
+          {note.title}
+        </div>
         <div className="flex gap-1">
           <button
             className="flex aspect-square h-5 w-5 items-center justify-center rounded-lg bg-black p-[2px] text-white"
@@ -66,7 +75,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
           </button>
         </div>
       </div>
-      <div className="max-w-[80%] overflow-hidden overflow-ellipsis whitespace-nowrap text-xs">
+      <div className="text-md max-w-[80%] overflow-hidden overflow-ellipsis whitespace-nowrap">
         {note.note}
       </div>
       <div className="my-2 flex flex-1">
