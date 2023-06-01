@@ -2,13 +2,13 @@ import { countAtom } from "$store";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { api } from "../utils/trpc";
 import Button from "./Button";
+
 const Home = () => {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
-  const hello = api.task.hello.useQuery({ text: "client" });
+  const hello = api.example.hello.useQuery({ text: "client" });
   const [count, setCount] = useAtom(countAtom);
 
   async function greet() {
@@ -20,11 +20,9 @@ const Home = () => {
 
   return (
     <div className="flex h-[100vh] flex-col items-center justify-center text-xl">
-      <Link to="/task">
-        <span className="text-lemon-400 text-3xl font-bold">
-          Greetings from Zeno 👋
-        </span>
-      </Link>
+      <span className="text-lemon-400 text-3xl font-bold">
+        Greetings from Zeno 👋
+      </span>
       <div className="mt-4">
         <div className="mt-4 flex flex-col items-center">
           <span className="text-lg">This comes from trpc server: </span>
@@ -44,9 +42,8 @@ const Home = () => {
           <div className="flex items-center space-x-2">
             <input
               onChange={(e) => setName(e.currentTarget.value)}
-              className="rounded border-2 px-2 py-1 text-center text-sm text-slate-700"
+              className="text-gray-950 rounded border-2 px-2 py-1 text-center text-sm"
               placeholder="Enter a name..."
-              spellCheck={false}
             />
             <Button onClick={greet} title="Greet" />
           </div>

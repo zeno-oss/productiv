@@ -1,11 +1,15 @@
 /**
  * Specify your custom tailwind colors here.
  */
-const colors = require("./colors.json");
-
-if (typeof module !== "undefined" && module.exports)
-  module.exports = {
-    ...colors,
-  };
-
-// export default colors;
+module.exports = {
+  gray: {
+    950: "#18181b",
+  },
+  red: {
+    450: "#fe5f55",
+  },
+  lemon: {
+    200: "#fcf99c",
+    400: "#faf33e",
+  },
+};

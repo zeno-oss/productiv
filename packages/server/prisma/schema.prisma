@@ -1,71 +1,17 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider          = "mysql"
-    relationMode      = "prisma"
-    url               = env("DATABASE_URL")
-    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
-model Task {
-    id          String   @id @default(cuid())
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    startTime   DateTime
-    endTime     DateTime
-    title       String
-    description String?
-    status      Status
-    shade       Color
-    labels      String
-    user        User     @relation(fields: [userId], references: [id])
-    userId      String
-
-    @@index([userId])
-}
-
-model Note {
+model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    title     String
-    note      String @db.VarChar(5000)
-    shade     Color
-    labels    String
-    userId    String
-    fileURLs  String   @default("")
-    user      User     @relation(fields: [userId], references: [id])
-
-    @@index([userId])
-}
-
-model User {
-    id           String   @id @default(cuid())
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    email        String   @unique
-    name         String
-    locale       String
-    profileImage String
-    tasks        Task[]
-    Note         Note[]
-}
-
-enum Color {
-    BANANA
-    TURQUOISE
-    PICTON_BLUE
-    VODKA
-    RADICAL_RED
-    CORAL
-    DODGER_BLUE
-    PLUM_PURPLE
-}
-
-enum Status {
-    TODO
-    IN_PROGRESS
-    DONE
 }
