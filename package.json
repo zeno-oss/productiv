@@ -1,6 +1,6 @@
 {
-  "name": "productiv",
-  "version": "0.2.0",
+  "name": "zeno",
+  "version": "2.5.0",
   "private": true,
   "workspaces": {
     "packages": [
@@ -29,13 +29,12 @@
     "utils": "yarn workspace utils"
   },
   "dependencies": {
-    "@prisma/client": "^4.10.1",
     "@tanstack/react-query": "^4.24.6",
     "@trpc/client": "^10.11.1",
-    "@trpc/react-query": "^10.11.1",
     "@trpc/server": "^10.11.1",
-    "dayjs": "^1.11.7",
+    "@trpc/react-query": "^10.11.1",
     "jotai": "^2.0.1",
+    "@prisma/client": "^4.10.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "superjson": "^1.12.2",
@@ -44,12 +43,12 @@
   "devDependencies": {
     "@manypkg/cli": "^0.20.0",
     "@types/node": "^18.13.0",
-    "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.11",
     "husky": "^8.0.3",
     "prettier": "^2.8.4",
     "prisma": "^4.10.1",
+    "@types/prettier": "^2.7.2",
     "turbo": "^1.7.4",
     "typescript": "^4.9.5"
   },
